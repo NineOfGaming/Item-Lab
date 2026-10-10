@@ -1,0 +1,10 @@
+{
+  "minecraft_version": "26.3",
+  "metadata_url": "https://piston-meta.mojang.com/v1/packages/702fe59163c6ee6578607daa85811d9bc9c7cc40/26.3.json",
+  "metadata_sha1": "702fe59163c6ee6578607daa85811d9bc9c7cc40",
+  "server_url": "https://piston-data.mojang.com/v1/objects/33680f5f2ac32864d6d7cf5e56a705fdb3e05f4c/server.jar",
+  "server_sha1": "33680f5f2ac32864d6d7cf5e56a705fdb3e05f4c",
+  "release_time": "2026-09-15T11:23:02+00:00",
+  "java_major_version": 25,
+  "method": "isolated official vanilla bundle; registry-aware codec decode/encode; no world/server launch"
+}

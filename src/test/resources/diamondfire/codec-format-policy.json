@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "server_version": "26.2",
+  "comparisons": [
+    {
+      "client_version": "26.2",
+      "fixture": "codec-comparison-26.2.json",
+      "registry_value_only": [],
+      "formats": [],
+      "reason": "The independently reproduced baseline has no differing outcomes."
+    },
+    {
+      "client_version": "26.3",
+      "fixture": "codec-comparison-26.3.json",
+      "registry_value_only": [],
+      "formats": ["minecraft:instrument", "minecraft:pot_decorations", "minecraft:trim"],
+      "reason": "Confirmed decode/encode changes: inline instrument duration/durability, pot item-stack records instead of item-ID lists, and inline trim palettes instead of asset names. Registry-backed trim/instrument references still work.",
+      "documentation": "https://www.minecraft.net/en-us/article/minecraft-java-edition-26-3"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# Shared mod metadata and dependency versions.
+mod.id = "itemlab"
+mod.name = "Item Lab"
+mod.group = "dev.nineofgaming"
+mod.version = "1.0.0"
+mod.archives_name = "ItemLab"
+
+deps.imguimc = "2.0.5"
+
+["26.1"]
+mod.minecraft_constraint = "~26.1"
+deps.fabric_loader = "0.19.3"
+deps.fabric_api = "0.145.1+26.1"
+deps.adventure_fabric = "6.9.0"
+
+["26.2"]
+mod.minecraft_constraint = "~26.2"
+deps.fabric_loader = "0.19.3"
+deps.fabric_api = "0.158.0+26.2"
+deps.adventure_fabric = "7.1.1"

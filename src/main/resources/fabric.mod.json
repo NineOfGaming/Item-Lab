@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "itemlab",
+  "version": "${version}",
+  "name": "Item Lab",
+  "description": "A powerful in-game item editor for editing item components, NBT, attributes, and more, with live previews, modded content support, and optional DiamondFire support.",
+  "authors": ["NineOfGaming"],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/item-lab",
+    "issues": "https://github.com/NineOfGaming/Item-Lab/issues"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/itemlab/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.nineofgaming.itemlab.ItemLab"
+    ]
+  },
+  "mixins": [
+    "itemlab.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": ">=${fabric_version}",
+    "minecraft": "${minecraft_version_constraint}",
+    "imguimc": ">=${imguimc_version}"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "Modrinth": "https://modrinth.com/mod/item-lab",
+        "GitHub": "https://github.com/NineOfGaming/Item-Lab",
+        "Ko-fi": "https://ko-fi.com/nineofgaming"
+      }
+    }
+  }
+}

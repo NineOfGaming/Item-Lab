@@ -1,0 +1,518 @@
+{
+  "schema_version": 1,
+  "server_version": "26.2",
+  "client_version": "26.3",
+  "samples_compared": 4552,
+  "client_only": [
+    "minecraft:attack_animation",
+    "minecraft:block_transformer",
+    "minecraft:brewing_fuel",
+    "minecraft:compostable",
+    "minecraft:cooking_fuel",
+    "minecraft:cushion/color",
+    "minecraft:interact_animation",
+    "minecraft:mob_visibility",
+    "minecraft:provides_pottery_pattern",
+    "minecraft:sign_text_back",
+    "minecraft:sign_text_front",
+    "minecraft:villager_food",
+    "minecraft:waxed"
+  ],
+  "server_only": [
+    "minecraft:map_color",
+    "minecraft:swing_animation"
+  ],
+  "codec_differences": [
+    "minecraft:instrument",
+    "minecraft:pot_decorations",
+    "minecraft:trim"
+  ],
+  "differences": [
+    {
+      "component": "minecraft:instrument",
+      "input": {
+        "sound_event": "minecraft:item.goat_horn.sound.0",
+        "use_duration": 0,
+        "range": 256,
+        "description": {
+          "text": "Inline"
+        },
+        "durability_damage": 1
+      },
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "accepted",
+        "encoded": {
+          "sound_event": "minecraft:item.goat_horn.sound.0",
+          "use_duration": 0.0,
+          "range": 256.0,
+          "durability_damage": 1,
+          "description": "Inline"
+        }
+      }
+    },
+    {
+      "component": "minecraft:instrument",
+      "input": {
+        "sound_event": "minecraft:item.goat_horn.sound.0",
+        "use_duration": 7,
+        "range": 256,
+        "description": {
+          "text": "Inline"
+        },
+        "durability_damage": 1
+      },
+      "server": {
+        "status": "accepted",
+        "encoded": {
+          "sound_event": "minecraft:item.goat_horn.sound.0",
+          "use_duration": 7.0,
+          "range": 256.0,
+          "description": "Inline"
+        }
+      },
+      "client": {
+        "status": "accepted",
+        "encoded": {
+          "sound_event": "minecraft:item.goat_horn.sound.0",
+          "use_duration": 7.0,
+          "range": 256.0,
+          "durability_damage": 1,
+          "description": "Inline"
+        }
+      }
+    },
+    {
+      "component": "minecraft:map_color",
+      "input": "",
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:map_color",
+      "input": "minecraft:stone",
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:map_color",
+      "input": -1,
+      "server": {
+        "status": "accepted",
+        "encoded": -1
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:map_color",
+      "input": 0,
+      "server": {
+        "status": "accepted",
+        "encoded": 0
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:map_color",
+      "input": 1,
+      "server": {
+        "status": "accepted",
+        "encoded": 1
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:map_color",
+      "input": 4603950,
+      "server": {
+        "status": "accepted",
+        "encoded": 4603950
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:map_color",
+      "input": [],
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:map_color",
+      "input": false,
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:map_color",
+      "input": true,
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:map_color",
+      "input": {},
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:pot_decorations",
+      "input": [
+        "minecraft:brick",
+        "minecraft:archer_pottery_sherd",
+        "minecraft:prize_pottery_sherd",
+        "minecraft:brick"
+      ],
+      "server": {
+        "status": "accepted",
+        "encoded": [
+          "minecraft:brick",
+          "minecraft:archer_pottery_sherd",
+          "minecraft:prize_pottery_sherd",
+          "minecraft:brick"
+        ]
+      },
+      "client": {
+        "status": "rejected"
+      }
+    },
+    {
+      "component": "minecraft:pot_decorations",
+      "input": [
+        "minecraft:brick",
+        "minecraft:brick",
+        "minecraft:brick",
+        "minecraft:brick"
+      ],
+      "server": {
+        "status": "accepted",
+        "encoded": [
+          "minecraft:brick",
+          "minecraft:brick",
+          "minecraft:brick",
+          "minecraft:brick"
+        ]
+      },
+      "client": {
+        "status": "rejected"
+      }
+    },
+    {
+      "component": "minecraft:pot_decorations",
+      "input": [],
+      "server": {
+        "status": "accepted",
+        "encoded": [
+          "minecraft:brick",
+          "minecraft:brick",
+          "minecraft:brick",
+          "minecraft:brick"
+        ]
+      },
+      "client": {
+        "status": "rejected"
+      }
+    },
+    {
+      "component": "minecraft:pot_decorations",
+      "input": {
+        "back": {
+          "id": "minecraft:brick",
+          "count": 2,
+          "components": {
+            "minecraft:custom_name": {
+              "text": "Nested"
+            }
+          }
+        }
+      },
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "accepted",
+        "encoded": {
+          "back": {
+            "id": "minecraft:brick",
+            "count": 2,
+            "components": {
+              "minecraft:custom_name": "Nested"
+            }
+          }
+        }
+      }
+    },
+    {
+      "component": "minecraft:pot_decorations",
+      "input": {},
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "accepted",
+        "encoded": {}
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": "",
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": "minecraft:stone",
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": -1,
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": 0,
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": 1,
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": [],
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": false,
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": true,
+      "server": {
+        "status": "rejected"
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": {
+        "type": "stab",
+        "duration": 13
+      },
+      "server": {
+        "status": "accepted",
+        "encoded": {
+          "type": "stab",
+          "duration": 13
+        }
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": {
+        "type": "stab",
+        "duration": 15
+      },
+      "server": {
+        "status": "accepted",
+        "encoded": {
+          "type": "stab",
+          "duration": 15
+        }
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": {
+        "type": "stab",
+        "duration": 17
+      },
+      "server": {
+        "status": "accepted",
+        "encoded": {
+          "type": "stab",
+          "duration": 17
+        }
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": {
+        "type": "stab",
+        "duration": 19
+      },
+      "server": {
+        "status": "accepted",
+        "encoded": {
+          "type": "stab",
+          "duration": 19
+        }
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": {
+        "type": "stab",
+        "duration": 21
+      },
+      "server": {
+        "status": "accepted",
+        "encoded": {
+          "type": "stab",
+          "duration": 21
+        }
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": {
+        "type": "stab",
+        "duration": 23
+      },
+      "server": {
+        "status": "accepted",
+        "encoded": {
+          "type": "stab",
+          "duration": 23
+        }
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:swing_animation",
+      "input": {},
+      "server": {
+        "status": "accepted",
+        "encoded": {}
+      },
+      "client": {
+        "status": "absent"
+      }
+    },
+    {
+      "component": "minecraft:trim",
+      "input": {
+        "material": {
+          "asset_name": "probe",
+          "description": {
+            "text": "Inline"
+          }
+        },
+        "pattern": {
+          "asset_id": "example:probe",
+          "description": {
+            "text": "Inline"
+          },
+          "decal": false
+        }
+      },
+      "server": {
+        "status": "accepted",
+        "encoded": {
+          "material": {
+            "asset_name": "probe",
+            "description": "Inline"
+          },
+          "pattern": {
+            "asset_id": "example:probe",
+            "description": "Inline",
+            "decal": false
+          }
+        }
+      },
+      "client": {
+        "status": "rejected"
+      }
+    }
+  ]
+}

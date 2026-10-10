@@ -1,0 +1,464 @@
+{
+  "actions": [
+    {
+      "aliases": [],
+      "codeblock": "IF VARIABLE",
+      "display_name": "Item Tooltip Is Visible",
+      "id": "IsTooltipVisible"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Add Item Attribute",
+      "id": " AddItemAttribute "
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Book Text",
+      "id": " GetBookText "
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Attribute",
+      "id": " GetItemAttribute "
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Enchantments",
+      "id": " GetItemEnchants "
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Lore",
+      "id": " GetItemLore "
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Name",
+      "id": " GetItemName "
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Remove Item Attributes",
+      "id": " RemoveItemAttrs "
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Head Texture",
+      "id": " SetHeadTexture "
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Enchantments",
+      "id": " SetItemEnchants "
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Lore",
+      "id": " SetItemLore "
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Name",
+      "id": " SetItemName "
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Add Item Attribute",
+      "id": "AddItemAttribute"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Add Item Enchantment",
+      "id": "AddItemEnchant"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Add Item Lore",
+      "id": "AddItemLore"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Add Tool Mining Rule",
+      "id": "AddItemToolRule"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Clear Item Enchantments",
+      "id": "ClearEnchants"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Clear Item Attributes",
+      "id": "ClearItemAttrs"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Clear Item Custom Tags",
+      "id": "ClearItemTag"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get All Item Custom Tags",
+      "id": "GetAllItemTags"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Break Sound",
+      "id": "GetBreakSound"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Bundle Contents",
+      "id": "GetBundleItems"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Breakable Blocks",
+      "id": "GetCanDestroy"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Placeable Blocks",
+      "id": "GetCanPlaceOn"
+    },
+    {
+      "aliases": [
+        "GetItemFood"
+      ],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Consumable Property",
+      "id": "GetConsumable"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Crossbow Projectiles",
+      "id": "GetCrossbowProj"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Head Owner",
+      "id": "GetHeadOwner"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Attribute",
+      "id": "GetItemAttribute"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Color",
+      "id": "GetItemColor"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Durability",
+      "id": "GetItemDura"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Potion Effects",
+      "id": "GetItemEffects"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Use Leftover",
+      "id": "GetItemLeftover"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Model",
+      "id": "GetItemModel"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Rarity",
+      "id": "GetItemRarity"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Custom Tag",
+      "id": "GetItemTag"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Weapon Property",
+      "id": "GetItemWeapon"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Compass Lodestone Location",
+      "id": "GetLodestoneLoc"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Lore Line",
+      "id": "GetLoreLine"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Maximum Stack Size",
+      "id": "GetMaxAmount"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Custom Model Data Numbers",
+      "id": "GetModelDataNums"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Custom Model Data Strings",
+      "id": "GetModelDataStrs"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Item Tooltip Style",
+      "id": "GetTooltipStyle"
+    },
+    {
+      "aliases": [
+        "HideComponents"
+      ],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Hidden Components",
+      "id": "HiddenComponents"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Remove Item Enchantment",
+      "id": "RemItemEnchant"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Remove Item Attributes",
+      "id": "RemoveItemAttrs"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Remove Item Custom Tag",
+      "id": "RemoveItemTag"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set All Item Custom Tags",
+      "id": "SetAllItemTags"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Armor Trim",
+      "id": "SetArmorTrim"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Book Text",
+      "id": "SetBookText"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Break Sound",
+      "id": "SetBreakSound"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Breakability",
+      "id": "SetBreakability"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Bundle Contents",
+      "id": "SetBundleItems"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Breakable Blocks",
+      "id": "SetCanDestroy"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Placeable Blocks",
+      "id": "SetCanPlaceOn"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Consumable Properties",
+      "id": "SetConsumable"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Crossbow Projectiles",
+      "id": "SetCrossbowProj"
+    },
+    {
+      "aliases": [
+        "SetLeatherColor"
+      ],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Color",
+      "id": "SetItemColor"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Durability",
+      "id": "SetItemDura"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Potion Effects",
+      "id": "SetItemEffects"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Glowing",
+      "id": "SetItemGlowing"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Tooltip Visible",
+      "id": "SetItemHideTooltip"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Use Leftover",
+      "id": "SetItemLeftover"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Maximum Durability",
+      "id": "SetItemMaxDura"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Model",
+      "id": "SetItemModel"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Rarity",
+      "id": "SetItemRarity"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Custom Tag",
+      "id": "SetItemTag"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Tool Properties",
+      "id": "SetItemTool"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Weapon Properties",
+      "id": "SetItemWeapon"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Compass Lodestone Location",
+      "id": "SetLodestoneLoc"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Map Texture",
+      "id": "SetMapTexture"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Maximum Stack Size",
+      "id": "SetMaxAmount"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Custom Model Data Numbers",
+      "id": "SetModelDataNums"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Custom Model Data Strings",
+      "id": "SetModelDataStrs"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Item Tooltip Style",
+      "id": "SetTooltipStyle"
+    }
+  ],
+  "provenance": {
+    "branch": "8.13",
+    "commit": "6200915ba2ba333d3968b806e342c5f537eaec82",
+    "dump": "actiondump/actiondump_minimessage.json",
+    "dump_sha256": "2de504d7a0bbc4465886d1c433e567d10c87a1e4851f641c1e4b592a526dd924",
+    "patch": "8.13",
+    "patch_source": "versions.patch",
+    "repository": "https://github.com/NineOfGaming/df-info"
+  },
+  "schema_version": 2
+}

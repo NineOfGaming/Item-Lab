@@ -1,0 +1,419 @@
+{
+  "schema_version": 1,
+  "scope": "Reviewed field relationships and uncertainty for the pinned 8.13 item-action mappings. DF+ means exposed fields; it does not promise arbitrary values or server retention. Unverified representations and item restrictions remain explicit.",
+  "interface_review": {
+    "date": "2026-10-09",
+    "method": "Complete pinned action signatures and canonical value schemas",
+    "record": "docs/diamondfire-live-verification.md",
+    "scope": "Known codeblock input boundaries, not claims about passive retention or rejection of already-present arbitrary NBT. Ordinary documented operations do not require repeat live tests.",
+    "components": ["minecraft:attribute_modifiers", "minecraft:break_sound", "minecraft:consumable", "minecraft:potion_contents", "minecraft:profile", "minecraft:tool", "minecraft:trim", "minecraft:writable_book_content", "minecraft:written_book_content", "minecraft:firework_explosion"],
+    "value_schemas": {"commit": "6200915ba2ba333d3968b806e342c5f537eaec82", "path": "docs/templates/items.md", "sound_members": ["mappingVersion", "sound", "pitch", "vol", "variant"], "potion_members": ["mappingVersion", "pot", "dur", "amp"]}
+  },
+  "synonyms": [
+    {"component": "minecraft:enchantment_glint_override", "vanilla": "enchantment glint", "diamondfire": ["glow", "glowing"], "action": "SetItemGlowing", "codeblock": "SET VARIABLE"},
+    {"component": "minecraft:custom_model_data", "vanilla": "custom model data", "diamondfire": ["model values", "model numbers", "model strings"], "action": "SetModelDataNums", "codeblock": "SET VARIABLE"},
+    {"component": "minecraft:tooltip_display", "vanilla": "hidden components", "diamondfire": ["visibility flags", "hideflags", "tooltip visible"], "action": "HiddenComponents", "codeblock": "SET VARIABLE"}
+  ],
+  "shared_actions": [
+    {"action":"GetConsumable","codeblock":"SET VARIABLE","members":[
+      {"path":"/tags/0/options/0/name","expected":"Nutrition","component":"minecraft:food","field":"nutrition"},
+      {"path":"/tags/0/options/1/name","expected":"Saturation","component":"minecraft:food","field":"saturation"},
+      {"path":"/tags/0/options/2/name","expected":"Use Duration","component":"minecraft:consumable","field":"consume_seconds"},
+      {"path":"/tags/0/options/3/name","expected":"Animation","component":"minecraft:consumable","field":"animation"},
+      {"path":"/tags/0/options/4/name","expected":"Sound","component":"minecraft:consumable","field":"sound"}
+    ]},
+    {"action":"SetItemColor","codeblock":"SET VARIABLE","members":[
+      {"path":"/icon/worksWith/0","expected":"Leather Armor","component":"minecraft:dyed_color","field":"$"},
+      {"path":"/icon/worksWith/1","expected":"Potions","component":"minecraft:potion_contents","field":"custom_color"},
+      {"path":"/icon/worksWith/2","expected":"Tipped Arrows","component":"minecraft:potion_contents","field":"custom_color"},
+      {"path":"/icon/worksWith/3","expected":"Filled Maps","component":"minecraft:map_color","field":"$"},
+      {"path":"/icon/worksWith/4","expected":"Firework Stars","component":"minecraft:firework_explosion","field":"colors[]","uncertainty":"A single color operand does not establish arbitrary color arrays."}
+    ]},
+    {"action":"SetItemEffects","codeblock":"SET VARIABLE","members":[
+      {"path":"/icon/worksWith/0","expected":"Potions","component":"minecraft:potion_contents","field":"custom_effects[]","uncertainty":"Base versus custom effects and exact merging behavior need live verification."},
+      {"path":"/icon/worksWith/1","expected":"Tipped Arrows","component":"minecraft:potion_contents","field":"custom_effects[]","uncertainty":"Exported duration conversion is not raw component identity."},
+      {"path":"/icon/worksWith/2","expected":"Suspicious Stew","component":"minecraft:suspicious_stew_effects","field":"[].id"}
+    ]},
+    {"action":"GetItemDura","codeblock":"SET VARIABLE","members":[
+      {"path":"/tags/0/options/0/name","expected":"Get Damage","component":"minecraft:damage","field":"$"},
+      {"path":"/tags/0/options/1/name","expected":"Get Damage Percentage","component":"minecraft:damage","field":"$","uncertainty":"Derived using maximum durability."},
+      {"path":"/tags/0/options/2/name","expected":"Get Remaining","component":"minecraft:damage","field":"$","uncertainty":"Derived using maximum durability."},
+      {"path":"/tags/0/options/3/name","expected":"Get Remaining Percentage","component":"minecraft:damage","field":"$","uncertainty":"Derived using maximum durability."},
+      {"path":"/tags/0/options/4/name","expected":"Get Maximum","component":"minecraft:max_damage","field":"$"}
+    ]}
+  ],
+  "components": [
+    {
+      "id": "minecraft:enchantment_glint_override",
+      "badge": "DF+",
+      "rationale": "The Glowing tag has Enable, Disable, and Default options, corroborating a boolean override and clearing it. The full action explicitly distinguishes glow from enchantments.",
+      "fields": [
+        {"path": "$", "sources": [
+          {"action": "SetItemGlowing", "codeblock": "SET VARIABLE", "operation": "write", "path": "/tags/0/options/0/name", "expected": "Enable"},
+          {"action": "SetItemGlowing", "codeblock": "SET VARIABLE", "operation": "write", "path": "/tags/0/options/1/name", "expected": "Disable"},
+          {"action": "SetItemGlowing", "codeblock": "SET VARIABLE", "operation": "clear", "path": "/tags/0/options/2/name", "expected": "Default"}
+        ]}
+      ]
+    },
+    {
+      "id": "minecraft:custom_model_data",
+      "badge": "DF+",
+      "rationale": "All four 26.2 root fields are covered across numerical and string actions. Numeric tags explicitly identify floats, flags (0/1), and RGB colors. The legacy singular action does not establish complete coverage on its own.",
+      "fields": [
+        {"path": "floats", "sources": [
+          {"action": "SetModelDataNums", "codeblock": "SET VARIABLE", "operation": "write", "path": "/tags/0/options/0/name", "expected": "Floats"},
+          {"action": "GetModelDataNums", "codeblock": "SET VARIABLE", "operation": "read", "path": "/tags/0/options/0/name", "expected": "Floats"},
+          {"action": "SetModelData", "codeblock": "SET VARIABLE", "operation": "approximate", "path": "/icon/arguments/2/type", "expected": "NUMBER", "restriction": "Singular legacy model value; exact array replacement/index behavior requires a live check."}
+        ]},
+        {"path": "flags", "sources": [
+          {"action": "SetModelDataNums", "codeblock": "SET VARIABLE", "operation": "write", "path": "/tags/0/options/1/name", "expected": "Flags"},
+          {"action": "GetModelDataNums", "codeblock": "SET VARIABLE", "operation": "read", "path": "/tags/0/options/1/name", "expected": "Flags"}
+        ]},
+        {"path": "colors", "sources": [
+          {"action": "SetModelDataNums", "codeblock": "SET VARIABLE", "operation": "write", "path": "/tags/0/options/2/name", "expected": "Colors"},
+          {"action": "GetModelDataNums", "codeblock": "SET VARIABLE", "operation": "read", "path": "/tags/0/options/2/name", "expected": "Colors"}
+        ]},
+        {"path": "strings", "sources": [
+          {"action": "SetModelDataStrs", "codeblock": "SET VARIABLE", "operation": "write", "path": "/icon/arguments/2/type", "expected": "TEXT"},
+          {"action": "GetModelDataStrs", "codeblock": "SET VARIABLE", "operation": "read", "path": "/icon/returnValues/0/type", "expected": "LIST"}
+        ]}
+      ]
+    },
+    {
+      "id": "minecraft:tooltip_display",
+      "badge": "DF+",
+      "rationale": "Tooltip visibility and individual hidden-component keys are split across actions. Grouped visibility flags change tooltip_display membership; they do not demonstrate editing the referenced components' payloads.",
+      "fields": [
+        {"path": "hide_tooltip", "sources": [
+          {"action": "SetItemHideTooltip", "codeblock": "SET VARIABLE", "operation": "write", "path": "/tags/0/name", "expected": "Tooltip"},
+          {"action": "IsTooltipVisible", "codeblock": "IF VARIABLE", "operation": "read", "path": "/icon/arguments/0/type", "expected": "ITEM"}
+        ]},
+        {"path": "hidden_components", "sources": [
+          {"action": "HiddenComponents", "codeblock": "SET VARIABLE", "operation": "write", "path": "/icon/arguments/2/type", "expected": "TEXT"},
+          {"action": "HiddenComponents", "codeblock": "SET VARIABLE", "operation": "clear", "path": "/tags/0/options/3/name", "expected": "Show all"},
+          {"action": "SetItemFlags", "codeblock": "SET VARIABLE", "operation": "write", "path": "/tags/0/name", "expected": "Hide Armor Trim", "restriction": "Grouped membership changes only; concrete targets are expanded below."},
+          {"action": " SetItemFlags ", "codeblock": "SET VARIABLE", "operation": "write", "path": "/tags/0/name", "expected": "Armor Trim", "restriction": "Distinct legacy action ID with significant surrounding whitespace. The Others group remains uncertain."}
+        ]}
+      ],
+      "group_expansions": [
+        {"action": "SetItemFlags", "codeblock": "SET VARIABLE", "field": "hidden_components", "members": [
+          {"path": "/tags/0/name", "expected": "Hide Armor Trim", "components": ["minecraft:trim"]},
+          {"path": "/tags/1/name", "expected": "Hide Color", "components": ["minecraft:dyed_color"]},
+          {"path": "/tags/2/name", "expected": "Hide Enchantments", "components": ["minecraft:enchantments"], "uncertainty": "Stored enchantments/book behavior needs a live check; do not infer it from this group name."},
+          {"path": "/tags/3/name", "expected": "Hide Attributes", "components": ["minecraft:attribute_modifiers"]},
+          {"path": "/tags/4/name", "expected": "Hide Unbreakable", "components": ["minecraft:unbreakable"]},
+          {"path": "/tags/5/name", "expected": "Hide Can Destroy", "components": ["minecraft:can_break"]},
+          {"path": "/tags/6/name", "expected": "Hide Can Place On", "components": ["minecraft:can_place_on"]},
+          {"path": "/tags/7/name", "expected": "Hide Potion Effects", "components": ["minecraft:potion_contents"]}
+        ]},
+        {"action": " SetItemFlags ", "codeblock": "SET VARIABLE", "field": "hidden_components", "members": [
+          {"path": "/tags/0/name", "expected": "Armor Trim", "components": ["minecraft:trim"]},
+          {"path": "/tags/1/name", "expected": "Color", "components": ["minecraft:dyed_color"]},
+          {"path": "/tags/2/name", "expected": "Enchantments", "components": ["minecraft:enchantments"], "uncertainty": "Stored enchantments/book behavior needs a live check."},
+          {"path": "/tags/3/name", "expected": "Attributes", "components": ["minecraft:attribute_modifiers"]},
+          {"path": "/tags/4/name", "expected": "Unbreakable", "components": ["minecraft:unbreakable"]},
+          {"path": "/tags/5/name", "expected": "Can Destroy", "components": ["minecraft:can_break"]},
+          {"path": "/tags/6/name", "expected": "Can Place On", "components": ["minecraft:can_place_on"]},
+          {"path": "/tags/7/name", "expected": "Potion Effects", "components": ["minecraft:potion_contents"]},
+          {"path": "/tags/8/name", "expected": "Others", "components": [], "uncertainty": "No concrete members established by the export; leave uncertain pending a focused live check."}
+        ]}
+      ]
+    },
+    {
+      "id": "minecraft:custom_data",
+      "badge": "DFP",
+      "limitation": "Item custom tags support only strings and numbers, not arbitrary NBT.",
+      "rationale": "The user confirms that individual and bulk DF item custom tags support only strings and numbers. The assisted bulk setter/getter chat output retains text and number values and omits the nested dictionary. This resolves the value-type boundary; the whole custom_data component remains partial because these actions do not expose arbitrary NBT. Generic lossless preservation of existing opaque NBT remains separate from DF action support.",
+      "fields": [
+        {"path": "$[item custom tags]", "sources": [
+          {"action": "SetItemTag", "codeblock": "SET VARIABLE", "operation": "write", "path": "/icon/arguments/4/type", "expected": "NUMBER"},
+          {"action": "SetItemTag", "codeblock": "SET VARIABLE", "operation": "write", "path": "/icon/arguments/6/type", "expected": "TEXT"},
+          {"action": "GetItemTag", "codeblock": "SET VARIABLE", "operation": "read", "path": "/icon/arguments/2/type", "expected": "TEXT"},
+          {"action": "RemoveItemTag", "codeblock": "SET VARIABLE", "operation": "clear", "path": "/icon/arguments/2/type", "expected": "TEXT"},
+          {"action": "ClearItemTag", "codeblock": "SET VARIABLE", "operation": "clear", "path": "/icon/arguments/1/type", "expected": "ITEM"},
+          {"action": "GetAllItemTags", "codeblock": "SET VARIABLE", "operation": "read", "path": "/icon/returnValues/0/type", "expected": "DICT"},
+          {"action": "SetAllItemTags", "codeblock": "SET VARIABLE", "operation": "write", "path": "/icon/arguments/2/type", "expected": "DICT", "restriction": "Dictionary tag values are strings or numbers only, not nested NBT.", "verification": {"method": "user confirmation and client chat log", "date": "2026-10-09", "host": "beta.mcdiamondfire.com", "client_version": "26.2", "record": "docs/diamondfire-live-verification.md", "accepted_value_types": ["TEXT", "NUMBER"], "user_confirmation": "DiamondFire still uses only strings and numbers for item tags.", "chat_observation": {"log": "run/logs/latest.log", "local_time": "19:42:13", "timezone": "Europe/Berlin", "before": "{text: ok, number: 7, list: 1, nested: {value: 3}}", "after": "{list: 1, number: 7, text: ok}"}, "raw_components_observed": false}}
+        ]}
+      ]
+    },
+    {
+      "id": "minecraft:attribute_modifiers", "badge": "DFP",
+      "limitation": "Codeblocks use attribute/slot menus and an aggregate getter, without custom modifier IDs or display settings.",
+      "rationale": "The complete modifier setter takes an amount plus attribute, operation, and equipment-slot menus. It has no modifier-ID or display input; the getter returns a multiplier for the selected attribute/slot, not individual records. These are established action-interface boundaries. Retention of already-present custom records remains a separate unobserved question, not a reason to doubt normal attribute operations.",
+      "fields": [
+        {"path": "[].amount", "sources": [{"action":"AddItemAttribute","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"NUMBER"},{"action":"GetItemAttribute","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/returnValues/0/type","expected":"NUMBER","restriction":"Aggregate multiplier rather than individual modifier records."}]},
+        {"path": "[].type", "sources": [{"action":"AddItemAttribute","codeblock":"SET VARIABLE","operation":"write","path":"/tags/0/name","expected":"Attribute"},{"action":"RemoveItemAttrs","codeblock":"SET VARIABLE","operation":"clear","path":"/tags/1/name","expected":"Attribute"}]},
+        {"path": "[].operation", "sources": [{"action":"AddItemAttribute","codeblock":"SET VARIABLE","operation":"write","path":"/tags/1/name","expected":"Operation"}]},
+        {"path": "[].slot", "sources": [{"action":"AddItemAttribute","codeblock":"SET VARIABLE","operation":"write","path":"/tags/2/name","expected":"Active Equipment Slot"},{"action":"GetItemAttribute","codeblock":"SET VARIABLE","operation":"read","path":"/tags/1/name","expected":"Active Equipment Slot"},{"action":"RemoveItemAttrs","codeblock":"SET VARIABLE","operation":"clear","path":"/tags/0/name","expected":"Slot"}]},
+        {"path": "[].id", "sources": [], "uncertainty": "No custom-ID argument established by the modifier records; validate live before asserting non-support."},
+        {"path": "[].display", "sources": [], "uncertainty": "Tooltip-display structures are not described by these actions."},
+        {"path": "$", "sources": [{"action":"ClearItemAttrs","codeblock":"SET VARIABLE","operation":"clear","path":"/icon/arguments/1/type","expected":"ITEM"}]}
+      ]
+    },
+    {
+      "id": "minecraft:break_sound", "badge": "DFP",
+      "limitation": "Sound actions expose the sound ID, not an inline sound-event range.",
+      "rationale": "The full setter/getter use DF Sound values; the canonical Sound schema has an ID, pitch, volume, and optional variant, but no event-range member. Pitch/volume are explicitly ignored by the setter and are not break_sound fields. The range input boundary is established without pretending to have measured passive inline-value retention.",
+      "fields": [
+        {"path": "sound_id", "sources": [{"action":"SetBreakSound","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/3/type","expected":"SOUND"},{"action":"GetBreakSound","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"SOUND"}]},
+        {"path": "range", "sources": [], "uncertainty": "The Sound argument does not establish inline sound-event range handling."},
+        {"path": "$", "sources": [{"action":"SetBreakSound","codeblock":"SET VARIABLE","operation":"clear","path":"/icon/arguments/5/type","expected":"NONE"}]}
+      ]
+    },
+    {
+      "id": "minecraft:bundle_contents", "badge": "DF+",
+      "rationale": "Bundle actions accept plural Item contents and return a list of Items. This exposes the ordered item list through item values; it does not guarantee server retention of every nested component.",
+      "fields": [{"path":"$[]","sources":[{"action":"SetBundleItems","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"ITEM"},{"action":"SetBundleItems","codeblock":"SET VARIABLE","operation":"uncertain","path":"/icon/arguments/2/optional","expected":true,"restriction":"Optional input alone does not establish whether omission clears, resets, or preserves the component."},{"action":"GetBundleItems","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"LIST"}]}]
+    },
+    {
+      "id": "minecraft:can_break", "badge": "DFP",
+      "limitation": "The actions expose block lists, not complete block-predicate structures.",
+      "rationale": "Breakable-block actions expose lists of block values. State constraints, NBT/component predicates, and faithful reconstruction of complex block predicates remain unverified.",
+      "fields": [
+        {"path":"predicates[].blocks","sources":[{"action":"SetCanDestroy","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"BLOCK"},{"action":"GetCanDestroy","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/returnValues/0/type","expected":"LIST","restriction":"Returns block Items, not full predicate records."}]},
+        {"path":"predicates[].state","sources":[],"uncertainty":"No predicate-state argument established."},
+        {"path":"predicates[].nbt","sources":[],"uncertainty":"No predicate-NBT argument established."},
+        {"path":"predicates[].components","sources":[],"uncertainty":"No predicate-component argument established."}
+      ]
+    },
+    {
+      "id": "minecraft:can_place_on", "badge": "DFP",
+      "limitation": "The actions expose block lists, not complete block-predicate structures.",
+      "rationale": "Placeable-block actions expose lists of block values. State constraints, NBT/component predicates, and faithful reconstruction of complex block predicates remain unverified.",
+      "fields": [
+        {"path":"predicates[].blocks","sources":[{"action":"SetCanPlaceOn","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"BLOCK"},{"action":"GetCanPlaceOn","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/returnValues/0/type","expected":"LIST","restriction":"Returns block Items, not full predicate records."}]},
+        {"path":"predicates[].state","sources":[],"uncertainty":"No predicate-state argument established."},
+        {"path":"predicates[].nbt","sources":[],"uncertainty":"No predicate-NBT argument established."},
+        {"path":"predicates[].components","sources":[],"uncertainty":"No predicate-component argument established."}
+      ]
+    },
+    {
+      "id": "minecraft:charged_projectiles", "badge": "DF+",
+      "rationale": "The full setter accepts plural Item values and the getter returns one Item per loaded projectile. The user confirmed having completed the requested crossbow test and reported that it behaves as documented. This establishes dedicated exposure of the projectile-list field and restores the original badge for documented arrow/firework use; DF+ does not promise arbitrary item types or nested-value retention. The snowball outcome, exact resulting list, getter output, omission behavior, and live patch were not separately reported or captured. See docs/diamondfire-live-verification.md.",
+      "fields": [{"path":"$[]","sources":[{"action":"SetCrossbowProj","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"ITEM","verification":{"method":"user-reported live action test","date":"2026-10-09","client_version":"26.2","record":"docs/diamondfire-live-verification.md","user_report":"I already did the crossbow thing, and it does exactly what it says","documented_projectile_scope":["Arrows","Fireworks"],"nonstandard_input_result":"not explicitly reported","getter_observed":false,"raw_components_observed":false,"action_attribution":"User confirmed completing the requested Set Crossbow Projectiles test. No successful debugger capture or separate host/patch observation was obtained for this test."}},{"action":"GetCrossbowProj","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"LIST"},{"action":"SetCrossbowProj","codeblock":"SET VARIABLE","operation":"uncertain","path":"/icon/arguments/2/optional","expected":true,"restriction":"Optional input alone does not establish whether omission clears, resets, or preserves the component."}]}]
+    },
+    {
+      "id": "minecraft:consumable", "badge": "DFP",
+      "limitation": "Codeblocks edit duration, animation, sound and particles, not on-consume effects or sound ranges.",
+      "rationale": "The complete consuming setter/getter expose duration, animation, Sound, and particles, with no on-consume-effect structure argument. The canonical Sound schema has no inline event-range input. Nutrition, saturation, and Can Always Eat belong to food. Existing effect/range retention is not inferred from these interface boundaries.",
+      "fields": [
+        {"path":"consume_seconds","sources":[{"action":"SetConsumable","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/5/type","expected":"NUMBER"},{"action":"GetConsumable","codeblock":"SET VARIABLE","operation":"read","path":"/tags/0/options/2/name","expected":"Use Duration"}]},
+        {"path":"animation","sources":[{"action":"SetConsumable","codeblock":"SET VARIABLE","operation":"write","path":"/tags/2/name","expected":"Consuming Animation"},{"action":"GetConsumable","codeblock":"SET VARIABLE","operation":"read","path":"/tags/0/options/3/name","expected":"Animation"}]},
+        {"path":"sound","sources":[{"action":"SetConsumable","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"SOUND"},{"action":"GetConsumable","codeblock":"SET VARIABLE","operation":"read","path":"/tags/0/options/4/name","expected":"Sound"}]},
+        {"path":"has_consume_particles","sources":[{"action":"SetConsumable","codeblock":"SET VARIABLE","operation":"write","path":"/tags/1/name","expected":"Show Particles"}]},
+        {"path":"on_consume_effects","sources":[],"uncertainty":"No effect-structure input established by related consuming/drinking/effect searches."}
+      ]
+    },
+    {
+      "id": "minecraft:food", "badge": "DF+",
+      "rationale": "The current Consumable actions expose all three food fields. Set Food Properties is a legacy action replaced by Set Consumable Properties; eating duration belongs to consumable, not food.",
+      "fields": [
+        {"path":"nutrition","sources":[{"action":"SetConsumable","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/3/description/0","expected":"Nutrition"},{"action":"GetConsumable","codeblock":"SET VARIABLE","operation":"read","path":"/tags/0/options/0/name","expected":"Nutrition"},{"action":"SetItemFood","codeblock":"SET VARIABLE","operation":"write","path":"/legacyReplacement/action","expected":"SetConsumable"}]},
+        {"path":"saturation","sources":[{"action":"SetConsumable","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/4/description/0","expected":"Saturation"},{"action":"GetConsumable","codeblock":"SET VARIABLE","operation":"read","path":"/tags/0/options/1/name","expected":"Saturation"}]},
+        {"path":"can_always_eat","sources":[{"action":"SetConsumable","codeblock":"SET VARIABLE","operation":"write","path":"/tags/0/name","expected":"Can Always Eat"}]}
+      ]
+    },
+    {
+      "id": "minecraft:custom_name", "badge": "DF+",
+      "rationale": "Current name actions accept and return Styled Text components. The old Text getter is a legacy replacement and cannot establish faithful structured-text coverage by itself.",
+      "fields": [{"path":"$","sources":[{"action":" SetItemName ","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"COMPONENT"},{"action":" GetItemName ","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"COMPONENT"},{"action":"GetItemName","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/returnValues/0/type","expected":"TEXT","restriction":"Legacy string projection; use the replacement Styled Text getter."}]}]
+    },
+    {
+      "id": "minecraft:damage", "badge": "DF+",
+      "rationale": "Durability actions directly expose Damage and also offer Remaining/Percentage views. Maximum durability is a separate component; those derived views do not establish editing it.",
+      "fields": [{"path":"$","sources":[{"action":"SetItemDura","codeblock":"SET VARIABLE","operation":"write","path":"/tags/0/options/0/name","expected":"Set Damage"},{"action":"GetItemDura","codeblock":"SET VARIABLE","operation":"read","path":"/tags/0/options/0/name","expected":"Get Damage"}]}]
+    },
+    {
+      "id": "minecraft:dyed_color", "badge": "DF+",
+      "rationale": "Color actions set, read, and remove the RGB value for Leather Armor. The same action's Potion, Map, and Firework Star routes affect separate components and fields.",
+      "fields": [{"path":"$","sources":[{"action":"SetItemColor","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/3/type","expected":"TEXT"},{"action":"SetItemColor","codeblock":"SET VARIABLE","operation":"clear","path":"/icon/arguments/5/type","expected":"NONE"},{"action":"GetItemColor","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"TEXT"}]}]
+    },
+    {
+      "id": "minecraft:item_model", "badge": "DF+",
+      "rationale": "Model actions expose a namespaced model key. The effect of omitting the optional input remains unverified. This is the item-model key, not custom-model-data arrays.",
+      "fields": [{"path":"$","sources":[{"action":"SetItemModel","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"TEXT"},{"action":"SetItemModel","codeblock":"SET VARIABLE","operation":"uncertain","path":"/icon/arguments/2/optional","expected":true,"restriction":"Optional input alone does not establish whether omission clears, resets, or preserves the component."},{"action":"GetItemModel","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"TEXT"}]}]
+    },
+    {
+      "id": "minecraft:lodestone_tracker", "badge": "DFP",
+      "limitation": "The codeblocks take a DF location; they expose no separate target-dimension argument.",
+      "rationale": "The user reported that the requested compass location/Require Lodestone control behaves as advertised. This resolves the ordinary target/tracking behavior, without claiming raw values or a separately tested getter. The full action signature exposes a Location and a tracking tag, not a separate dimension argument. The pinned df-info Location schema contains coordinates/rotation and no dimension member; implicit world selection and retention of existing cross-dimension targets were not observed. Retain DFP for the explicit input boundary rather than a generic unverified tracking warning.",
+      "fields": [
+        {"path":"target.pos","sources":[{"action":"SetLodestoneLoc","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"LOCATION"},{"action":"GetLodestoneLoc","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"LOCATION"}]},
+        {"path":"target.dimension","sources":[],"uncertainty":"No separate dimension argument is exposed. Implicit world selection and cross-dimension retention have not been observed.","value_schema":{"repository":"https://github.com/NineOfGaming/df-info","commit":"6200915ba2ba333d3968b806e342c5f537eaec82","path":"docs/templates/items.md#location","location_members":["x","y","z","pitch","yaw"]}},
+        {"path":"tracked","sources":[{"action":"SetLodestoneLoc","codeblock":"SET VARIABLE","operation":"write","path":"/tags/0/name","expected":"Require Lodestone at Location","verification":{"method":"user-reported live action test","date":"2026-10-09","client_version":"26.2","record":"docs/diamondfire-live-verification.md","user_report":"It also does exactly what it says on the can","action_attribution":"User reported the requested compass location/Require Lodestone control behaves as advertised. No raw True/False component values or separately attributed getter result were supplied.","raw_components_observed":false,"getter_observed":false}}]}
+      ]
+    },
+    {
+      "id": "minecraft:map_id", "badge": "DFP",
+      "limitation": "Set Map Texture uses a DiamondFire-managed image URL rather than an arbitrary numeric map ID.",
+      "rationale": "Set Map Texture assigns a server-managed image from a URL. It approximates map appearance and does not establish direct arbitrary numeric map-ID editing; the action also has rate restrictions.",
+      "fields": [{"path":"$","sources":[{"action":"SetMapTexture","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/arguments/2/description/0","expected":"Image URL","restriction":"Server-managed image assignment rather than a numeric map-ID argument."}]}]
+    },
+    {
+      "id":"minecraft:enchantments", "badge":"DF+",
+      "rationale":"The current enchantment setter/getter use a dictionary of enchantment IDs and levels; add/remove/clear actions complement it. Legacy list representations are replaced by the dictionary actions. Arbitrary unregistered enchantment IDs are not implied.",
+      "fields":[{"path":"$[enchantment_id]","sources":[
+        {"action":" SetItemEnchants ","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"DICT"},
+        {"action":" GetItemEnchants ","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"DICT"},
+        {"action":"AddItemEnchant","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/3/type","expected":"NUMBER"},
+        {"action":"RemItemEnchant","codeblock":"SET VARIABLE","operation":"clear","path":"/icon/arguments/2/type","expected":"TEXT"},
+        {"action":"ClearEnchants","codeblock":"SET VARIABLE","operation":"clear","path":"/icon/arguments/1/type","expected":"ITEM"}
+      ]}]
+    },
+    {
+      "id":"minecraft:stored_enchantments", "badge":"DF+",
+      "rationale":"Live item inspection and the user's confirmation of an add-enchantment action establish automatic component selection: an enchanted book receives stored enchantments, while a normal book receives applied enchantments. This resolves dedicated field exposure without claiming every related action was separately tested. See docs/diamondfire-live-verification.md; the exact recalled action wording and live server patch were not captured.",
+      "fields":[{"path":"$[enchantment_id]","sources":[
+        {"action":" SetItemEnchants ","codeblock":"SET VARIABLE","operation":"uncertain","path":"/icon/arguments/2/type","expected":"DICT","restriction":"Dictionary structure is documented, but the targeted enchantment component is ambiguous for books."},
+        {"action":" GetItemEnchants ","codeblock":"SET VARIABLE","operation":"uncertain","path":"/icon/returnValues/0/type","expected":"DICT","restriction":"Stored/applied distinction is not stated."},
+        {"action":"AddItemEnchant","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/3/type","expected":"NUMBER","verification":{"method":"user-assisted live component inspection","date":"2026-10-09","host":"beta.mcdiamondfire.com","client_version":"26.2","record":"docs/diamondfire-live-verification.md","action_attribution":"User identified an add-enchantment action; exact recalled wording was approximate. The user confirmed automatic stored/applied selection."}},
+        {"action":"RemItemEnchant","codeblock":"SET VARIABLE","operation":"uncertain","path":"/icon/arguments/2/type","expected":"TEXT","restriction":"Related enchantment action; stored/applied behavior for books remains unverified."},
+        {"action":"ClearEnchants","codeblock":"SET VARIABLE","operation":"uncertain","path":"/icon/arguments/1/type","expected":"ITEM","restriction":"Related enchantment action; stored/applied behavior for books remains unverified."}
+      ]}]
+    },
+    {
+      "id":"minecraft:lore", "badge":"DF+",
+      "rationale":"Current lore actions accept Styled Text lines and return a list or individual Styled Text components. Legacy Text/list getters are projections and must not be used as evidence of exact structured-text round trips.",
+      "fields":[{"path":"$[]","sources":[{"action":" SetItemLore ","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/3/type","expected":"COMPONENT"},{"action":" SetItemLore ","codeblock":"SET VARIABLE","operation":"clear","path":"/icon/arguments/5/type","expected":"NONE"},{"action":" GetItemLore ","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"LIST"},{"action":"GetLoreLine","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"COMPONENT"},{"action":"AddItemLore","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"COMPONENT"}]}]
+    },
+    {
+      "id":"minecraft:max_damage", "badge":"DF+",
+      "action_order":["SET VARIABLE/SetItemMaxDura","SET VARIABLE/GetItemDura"],
+      "rationale":"Set Item Maximum Durability exposes the maximum-damage value. Only the Get Maximum option of the shared durability getter reads this field; current damage and remaining/percentage views belong to other or derived values.",
+      "fields":[{"path":"$","sources":[{"action":"SetItemMaxDura","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"NUMBER"},{"action":"GetItemDura","codeblock":"SET VARIABLE","operation":"read","path":"/tags/0/options/4/name","expected":"Get Maximum"}]}]
+    },
+    {
+      "id":"minecraft:max_stack_size", "badge":"DF+",
+      "rationale":"Maximum-stack-size actions expose the numeric maximum (1–99). Item amount/count actions affect the stack count instead and do not establish support for this component. The older getter explicitly points to GetMaxAmount.",
+      "fields":[{"path":"$","sources":[{"action":"SetMaxAmount","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"NUMBER"},{"action":"GetMaxAmount","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"NUMBER"}]}]
+    },
+    {
+      "id":"minecraft:potion_contents", "badge":"DFP",
+      "limitation":"Effects and color are exposed, without separate base-potion, potion-name, or hidden-effect inputs.",
+      "action_order":["SET VARIABLE/SetItemEffects","SET VARIABLE/GetItemEffects","SET VARIABLE/SetItemColor","SET VARIABLE/GetItemColor"],
+      "rationale":"The complete effect/color signatures and canonical Potion value expose effect ID, duration, amplifier, and color, not separate base-potion, potion-name, or nested hidden-effect inputs. The getter reports applied effects rather than a raw component reconstruction. Tipped Arrow/Instant Potion durations have a documented factor-of-eight conversion. Preservation of existing extra fields remains developer-only, not a required repeat of ordinary effect operations.",
+      "fields":[
+        {"path":"custom_effects[]","sources":[{"action":"SetItemEffects","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"POTION"},{"action":"GetItemEffects","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/returnValues/0/type","expected":"LIST","restriction":"Reads applied effects, which may include the base potion; conversion is item dependent."}]},
+        {"path":"custom_color","sources":[{"action":"SetItemColor","codeblock":"SET VARIABLE","operation":"write","path":"/icon/worksWith/1","expected":"Potions"},{"action":"GetItemColor","codeblock":"SET VARIABLE","operation":"read","path":"/icon/worksWith/2","expected":"Tipped Arrows"}]},
+        {"path":"potion","sources":[],"uncertainty":"No base-potion-ID argument established by the effect records."},
+        {"path":"custom_name","sources":[],"uncertainty":"No potion custom-name argument established; item-name actions target a separate component."},
+        {"path":"custom_effects[].hidden_effect","sources":[],"uncertainty":"Nested hidden-effect encoding is not described by Potion-value arguments."}
+      ]
+    },
+    {
+      "id":"minecraft:profile", "badge":"DFP",
+      "limitation":"Head actions set an owner or texture value, not full profile properties or appearance overrides.",
+      "rationale":"The complete current head setter accepts one owner-name/UUID/texture string and a code-flow choice; the getter selects owner name or UUID. It exposes no separate signed-property, cape, elytra, or model input. This establishes bounded action coverage, not the serialization of resolved textures or passive retention of an existing full profile. Legacy actions remain excluded from runtime UI.",
+      "fields":[
+        {"path":"name","sources":[{"action":" SetHeadTexture ","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/description/0","expected":"Owner name, UUID or"},{"action":"GetHeadOwner","codeblock":"SET VARIABLE","operation":"read","path":"/tags/0/options/0/name","expected":"Owner Name"}]},
+        {"path":"id","sources":[{"action":" SetHeadTexture ","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"TEXT"},{"action":"GetHeadOwner","codeblock":"SET VARIABLE","operation":"read","path":"/tags/0/options/1/name","expected":"Owner UUID"}]},
+        {"path":"properties[].value","sources":[{"action":" SetHeadTexture ","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/arguments/2/description/1","expected":"texture value","restriction":"Custom texture values are accepted, but their exact storage in properties versus texture is not described."}]},
+        {"path":"properties[].signature","sources":[],"uncertainty":"No signature argument established."},
+        {"path":"properties[].name","sources":[],"uncertainty":"Arbitrary profile properties are not specified by a texture value."},
+        {"path":"texture","sources":[],"uncertainty":"Explicit texture override versus resolved owner texture is not distinguished."},
+        {"path":"cape","sources":[],"uncertainty":"No profile-cape input established."},
+        {"path":"elytra","sources":[],"uncertainty":"No profile-elytra texture input established."},
+        {"path":"model","sources":[],"uncertainty":"No profile-model input established."}
+      ]
+    },
+    {
+      "id":"minecraft:rarity", "badge":"DF+",
+      "rationale":"The rarity setter exposes Common, Uncommon, Rare, Epic, and an item-default option. The getter describes effective rarity influenced by enchantments/type, so it is not proof of the raw override's presence or exact identity.",
+      "fields":[{"path":"$","sources":[{"action":"SetItemRarity","codeblock":"SET VARIABLE","operation":"write","path":"/tags/0/name","expected":"Rarity"},{"action":"GetItemRarity","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/returnValues/0/type","expected":"TEXT","restriction":"Effective rarity can differ from the raw rarity override."}]}]
+    },
+    {
+      "id":"minecraft:tool", "badge":"DFP",
+      "limitation":"Mining rules require speed and loot choices; creative block destruction has no codeblock input.",
+      "rationale":"The complete tool signatures expose optional mining defaults and rules for blocks or a block-tag ID. A rule requires a mining-speed number and True/False loot choice, with no unset-rule selector or creative-destruction input. Those input boundaries are established; exact replacement/append behavior and preservation of existing creative settings were not tested.",
+      "fields":[
+        {"path":"default_mining_speed","sources":[{"action":"SetItemTool","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/description/0","expected":"Default mining speed"}]},
+        {"path":"damage_per_block","sources":[{"action":"SetItemTool","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/3/description/0","expected":"Damage per block"}]},
+        {"path":"rules[].blocks","sources":[{"action":"AddItemToolRule","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/4/type","expected":"BLOCK"},{"action":"AddItemToolRule","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/6/type","expected":"TEXT"}]},
+        {"path":"rules[].speed","sources":[{"action":"AddItemToolRule","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/description/0","expected":"Mining speed"}]},
+        {"path":"rules[].correct_for_drops","sources":[{"action":"AddItemToolRule","codeblock":"SET VARIABLE","operation":"write","path":"/tags/0/name","expected":"Correct Tool for Loot"}]},
+        {"path":"can_destroy_blocks_in_creative","sources":[],"uncertainty":"No creative-destruction input established by the tool/mining/loot records."}
+      ]
+    },
+    {
+      "id":"minecraft:tooltip_style", "badge":"DF+",
+      "rationale":"Tooltip-style actions expose the namespaced tooltip key. Tooltip visibility and hidden-component membership belong to tooltip_display, not this component.",
+      "fields":[{"path":"$","sources":[{"action":"SetTooltipStyle","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"TEXT"},{"action":"GetTooltipStyle","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"TEXT"}]}]
+    },
+    {
+      "id":"minecraft:trim", "badge":"DFP",
+      "limitation":"The trim action uses fixed pattern/material menus, without custom IDs or inline payload inputs.",
+      "rationale":"The complete armor-trim setter takes only the item plus fixed pattern/material menus, including None to clear. There is no custom-ID or inline-payload operand. That is the relevant action boundary; no arbitrary-value acceptance or passive-retention conclusion is made from it.",
+      "fields":[
+        {"path":"pattern","sources":[{"action":"SetArmorTrim","codeblock":"SET VARIABLE","operation":"write","path":"/tags/0/name","expected":"Trim Pattern"},{"action":"SetArmorTrim","codeblock":"SET VARIABLE","operation":"clear","path":"/tags/0/options/0/name","expected":"None"}]},
+        {"path":"material","sources":[{"action":"SetArmorTrim","codeblock":"SET VARIABLE","operation":"write","path":"/tags/1/name","expected":"Trim Material"}]},
+        {"path":"material.inline","sources":[],"uncertainty":"No arbitrary inline material payload input established."},
+        {"path":"pattern.inline","sources":[],"uncertainty":"No arbitrary inline pattern payload input established."}
+      ]
+    },
+    {
+      "id":"minecraft:unbreakable", "badge":"DF+",
+      "rationale":"The Breakability tag exposes unbreakable versus breakable, corresponding to presence/removal of the unit component. Tooltip visibility is a separate tooltip_display field.",
+      "fields":[{"path":"$","sources":[{"action":"SetBreakability","codeblock":"SET VARIABLE","operation":"write","path":"/tags/0/options/1/name","expected":"Unbreakable"},{"action":"SetBreakability","codeblock":"SET VARIABLE","operation":"clear","path":"/tags/0/options/0/name","expected":"Breakable"}]}]
+    },
+    {
+      "id":"minecraft:use_remainder", "badge":"DF+",
+      "rationale":"Use-leftover actions accept and return an Item value, exposing the remainder stack. This does not imply every nested component survives on the server.",
+      "fields":[{"path":"$","sources":[{"action":"SetItemLeftover","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"ITEM"},{"action":"GetItemLeftover","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"ITEM"}]}]
+    },
+    {
+      "id":"minecraft:weapon", "badge":"DF+",
+      "rationale":"Weapon setter/getter expose durability reduction per attack and seconds to disable blocking. Generic attribute damage, kinetic/piercing behavior, and attack range belong to other components.",
+      "fields":[
+        {"path":"item_damage_per_attack","sources":[{"action":"SetItemWeapon","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"NUMBER"},{"action":"GetItemWeapon","codeblock":"SET VARIABLE","operation":"read","path":"/tags/0/options/0/name","expected":"Durability reduction per attack"}]},
+        {"path":"disable_blocking_for_seconds","sources":[{"action":"SetItemWeapon","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/3/type","expected":"NUMBER"},{"action":"GetItemWeapon","codeblock":"SET VARIABLE","operation":"read","path":"/tags/0/options/1/name","expected":"Seconds to disable blocking for"}]}
+      ]
+    },
+    {
+      "id":"minecraft:writable_book_content", "badge":"DF+",
+      "rationale":"The user confirms the requested writable-book page test behaves as expected. DF exposes the page text edited by the dedicated Book tab. The editor has no separate filtered-copy control either, so that preserved-only representation is not a shortfall in normal writable-book editing. Restore DF+ without claiming arbitrary filtered-copy retention or inventing encoded page values.",
+      "preservation_notes":[{"path":"pages[].filtered","editor_control":false,"note":"An optional filtered copy is preserved on load and unrelated edits, then cleared when its page is edited. It has no separate Book-tab input and does not downgrade dedicated page-text support. Server retention was not independently tested."}],
+      "fields":[
+        {"path":"pages[].raw","sources":[{"action":"SetBookText","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/3/type","expected":"COMPONENT","verification":{"method":"user-reported live action test","date":"2026-10-09","client_version":"26.2","record":"docs/diamondfire-live-verification.md","user_report":"Everything behaves as expected with the requested book test.","raw_components_observed":false,"action_attribution":"Requested colored/bold Styled Text on a writable book, followed by inspection and getter output. User confirms expected behavior; exact encoded page/format conversion was not supplied."}},{"action":" GetBookText ","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"COMPONENT"}]}
+      ]
+    },
+    {
+      "id":"minecraft:written_book_content", "badge":"DFP",
+      "limitation":"Book actions edit pages, not title, author, generation, or resolved state.",
+      "rationale":"The complete current book setter/getter expose page text and a page-number/all-pages choice, with no title, author, generation, resolved, or raw/filtered controls. Known page-action coverage and absent metadata inputs justify partial support. This does not claim those metadata fields are removed or rejected, or that a signed-book test was performed.",
+      "fields":[
+        {"path":"pages[].raw","sources":[{"action":"SetBookText","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/3/type","expected":"COMPONENT"},{"action":" GetBookText ","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"COMPONENT"}]},
+        {"path":"pages[].filtered","sources":[],"uncertainty":"No filtered-page selector established."},
+        {"path":"title.raw","sources":[],"uncertainty":"No book-title input established."},
+        {"path":"title.filtered","sources":[],"uncertainty":"No filtered-title input established."},
+        {"path":"author","sources":[],"uncertainty":"No author input established."},
+        {"path":"generation","sources":[],"uncertainty":"No generation input established."},
+        {"path":"resolved","sources":[],"uncertainty":"No resolved-state input established."}
+      ]
+    },
+    {
+      "id":"minecraft:map_color", "badge":"DF+",
+      "rationale":"The grouped item-color actions expose the RGB color for Filled Maps. Image URL/map-ID editing is a separate operation.",
+      "fields":[{"path":"$","sources":[{"action":"SetItemColor","codeblock":"SET VARIABLE","operation":"write","path":"/icon/worksWith/3","expected":"Filled Maps"},{"action":"GetItemColor","codeblock":"SET VARIABLE","operation":"read","path":"/icon/worksWith/3","expected":"Filled Maps"}]}]
+    },
+    {
+      "id":"minecraft:firework_explosion", "badge":"DFP",
+      "limitation":"Color actions expose one color, not explosion shape, fade colors, trail, or twinkle.",
+      "rationale":"The complete item-color setter accepts one hexadecimal color or None and lists Firework Stars; the getter returns one hexadecimal color. There are no explosion-shape, fade-color, trail, or twinkle inputs. Partial coverage describes those interface boundaries; color-array replacement and passive retention of explosion properties remain unobserved, not implied failures of the color action.",
+      "fields":[
+        {"path":"colors[]","sources":[{"action":"SetItemColor","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/worksWith/4","expected":"Firework Stars","restriction":"Single color operand does not establish arbitrary arrays or explosion properties."},{"action":"GetItemColor","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/returnValues/0/type","expected":"TEXT","restriction":"Returns one color representation, not a full explosion record."}]},
+        {"path":"fade_colors[]","sources":[],"uncertainty":"No fade-color argument established by item-color actions."},
+        {"path":"shape","sources":[],"uncertainty":"No explosion-shape argument established by item-color actions."},
+        {"path":"has_trail","sources":[],"uncertainty":"No trail argument established by item-color actions."},
+        {"path":"has_twinkle","sources":[],"uncertainty":"No twinkle argument established by item-color actions."}
+      ]
+    },
+    {
+      "id":"minecraft:suspicious_stew_effects", "badge":"DF+",
+      "rationale":"The requested Set Item Potion Effects control produced native minecraft:speed with duration 340 ticks on suspicious stew, captured twice in the user's 26.2 DF client. This establishes exposure of both native fields without requiring the broader Potion Effect amplifier to be a stew field. The getter result, multiple-effect behavior, other values, and direct incoming-packet capture have not been verified; see docs/diamondfire-live-verification.md.",
+      "fields":[
+        {"path":"[].id","sources":[{"action":"SetItemEffects","codeblock":"SET VARIABLE","operation":"write","path":"/icon/worksWith/2","expected":"Suspicious Stew","verification":{"method":"user-assisted live component inspection","date":"2026-10-09","host":"beta.mcdiamondfire.com","client_version":"26.2","record":"docs/diamondfire-live-verification.md","observed":{"id":"minecraft:speed","duration":340},"getter_observed":false,"action_attribution":"Requested Set Item Potion Effects with Speed II for 340 ticks; matching native result captured twice and user replied ok. Executing codeblock itself was not captured."}}]},
+        {"path":"[].duration","sources":[{"action":"SetItemEffects","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"POTION","verification":{"method":"user-assisted live component inspection","date":"2026-10-09","host":"beta.mcdiamondfire.com","client_version":"26.2","record":"docs/diamondfire-live-verification.md","observed":{"id":"minecraft:speed","duration":340},"getter_observed":false,"action_attribution":"Requested Set Item Potion Effects with Speed II for 340 ticks; matching native result captured twice and user replied ok. Executing codeblock itself was not captured."}},{"action":"GetItemEffects","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/returnValues/0/type","expected":"LIST","restriction":"The getter returns the wider Potion Effect representation; its exact returned duration/amplifier have not yet been observed. Native write mapping is separately live verified."}]}
+      ]
+    }
+  ]
+}

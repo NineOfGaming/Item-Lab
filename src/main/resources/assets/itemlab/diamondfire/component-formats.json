@@ -1,0 +1,13 @@
+{
+  "client_versions": {
+    "26.2": [],
+    "26.3": [
+      "minecraft:instrument",
+      "minecraft:pot_decorations",
+      "minecraft:trim"
+    ]
+  },
+  "policy_source": "src/test/resources/diamondfire/codec-format-policy.json",
+  "schema_version": 1,
+  "server_version": "26.2"
+}

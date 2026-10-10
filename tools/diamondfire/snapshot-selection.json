@@ -1,0 +1,26 @@
+{
+  "repository": "https://github.com/NineOfGaming/df-info",
+  "branch": "8.13",
+  "commit": "6200915ba2ba333d3968b806e342c5f537eaec82",
+  "dump": "actiondump/actiondump_minimessage.json",
+  "previous_commit": "2bab3e59bcaa3d06f2d357c3de9b3c3cec91373d",
+  "display_names": [
+    "Add Item Attribute", "Get Item Attribute", "Remove Item Attributes", "Clear Item Attributes",
+    "Set Item Break Sound", "Get Item Break Sound", "Set Bundle Contents", "Get Bundle Contents",
+    "Set Breakable Blocks", "Get Breakable Blocks", "Set Placeable Blocks", "Get Placeable Blocks",
+    "Set Crossbow Projectiles", "Get Crossbow Projectiles", "Set Consumable Properties", "Get Consumable Property",
+    "Set Item Custom Tag", "Get Item Custom Tag", "Remove Item Custom Tag", "Clear Item Custom Tags",
+    "Get All Item Custom Tags", "Set All Item Custom Tags", "Set Custom Model Data",
+    "Set Custom Model Data Numbers", "Get Custom Model Data Numbers", "Set Custom Model Data Strings", "Get Custom Model Data Strings",
+    "Set Item Name", "Get Item Name", "Set Item Durability", "Get Item Durability", "Set Item Color", "Get Item Color",
+    "Set Item Glowing", "Set Item Enchantments", "Get Item Enchantments", "Add Item Enchantment",
+    "Remove Item Enchantment", "Clear Item Enchantments", "Set Food Properties", "Set Item Model", "Get Item Model",
+    "Set Compass Lodestone Location", "Get Compass Lodestone Location", "Set Map Texture",
+    "Set Item Lore", "Get Item Lore", "Get Item Lore Line", "Add Item Lore", "Set Item Maximum Durability",
+    "Set Item Maximum Stack Size", "Get Item Maximum Stack Size", "Set Item Potion Effects", "Get Item Potion Effects",
+    "Set Head Texture", "Get Head Owner", "Set Item Rarity", "Get Item Rarity", "Set Tool Properties", "Add Tool Mining Rule",
+    "Set Item Hidden Components", "Set Tooltip Visible", "Set Item Visibility Flags", "Item Tooltip Is Visible",
+    "Set Item Tooltip Style", "Get Item Tooltip Style", "Set Armor Trim", "Set Item Breakability",
+    "Set Item Use Leftover", "Get Item Use Leftover", "Set Weapon Properties", "Get Weapon Property", "Set Book Text", "Get Book Text"
+  ]
+}

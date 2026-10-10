@@ -1,0 +1,53 @@
+name: Bug report
+description: Report a bug or regression in Item Lab
+title: "bug: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for reproducible bugs or regressions in Item Lab.
+  - type: input
+    id: mod_version
+    attributes:
+      label: Item Lab version
+    validations:
+      required: true
+  - type: input
+    id: minecraft_version
+    attributes:
+      label: Minecraft version
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: setup
+    attributes:
+      label: Relevant setup
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs, crash reports, or screenshots
+      description: Paste anything useful here. You can also attach files after opening the issue.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched for an existing issue first.
+          required: true
+        - label: I can still reproduce this on the latest available version.
+          required: true
