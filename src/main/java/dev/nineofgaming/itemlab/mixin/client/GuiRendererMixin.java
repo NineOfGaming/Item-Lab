@@ -61,7 +61,8 @@ public abstract class GuiRendererMixin {
         *///?}
         extended.put(DirectItemPreviewRenderState.class, directItemRenderer);
         extended.put(ShelfPreviewRenderState.class, shelfRenderer);
-        this.pictureInPictureRenderers = Map.copyOf(extended);
+        // Fabric registers other mods' PiP renderers after this constructor returns.
+        this.pictureInPictureRenderers = extended;
     }
 
     //? if >=26.2 {
