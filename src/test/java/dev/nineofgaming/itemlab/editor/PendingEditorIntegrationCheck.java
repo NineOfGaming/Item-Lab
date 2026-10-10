@@ -4,13 +4,21 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mojang.serialization.Lifecycle;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.SharedConstants;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.MappedRegistry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.Bootstrap;
 import net.minecraft.server.network.Filterable;
 import net.minecraft.world.item.ItemStack;
@@ -32,10 +40,12 @@ import imgui.type.ImBoolean;
 import imgui.type.ImInt;
 import imgui.type.ImString;
 import imgui.type.ImDouble;
+import org.mockito.MockedStatic;
 
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -44,9 +54,13 @@ import static dev.nineofgaming.itemlab.editor.EditorCheckSupport.invoke;
 import static dev.nineofgaming.itemlab.editor.EditorCheckSupport.read;
 import static dev.nineofgaming.itemlab.editor.EditorCheckSupport.require;
 import static dev.nineofgaming.itemlab.editor.EditorCheckSupport.write;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.when;
 
 /**
- * Real editor/participant fixtures; no window, world, or target-slot write is needed.
+ * Real editor/participant fixtures with mocked client registry access; no window or target-slot write is needed.
  */
 public final class PendingEditorIntegrationCheck {
     private PendingEditorIntegrationCheck() {
@@ -58,9 +72,14 @@ public final class PendingEditorIntegrationCheck {
         var registries = VanillaRegistries.createLookup();
         BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.build(registries)
             .forEach(net.minecraft.core.component.DataComponentInitializers.PendingComponents::apply);
+        Minecraft client = mock(Minecraft.class);
+        client.level = mock(ClientLevel.class);
+        when(client.level.registryAccess()).thenReturn(clientRegistries(registries));
         // Isolate preferences from real user settings in this standalone test JVM.
         Path configDirectory = Files.createTempDirectory("itemlab-pending-check-");
-        try {
+        try (MockedStatic<Minecraft> currentClient = mockStatic(Minecraft.class, CALLS_REAL_METHODS)) {
+            // Recovery callbacks use the initialized client singleton even when participant IO is headless.
+            currentClient.when(Minecraft::getInstance).thenReturn(client);
             Field configDir = FabricLoader.getInstance().getClass().getDeclaredField("configDir");
             configDir.setAccessible(true);
             configDir.set(FabricLoader.getInstance(), configDirectory);
@@ -89,6 +108,22 @@ public final class PendingEditorIntegrationCheck {
         } finally {
             Files.delete(configDirectory);
         }
+    }
+
+    private static RegistryAccess clientRegistries(HolderLookup.Provider registries) {
+        List<Registry<?>> clientRegistries = new ArrayList<>(BuiltInRegistries.REGISTRY.stream().toList());
+        registries.listRegistries().forEach(lookup -> {
+            if (clientRegistries.stream().noneMatch(registry -> registry.key().equals(lookup.key()))) {
+                clientRegistries.add(copyRegistry(lookup));
+            }
+        });
+        return new RegistryAccess.ImmutableRegistryAccess(clientRegistries);
+    }
+
+    private static <T> Registry<T> copyRegistry(HolderLookup.RegistryLookup<T> lookup) {
+        MappedRegistry<T> registry = new MappedRegistry<>(ResourceKey.createRegistryKey(lookup.key().identifier()), Lifecycle.stable());
+        lookup.listElements().forEach(holder -> Registry.register(registry, holder.key(), holder.value()));
+        return registry.freeze();
     }
 
     private static void verifyRegistryCoverageAndDirtyQueries() throws Exception {

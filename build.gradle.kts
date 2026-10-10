@@ -242,6 +242,9 @@ val verifyEditorTransactions = registerVerificationCheck(
     "Checks pending-edit composition, conflicts, and non-mutating editor recovery."
 ) {
     args("transactions")
+    jvmArgumentProviders.add(objects.newInstance<MockitoAgentProvider>().apply {
+        agentJar.from(mockitoAgent)
+    })
 }
 
 val verifyPendingEditorCommits = registerVerificationCheck(
