@@ -39,8 +39,8 @@ public final class BookContentPreview {
 
     public boolean extract(GuiGraphicsExtractor graphics) {
         if (stack.isEmpty() || !canvas.requested()) return false;
-        BookViewScreen.BookAccess access = BookViewScreen.BookAccess.fromItem(stack);
-        if (access == null) return false;
+        BookPage book = selectPage(stack, page);
+        if (book == null) return false;
 
         NativePreviewCanvas.Bounds bounds = canvas.resolve(graphics);
         if (!bounds.valid()) return false;
@@ -53,11 +53,11 @@ public final class BookContentPreview {
         int left = bounds.left() + (bounds.width() - renderedWidth) / 2;
         int top = bounds.top() + (bounds.height() - renderedHeight) / 2;
 
-        BookViewScreen screen = new BookViewScreen(access);
+        BookViewScreen screen = new BookViewScreen(book.access());
         screen.width = NATIVE_WIDTH;
         screen.height = NATIVE_HEIGHT;
         ((BookViewScreenAccessor) screen).itemlab$setCurrentPage(
-            Math.clamp(page, 0, access.getPageCount() - 1)
+            book.index()
         );
 
         graphics.enableScissor(bounds.clipLeft(), bounds.clipTop(), bounds.clipRight(), bounds.clipBottom());
@@ -69,5 +69,16 @@ public final class BookContentPreview {
         graphics.pose().popMatrix();
         graphics.disableScissor();
         return true;
+    }
+
+    static BookPage selectPage(ItemStack stack, int requestedPage) {
+        BookViewScreen.BookAccess access = BookViewScreen.BookAccess.fromItem(stack);
+        if (access == null) return null;
+        // Empty books are valid; Minecraft renders their page zero as blank content.
+        int index = Math.clamp(requestedPage, 0, Math.max(0, access.getPageCount() - 1));
+        return new BookPage(access, index);
+    }
+
+    record BookPage(BookViewScreen.BookAccess access, int index) {
     }
 }
