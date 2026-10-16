@@ -313,16 +313,15 @@ public final class AdventureEditorPanel extends ComponentEditorPanel {
             dirty = true;
         }
         ImGui.sameLine();
-        boolean expanded = EditorUi.collapsibleHeader(
+        boolean expanded = host.drawComponentSectionHeader(
             "adventure_section_" + section.key,
             tr("adventure." + section.key),
-            host.componentSectionStartsExpanded(section.type),
+            section.type,
             reveal
         );
         if (ImGui.isItemHovered()) {
             EditorUi.setTooltip(tr("adventure." + section.key + ".help"));
         }
-        host.drawDiamondFireComponentHint(section.type);
         if (!expanded) return;
         ImGui.beginDisabled(!section.present.get());
         ImGui.spacing();

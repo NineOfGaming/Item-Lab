@@ -318,13 +318,12 @@ public final class AppearanceEditorPanel extends ComponentEditorPanel {
             dirty = true;
         }
         ImGui.sameLine();
-        boolean expanded = EditorUi.collapsibleHeader(
+        boolean expanded = host.drawComponentSectionHeader(
             "presentation_item_name",
             tr("appearance.item_name"),
-            host.componentSectionStartsExpanded(DataComponents.ITEM_NAME),
+            DataComponents.ITEM_NAME,
             reveal
         );
-        host.drawDiamondFireComponentHint(DataComponents.ITEM_NAME);
         if (!expanded) {
             EditorUi.endCard();
             return;

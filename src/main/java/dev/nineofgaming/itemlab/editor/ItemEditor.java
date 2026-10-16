@@ -58,6 +58,7 @@ import dev.nineofgaming.itemlab.editor.ui.control.FieldHints;
 import dev.nineofgaming.itemlab.editor.ui.preview.EquipmentPreviewBase;
 import dev.nineofgaming.itemlab.editor.ui.text.EditorContentFont;
 import dev.nineofgaming.itemlab.editor.ui.EditorIcons;
+import dev.nineofgaming.itemlab.editor.ui.EditorUi;
 import dev.nineofgaming.itemlab.editor.ui.control.EditorShortcutPolicy;
 import dev.nineofgaming.itemlab.editor.ui.ItemEditorTheme;
 import dev.nineofgaming.itemlab.editor.ui.preview.ItemModelPreviewMode;
@@ -75,6 +76,7 @@ import imgui.flag.ImGuiCond;
 import imgui.flag.ImGuiConfigFlags;
 import imgui.flag.ImGuiHoveredFlags;
 import imgui.flag.ImGuiKey;
+import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiTableColumnFlags;
 import imgui.flag.ImGuiTableFlags;
 import imgui.flag.ImGuiTabBarFlags;
@@ -1695,13 +1697,64 @@ public final class ItemEditor {
      * Draws the same compact support hint used by the component browser.
      */
     public void drawDiamondFireComponentHint(DataComponentType<?> type) {
-        if (!diamondFireActive || drawingInlineComponentEditor) return;
-        Identifier identifier = BuiltInRegistries.DATA_COMPONENT_TYPE.getKey(type);
-        if (identifier == null) return;
-        DiamondFireComponentSupport.Support support =
-            DiamondFireComponentSupport.forComponent(identifier.toString(), type);
-        sameLineIfFits(support.badge());
+        DiamondFireComponentSupport.Support support = diamondFireComponentHint(type);
+        if (support == null) return;
+        sameLineIfFits(ImGui.calcTextSizeX(support.badge()));
         drawDiamondFireSupportBadge(support);
+    }
+
+    private DiamondFireComponentSupport.Support diamondFireComponentHint(DataComponentType<?> type) {
+        if (!diamondFireActive || drawingInlineComponentEditor) return null;
+        Identifier identifier = BuiltInRegistries.DATA_COMPONENT_TYPE.getKey(type);
+        return identifier == null ? null : DiamondFireComponentSupport.forComponent(identifier.toString(), type);
+    }
+
+    /**
+     * Reserves room for support beside a collapsible title, even while its section is closed.
+     */
+    public boolean drawComponentSectionHeader(String id, String title, DataComponentType<?> type, boolean revealForFocus) {
+        DiamondFireComponentSupport.Support support = diamondFireComponentHint(type);
+        boolean initiallyExpanded = componentSectionStartsExpanded(type);
+        // Match the checkbox's baseline when this header follows a presence control.
+        ImGui.pushStyleVar(ImGuiStyleVar.CellPadding, ImGui.getStyle().getCellPaddingX(), 0.0f);
+        try {
+            if (!ImGui.beginTable(
+                id + "_component_header",
+                support == null ? 1 : 2,
+                ImGuiTableFlags.SizingStretchProp | ImGuiTableFlags.NoPadOuterX
+            )) {
+                return EditorUi.collapsibleHeader(id, title, initiallyExpanded, revealForFocus);
+            }
+            ImGui.tableSetupColumn("Component", ImGuiTableColumnFlags.WidthStretch);
+            if (support != null) {
+                ImGui.tableSetupColumn("DF", ImGuiTableColumnFlags.WidthFixed, ImGui.calcTextSizeX(support.badge()));
+            }
+            ImGui.tableNextColumn();
+            boolean expanded = EditorUi.collapsibleHeader(id, title, initiallyExpanded, revealForFocus);
+            if (support != null) {
+                ImGui.tableNextColumn();
+                ImGui.alignTextToFramePadding();
+                drawDiamondFireSupportBadge(support);
+            }
+            ImGui.endTable();
+            return expanded;
+        } finally {
+            ImGui.popStyleVar();
+        }
+    }
+
+    /**
+     * Begins a component card with an always-visible title and compatibility badge.
+     */
+    public boolean beginComponentCard(String id, String title, DataComponentType<?> type, boolean revealForFocus) {
+        if (!EditorUi.beginCard(id, 1, ImGuiTableFlags.SizingStretchProp, revealForFocus)) return false;
+        ImGui.tableNextColumn();
+        if (!drawComponentSectionHeader(id, title, type, revealForFocus)) {
+            EditorUi.endCard();
+            return false;
+        }
+        ImGui.spacing();
+        return true;
     }
 
     private static String ellipsize(String text, float maxWidth) {

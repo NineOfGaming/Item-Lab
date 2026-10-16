@@ -566,13 +566,12 @@ public final class ContainerEditorPanel extends ComponentEditorPanel {
             dirty = true;
         }
         ImGui.sameLine();
-        boolean expanded = EditorUi.collapsibleHeader(
+        boolean expanded = host.drawComponentSectionHeader(
             "container_section_contents",
             tr("panel.container.section.contents.title"),
-            host.componentSectionStartsExpanded(DataComponents.CONTAINER),
+            DataComponents.CONTAINER,
             reveal
         );
-        host.drawDiamondFireComponentHint(DataComponents.CONTAINER);
         if (!expanded) {
             EditorUi.endCard();
             return;
@@ -649,13 +648,12 @@ public final class ContainerEditorPanel extends ComponentEditorPanel {
             dirty = true;
         }
         ImGui.sameLine();
-        boolean expanded = EditorUi.collapsibleHeader(
+        boolean expanded = host.drawComponentSectionHeader(
             "container_section_bundle_contents",
             tr("panel.container.section.bundle_contents.title"),
-            host.componentSectionStartsExpanded(DataComponents.BUNDLE_CONTENTS),
+            DataComponents.BUNDLE_CONTENTS,
             reveal
         );
-        host.drawDiamondFireComponentHint(DataComponents.BUNDLE_CONTENTS);
         if (!expanded) {
             EditorUi.endCard();
             return;

@@ -181,11 +181,10 @@ public final class MapEditorPanel extends ComponentEditorPanel {
     }
 
     private void drawMapId() {
-        if (!EditorUi.beginCollapsibleCard(
+        if (!host.beginComponentCard(
             "map_id",
             tr("map.id"),
-            ImGuiTableFlags.SizingStretchProp,
-            host.componentSectionStartsExpanded(DataComponents.MAP_ID),
+            DataComponents.MAP_ID,
             hasPendingSectionFocus("map_id")
         )) return;
         ImBoolean enabled = new ImBoolean(mapIdPresent);
@@ -206,11 +205,10 @@ public final class MapEditorPanel extends ComponentEditorPanel {
     }
 
     private void drawMapColor() {
-        if (!EditorUi.beginCollapsibleCard(
+        if (!host.beginComponentCard(
             "map_color",
             tr("map.color"),
-            ImGuiTableFlags.SizingStretchProp,
-            host.componentSectionStartsExpanded(DataComponents.MAP_COLOR),
+            DataComponents.MAP_COLOR,
             hasPendingSectionFocus("map_color")
         )) return;
         applyPendingFieldFocus("map_color", "$enabled");
@@ -227,11 +225,10 @@ public final class MapEditorPanel extends ComponentEditorPanel {
     }
 
     private void drawDecorations(Minecraft client) {
-        if (!EditorUi.beginCollapsibleCard(
+        if (!host.beginComponentCard(
             "map_decorations",
             tr("map.decorations"),
-            ImGuiTableFlags.SizingStretchProp,
-            host.componentSectionStartsExpanded(DataComponents.MAP_DECORATIONS),
+            DataComponents.MAP_DECORATIONS,
             hasPendingSectionFocus("map_decorations")
         )) return;
         applyPendingFieldFocus("map_decorations", "$enabled");

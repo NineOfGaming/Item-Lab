@@ -156,11 +156,10 @@ public final class DecoratedPotEditorPanel extends ComponentEditorPanel {
     }
 
     private void drawSides() {
-        if (!EditorUi.beginCollapsibleCard(
+        if (!host.beginComponentCard(
             "decorated_pot_sides",
             tr("decorated_pot.sides"),
-            ImGuiTableFlags.SizingStretchProp,
-            host.componentSectionStartsExpanded(DataComponents.POT_DECORATIONS),
+            DataComponents.POT_DECORATIONS,
             hasPendingSectionFocus("pot_decorations")
         )) return;
         applyPendingFieldFocus("pot_decorations", "$enabled");

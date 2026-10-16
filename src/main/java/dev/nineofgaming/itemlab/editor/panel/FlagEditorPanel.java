@@ -294,11 +294,10 @@ public final class FlagEditorPanel implements PendingStackEditor {
     }
 
     private void drawTooltipVisibilityCard() {
-        if (!EditorUi.beginCollapsibleCard(
+        if (!host.beginComponentCard(
             "flags_tooltip_visibility",
             tr("flags.tooltip_visibility"),
-            ImGuiTableFlags.SizingStretchProp,
-            host.componentSectionStartsExpanded(DataComponents.TOOLTIP_DISPLAY),
+            DataComponents.TOOLTIP_DISPLAY,
             focusTooltipVisibilityControl
         )) return;
         tooltipDirty |= drawTooltipVisibility();
@@ -346,7 +345,6 @@ public final class FlagEditorPanel implements PendingStackEditor {
     }
 
     private boolean drawTooltipVisibility() {
-        host.drawDiamondFireComponentHint(DataComponents.TOOLTIP_DISPLAY);
         if (focusTooltipVisibilityControl) {
             ImGui.setKeyboardFocusHere();
             focusTooltipVisibilityControl = false;

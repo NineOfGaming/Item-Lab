@@ -608,7 +608,6 @@ public final class CombatEditorPanel extends ComponentEditorPanel {
             ),
             hasPendingSectionFocus("minimum_charge") || hasPendingSectionFocus("damage_type") || hasPendingSectionFocus("swing")
         )) return;
-        host.drawDiamondFireComponentHint(DataComponents.MINIMUM_ATTACK_CHARGE);
         if (beginFields("combat_behavior_fields")) {
             presenceField("minimum_charge", tr("combat.attack.minimum_charge"), tr("combat.attack.minimum_charge.help"), minimumCharge);
             if (minimumCharge.present()) {
@@ -1651,6 +1650,7 @@ public final class CombatEditorPanel extends ComponentEditorPanel {
         if (ImGui.isItemHovered() && !description.isBlank()) {
             EditorUi.setTooltip(description);
         }
+        host.drawDiamondFireComponentHint(state.type());
         ImGui.tableNextColumn();
         ImBoolean enabled = new ImBoolean(state.present());
         applyPendingFieldFocus(section, "$enabled");

@@ -109,13 +109,12 @@ public final class SulfurCubeContentEditorPanel extends ComponentEditorPanel {
             dirty = true;
         }
         ImGui.sameLine();
-        boolean expanded = EditorUi.collapsibleHeader(
+        boolean expanded = host.drawComponentSectionHeader(
             "sulfur_cube_content_section",
             tr("panel.sulfur_cube_content.section.content.title"),
-            host.componentSectionStartsExpanded(SulfurCubeContentDraft.componentType()),
+            SulfurCubeContentDraft.componentType(),
             revealForFocus
         );
-        host.drawDiamondFireComponentHint(SulfurCubeContentDraft.componentType());
         if (!expanded) {
             EditorUi.endCard();
             return;

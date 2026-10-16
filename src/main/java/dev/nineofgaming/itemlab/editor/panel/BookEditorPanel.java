@@ -11,6 +11,7 @@ import dev.nineofgaming.itemlab.editor.ui.text.RichTextLine;
 import dev.nineofgaming.itemlab.editor.ui.text.TextInputFormat;
 import dev.nineofgaming.itemlab.editor.ui.text.TextFormatUi;
 import imgui.ImGui;
+import imgui.flag.ImGuiTableColumnFlags;
 import imgui.flag.ImGuiTableFlags;
 import imgui.type.ImBoolean;
 import imgui.type.ImInt;
@@ -214,7 +215,44 @@ public final class BookEditorPanel extends ComponentEditorPanel {
         ImGui.spacing();
         boolean componentOnly = componentType != null;
         boolean currentDirty = componentOnly ? isComponentDirty(componentType) : isDirty();
-        boolean openTextFormat;
+        boolean openTextFormat = false;
+        if (ImGui.beginTable(
+            "book_toolbar",
+            2,
+            ImGuiTableFlags.SizingStretchProp | ImGuiTableFlags.NoPadOuterX
+        )) {
+            ImGui.tableSetupColumn("Actions", ImGuiTableColumnFlags.WidthStretch);
+            ImGui.tableSetupColumn("Formatting", ImGuiTableColumnFlags.WidthFixed, TextFormatUi.buttonWidth(textFormat));
+            ImGui.tableNextColumn();
+            drawToolbarActions(client, componentType, currentDirty);
+            ImGui.tableNextColumn();
+            openTextFormat = TextFormatUi.button("book_text_format", textFormat, null);
+            ImGui.endTable();
+        }
+        if (openTextFormat) {
+            ImGui.openPopup("book_text_format_popup");
+        }
+
+        EditorUi.beginScrollableChild("book_editor", 0.0f, Math.max(1.0f, ImGui.getContentRegionAvailY()), false);
+        try {
+            ItemStack preview = previewStack(componentType);
+            host.setItemIconPreview(preview);
+            host.drawTooltipPreview(client, preview, "book_metadata");
+            ImGui.spacing();
+            EditorUi.drawPreviewFormSplit(
+                "book_workspace",
+                300.0f,
+                () -> drawPagePreview(preview),
+                () -> drawDocumentEditor(client, !componentOnly)
+            );
+        } finally {
+            ImGui.endChild();
+        }
+        drawTextFormatPopup();
+    }
+
+    private void drawToolbarActions(Minecraft client, DataComponentType<?> componentType, boolean currentDirty) {
+        boolean componentOnly = componentType != null;
         EditorUi.drawSaveDiscardActions(
             currentDirty,
             () -> {
@@ -250,30 +288,6 @@ public final class BookEditorPanel extends ComponentEditorPanel {
                 updateDirty();
             }
         }
-
-        EditorUi.sameLineIfFits(TextFormatUi.buttonWidth(textFormat));
-        openTextFormat = TextFormatUi.button("book_text_format", textFormat, null);
-        host.drawDiamondFireComponentHint(activeContentType());
-        if (openTextFormat) {
-            ImGui.openPopup("book_text_format_popup");
-        }
-
-        EditorUi.beginScrollableChild("book_editor", 0.0f, Math.max(1.0f, ImGui.getContentRegionAvailY()), false);
-        try {
-            ItemStack preview = previewStack(componentType);
-            host.setItemIconPreview(preview);
-            host.drawTooltipPreview(client, preview, "book_metadata");
-            ImGui.spacing();
-            EditorUi.drawPreviewFormSplit(
-                "book_workspace",
-                300.0f,
-                () -> drawPagePreview(preview),
-                () -> drawDocumentEditor(client, !componentOnly)
-            );
-        } finally {
-            ImGui.endChild();
-        }
-        drawTextFormatPopup();
     }
 
     private void drawPagePreview(ItemStack preview) {
@@ -283,6 +297,12 @@ public final class BookEditorPanel extends ComponentEditorPanel {
 
     private void drawDocumentEditor(Minecraft client, boolean fullTab) {
         if (fullTab) drawBookTypeSelector(client);
+        else {
+            ImGui.text(tr(viewingWritten() ? "book.type.signed" : "book.type.writable"));
+            host.drawDiamondFireComponentHint(activeContentType());
+            ImGui.separator();
+            ImGui.spacing();
+        }
         if (viewingWritten()) drawWrittenMetadata();
         if (pageCount() == 0) {
             drawAddPageButton("empty", true);
@@ -348,6 +368,7 @@ public final class BookEditorPanel extends ComponentEditorPanel {
 
     private void drawBookTypeSelector(Minecraft client) {
         ImGui.text(tr("book.type"));
+        host.drawDiamondFireComponentHint(activeContentType());
         boolean writable = !showWritten;
         if (writable) ItemEditorTheme.pushActiveFilter();
         if (ImGui.button(tr("book.type.writable") + "##book_type_writable")) {

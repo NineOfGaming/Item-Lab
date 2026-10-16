@@ -163,13 +163,12 @@ public final class BeesEditorPanel extends ComponentEditorPanel {
             dirty = true;
         }
         ImGui.sameLine();
-        boolean expanded = EditorUi.collapsibleHeader(
+        boolean expanded = host.drawComponentSectionHeader(
             "bees_section",
             tr("panel.bees.section.occupants.title"),
-            host.componentSectionStartsExpanded(DataComponents.BEES),
+            DataComponents.BEES,
             revealForFocus
         );
-        host.drawDiamondFireComponentHint(DataComponents.BEES);
         if (!expanded) {
             EditorUi.endCard();
             return false;

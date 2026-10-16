@@ -225,11 +225,10 @@ public final class BannerEditorPanel extends ComponentEditorPanel {
     }
 
     private void drawBaseColor() {
-        if (!EditorUi.beginCollapsibleCard(
+        if (!host.beginComponentCard(
             "banner_base_color",
             tr("banner.base_color"),
-            ImGuiTableFlags.SizingStretchProp,
-            host.componentSectionStartsExpanded(DataComponents.BASE_COLOR),
+            DataComponents.BASE_COLOR,
             hasPendingSectionFocus("base_color")
         )) return;
         applyPendingFieldFocus("base_color", "$enabled");
@@ -242,11 +241,10 @@ public final class BannerEditorPanel extends ComponentEditorPanel {
     }
 
     private void drawPatterns(Minecraft client) {
-        if (!EditorUi.beginCollapsibleCard(
+        if (!host.beginComponentCard(
             "banner_patterns",
             tr("banner.patterns"),
-            ImGuiTableFlags.SizingStretchProp,
-            host.componentSectionStartsExpanded(DataComponents.BANNER_PATTERNS),
+            DataComponents.BANNER_PATTERNS,
             hasPendingSectionFocus("patterns")
         )) return;
         applyPendingFieldFocus("patterns", "$enabled");

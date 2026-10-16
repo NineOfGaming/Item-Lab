@@ -195,14 +195,13 @@ abstract class ComponentEditorPanel implements PendingStackEditor {
             dirty = true;
         }
         ImGui.sameLine();
-        boolean expanded = EditorUi.collapsibleHeader(
+        boolean expanded = host.drawComponentSectionHeader(
             scope + "_section_" + id,
             title,
-            host.componentSectionStartsExpanded(state.type()),
+            state.type(),
             reveal
         );
         revealPendingSection = false;
-        host.drawDiamondFireComponentHint(state.type());
         if (!expanded) {
             EditorUi.endCard();
             return false;
