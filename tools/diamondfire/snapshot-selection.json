@@ -1,9 +1,9 @@
 {
   "repository": "https://github.com/NineOfGaming/df-info",
-  "branch": "8.13",
-  "commit": "6200915ba2ba333d3968b806e342c5f537eaec82",
+  "branch": "8.14",
+  "commit": "a45bcf68360edf4004bbd24e907e5ec3629c6edb",
   "dump": "actiondump/actiondump_minimessage.json",
-  "previous_commit": "2bab3e59bcaa3d06f2d357c3de9b3c3cec91373d",
+  "previous_commit": "6200915ba2ba333d3968b806e342c5f537eaec82",
   "display_names": [
     "Add Item Attribute", "Get Item Attribute", "Remove Item Attributes", "Clear Item Attributes",
     "Set Item Break Sound", "Get Item Break Sound", "Set Bundle Contents", "Get Bundle Contents",
@@ -21,6 +21,7 @@
     "Set Head Texture", "Get Head Owner", "Set Item Rarity", "Get Item Rarity", "Set Tool Properties", "Add Tool Mining Rule",
     "Set Item Hidden Components", "Set Tooltip Visible", "Set Item Visibility Flags", "Item Tooltip Is Visible",
     "Set Item Tooltip Style", "Get Item Tooltip Style", "Set Armor Trim", "Set Item Breakability",
-    "Set Item Use Leftover", "Get Item Use Leftover", "Set Weapon Properties", "Get Weapon Property", "Set Book Text", "Get Book Text"
+    "Set Item Use Leftover", "Get Item Use Leftover", "Set Weapon Properties", "Get Weapon Property", "Set Book Text", "Get Book Text",
+    "Set Book Title", "Get Book Title", "Set Book Author", "Get Book Author", "Set Book Generation", "Get Book Generation", "Set Book Signed"
   ]
 }

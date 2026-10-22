@@ -1,6 +1,13 @@
 {
   "schema_version": 1,
-  "scope": "Reviewed field relationships and uncertainty for the pinned 8.13 item-action mappings. DF+ means exposed fields; it does not promise arbitrary values or server retention. Unverified representations and item restrictions remain explicit.",
+  "scope": "Reviewed field relationships and uncertainty for the pinned 8.14 item-action mappings. DF+ means exposed fields; it does not promise arbitrary values or server retention. Unverified representations and item restrictions remain explicit.",
+  "patch_review": {
+    "date": "2026-10-22",
+    "commit": "a45bcf68360edf4004bbd24e907e5ec3629c6edb",
+    "previous_commit": "6200915ba2ba333d3968b806e342c5f537eaec82",
+    "method": "Compared normalized item actions and reviewed all newly added actions against the 8.13 export. Existing field evidence still matches; book metadata setters/getters add title, author, and generation coverage.",
+    "signing": "SetBookSigned exposes a Sign toggle for book signedness, not a resolved-state or filtered-text input. It is retained in the action snapshot without treating it as coverage of those component fields."
+  },
   "interface_review": {
     "date": "2026-10-09",
     "method": "Complete pinned action signatures and canonical value schemas",
@@ -378,15 +385,15 @@
     },
     {
       "id":"minecraft:written_book_content", "badge":"DFP",
-      "limitation":"Book actions edit pages, not title, author, generation, or resolved state.",
-      "rationale":"The complete current book setter/getter expose page text and a page-number/all-pages choice, with no title, author, generation, resolved, or raw/filtered controls. Known page-action coverage and absent metadata inputs justify partial support. This does not claim those metadata fields are removed or rejected, or that a signed-book test was performed.",
+      "limitation":"Book actions expose pages, title, author, and generation, without filtered-text or resolved-state controls.",
+      "rationale":"DiamondFire 8.14 adds dedicated title, author, and generation setters/getters alongside the existing page actions. Their complete signatures expose those fields but no filtered-text selector or resolved-state input. SetBookSigned controls signedness, not the component's resolved flag. These remaining input boundaries justify partial support without claiming server rejection, passive retention, or a new live test.",
       "fields":[
         {"path":"pages[].raw","sources":[{"action":"SetBookText","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/3/type","expected":"COMPONENT"},{"action":" GetBookText ","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/type","expected":"COMPONENT"}]},
         {"path":"pages[].filtered","sources":[],"uncertainty":"No filtered-page selector established."},
-        {"path":"title.raw","sources":[],"uncertainty":"No book-title input established."},
+        {"path":"title.raw","sources":[{"action":"SetBookTitle","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/description/0","expected":"Title"},{"action":"GetBookTitle","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/description/0","expected":"Title"}]},
         {"path":"title.filtered","sources":[],"uncertainty":"No filtered-title input established."},
-        {"path":"author","sources":[],"uncertainty":"No author input established."},
-        {"path":"generation","sources":[],"uncertainty":"No generation input established."},
+        {"path":"author","sources":[{"action":"SetBookAuthor","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/description/0","expected":"Author"},{"action":"GetBookAuthor","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/description/0","expected":"Author"}]},
+        {"path":"generation","sources":[{"action":"SetBookGen","codeblock":"SET VARIABLE","operation":"write","path":"/tags/0/name","expected":"Book Generation"},{"action":"GetBookGen","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/description/0","expected":"Generation"}]},
         {"path":"resolved","sources":[],"uncertainty":"No resolved-state input established."}
       ]
     },

@@ -75,12 +75,21 @@ class SnapshotTests(unittest.TestCase):
             generator.normalize_actions(self.current, ["Set Item Glowing", "Set Item Glowing"])
 
     def test_current_patch_is_required_and_prior_unknown_is_explicit(self):
-        raw = generator.encode(self.previous).encode()
+        raw = generator.encode({"actions": self.previous["actions"]}).encode()
         with self.assertRaisesRegex(ValueError, "versions.patch"):
             generator.fixture_snapshot(raw, self.selection, self.selection["commit"])
         prior = generator.fixture_snapshot(raw, self.selection, self.selection["previous_commit"], previous=True)
         self.assertIsNone(prior["provenance"]["patch"])
         self.assertIn("unknown", prior["provenance"]["patch_source"])
+
+    def test_previous_export_preserves_declared_patch_and_allows_new_actions_to_be_absent(self):
+        raw = generator.encode({"versions": {"patch": "8.13"}, "actions": self.previous["actions"]}).encode()
+        selection = copy.deepcopy(self.selection)
+        selection["display_names"].append("Future Item Action")
+        prior = generator.fixture_snapshot(raw, selection, selection["previous_commit"], previous=True)
+        self.assertEqual(prior["provenance"]["patch"], "8.13")
+        self.assertEqual(prior["provenance"]["patch_source"], "versions.patch")
+        self.assertEqual(prior["actions"], self.previous["actions"])
 
     def test_unused_and_volatile_fields_are_omitted(self):
         dump = copy.deepcopy(self.current)

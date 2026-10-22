@@ -319,14 +319,20 @@
     {
       "actions": [
         "SET VARIABLE/SetBookText",
-        "SET VARIABLE/ GetBookText "
+        "SET VARIABLE/ GetBookText ",
+        "SET VARIABLE/SetBookTitle",
+        "SET VARIABLE/GetBookTitle",
+        "SET VARIABLE/SetBookAuthor",
+        "SET VARIABLE/GetBookAuthor",
+        "SET VARIABLE/SetBookGen",
+        "SET VARIABLE/GetBookGen"
       ],
       "badge": "DFP",
       "id": "minecraft:written_book_content",
-      "limitation": "Book actions edit pages, not title, author, generation, or resolved state."
+      "limitation": "Book actions expose pages, title, author, and generation, without filtered-text or resolved-state controls."
     }
   ],
-  "evidence_commit": "6200915ba2ba333d3968b806e342c5f537eaec82",
+  "evidence_commit": "a45bcf68360edf4004bbd24e907e5ec3629c6edb",
   "policy_source": "src/test/resources/diamondfire/component-evidence.json",
   "schema_version": 2
 }

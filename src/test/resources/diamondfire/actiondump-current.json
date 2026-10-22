@@ -889,7 +889,7 @@
           },
           {
             "description": [
-              "Gets list of all pages<!italic><gray>)"
+              "Gets list of all pages"
             ],
             "notes": [],
             "optional": false,
@@ -3198,7 +3198,7 @@
           },
           {
             "description": [
-              "Clears lore<!italic><gray>)"
+              "Clears lore"
             ],
             "notes": [],
             "optional": false,
@@ -4474,6 +4474,100 @@
             "optional": false,
             "plural": false,
             "type": "ITEM"
+          }
+        ],
+        "deprecatedNote": [],
+        "description": [
+          "Gets a book's author."
+        ],
+        "material": "INK_SAC",
+        "name": "<!italic><aqua>Get Book Author",
+        "returnValues": [
+          {
+            "description": [
+              "Author"
+            ],
+            "type": "TEXT"
+          }
+        ],
+        "worksWith": []
+      },
+      "name": "GetBookAuthor",
+      "tags": []
+    },
+    {
+      "aliases": [],
+      "codeblockName": "SET VARIABLE",
+      "icon": {
+        "additionalInfo": [
+          [
+            "Returns <!italic><red>0<!italic><gray> if the item doesn't have a generation."
+          ]
+        ],
+        "arguments": [
+          {
+            "description": [
+              "Variable to set"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "VARIABLE"
+          },
+          {
+            "description": [
+              "Book"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "ITEM"
+          }
+        ],
+        "deprecatedNote": [],
+        "description": [
+          "Gets a book's generation.",
+          "Can be <!italic><aqua>\"original<!italic><aqua>\"<!italic><gray>, <!italic><aqua>\"copy of original<!italic><aqua>\"<!italic><gray>, ",
+          "<!italic><aqua>\"copy of copy<!italic><aqua>\"<!italic><gray>, <!italic><aqua>\"tattered<!italic><aqua>\"<!italic><gray>, "
+        ],
+        "material": "FEATHER",
+        "name": "<!italic><aqua>Get Book Generation",
+        "returnValues": [
+          {
+            "description": [
+              "Generation"
+            ],
+            "type": "TEXT"
+          }
+        ],
+        "worksWith": []
+      },
+      "name": "GetBookGen",
+      "tags": []
+    },
+    {
+      "aliases": [],
+      "codeblockName": "SET VARIABLE",
+      "icon": {
+        "additionalInfo": [],
+        "arguments": [
+          {
+            "description": [
+              "Variable to set"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "VARIABLE"
+          },
+          {
+            "description": [
+              "Book"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "ITEM"
           },
           {
             "text": ""
@@ -4514,6 +4608,54 @@
         "text": []
       },
       "name": "GetBookText",
+      "tags": []
+    },
+    {
+      "aliases": [],
+      "codeblockName": "SET VARIABLE",
+      "icon": {
+        "additionalInfo": [
+          [
+            "Returns <!italic><red>0<!italic><gray> if the item doesn't have a title."
+          ]
+        ],
+        "arguments": [
+          {
+            "description": [
+              "Variable to set"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "VARIABLE"
+          },
+          {
+            "description": [
+              "Book"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "ITEM"
+          }
+        ],
+        "deprecatedNote": [],
+        "description": [
+          "Gets a book's title."
+        ],
+        "material": "KNOWLEDGE_BOOK",
+        "name": "<!italic><aqua>Get Book Title",
+        "returnValues": [
+          {
+            "description": [
+              "Title"
+            ],
+            "type": "TEXT"
+          }
+        ],
+        "worksWith": []
+      },
+      "name": "GetBookTitle",
       "tags": []
     },
     {
@@ -8208,6 +8350,227 @@
             "type": "ITEM"
           },
           {
+            "description": [
+              "Author"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "TEXT"
+          }
+        ],
+        "deprecatedNote": [],
+        "description": [
+          "Sets a book's author."
+        ],
+        "material": "INK_SAC",
+        "name": "<!italic><gold>Set Book Author",
+        "returnValues": [],
+        "worksWith": [
+          "Signed Books"
+        ]
+      },
+      "name": "SetBookAuthor",
+      "tags": []
+    },
+    {
+      "aliases": [],
+      "codeblockName": "SET VARIABLE",
+      "icon": {
+        "additionalInfo": [],
+        "arguments": [
+          {
+            "description": [
+              "Variable to set"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "VARIABLE"
+          },
+          {
+            "description": [
+              "Book to set generation of"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "ITEM"
+          }
+        ],
+        "deprecatedNote": [],
+        "description": [
+          "Sets a book's generation."
+        ],
+        "material": "FEATHER",
+        "name": "<!italic><gold>Set Book Generation",
+        "returnValues": [],
+        "worksWith": []
+      },
+      "name": "SetBookGen",
+      "tags": [
+        {
+          "defaultOption": "Original",
+          "name": "Book Generation",
+          "options": [
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "WRITABLE_BOOK",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Original"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "ENCHANTED_BOOK",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Copy of Original"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "BOOK",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Copy of a Copy"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "MAP",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Tattered"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "INK_SAC",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "None"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "aliases": [],
+      "codeblockName": "SET VARIABLE",
+      "icon": {
+        "additionalInfo": [],
+        "arguments": [
+          {
+            "description": [
+              "Variable to set"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "VARIABLE"
+          },
+          {
+            "description": [
+              "Book"
+            ],
+            "notes": [],
+            "optional": true,
+            "plural": false,
+            "type": "ITEM"
+          }
+        ],
+        "deprecatedNote": [],
+        "description": [
+          "Sets whether or not",
+          "a book is signed."
+        ],
+        "material": "WRITABLE_BOOK",
+        "name": "<!italic><gold>Set Book Signed",
+        "returnValues": [],
+        "worksWith": []
+      },
+      "name": "SetBookSigned",
+      "tags": [
+        {
+          "defaultOption": "Enable",
+          "name": "Sign",
+          "options": [
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "LIME_DYE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Enable"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "RED_DYE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Disable"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "aliases": [],
+      "codeblockName": "SET VARIABLE",
+      "icon": {
+        "additionalInfo": [],
+        "arguments": [
+          {
+            "description": [
+              "Variable to set"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "VARIABLE"
+          },
+          {
+            "description": [
+              "Book"
+            ],
+            "notes": [],
+            "optional": true,
+            "plural": false,
+            "type": "ITEM"
+          },
+          {
             "text": ""
           },
           {
@@ -8251,6 +8614,52 @@
         "worksWith": []
       },
       "name": "SetBookText",
+      "tags": []
+    },
+    {
+      "aliases": [],
+      "codeblockName": "SET VARIABLE",
+      "icon": {
+        "additionalInfo": [],
+        "arguments": [
+          {
+            "description": [
+              "Variable to set"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "VARIABLE"
+          },
+          {
+            "description": [
+              "Book"
+            ],
+            "notes": [],
+            "optional": true,
+            "plural": false,
+            "type": "ITEM"
+          },
+          {
+            "description": [
+              "Title"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "TEXT"
+          }
+        ],
+        "deprecatedNote": [],
+        "description": [
+          "Sets a book's title."
+        ],
+        "material": "KNOWLEDGE_BOOK",
+        "name": "<!italic><gold>Set Book Title",
+        "returnValues": [],
+        "worksWith": []
+      },
+      "name": "SetBookTitle",
       "tags": []
     },
     {
@@ -10854,11 +11263,11 @@
     }
   ],
   "provenance": {
-    "branch": "8.13",
-    "commit": "6200915ba2ba333d3968b806e342c5f537eaec82",
+    "branch": "8.14",
+    "commit": "a45bcf68360edf4004bbd24e907e5ec3629c6edb",
     "dump": "actiondump/actiondump_minimessage.json",
-    "dump_sha256": "2de504d7a0bbc4465886d1c433e567d10c87a1e4851f641c1e4b592a526dd924",
-    "patch": "8.13",
+    "dump_sha256": "0a598c11ce48f6ad2f4c7bacd231ee13b08bf5bcf6cbcb0bd84dd4cad94a8b5c",
+    "patch": "8.14",
     "patch_source": "versions.patch",
     "repository": "https://github.com/NineOfGaming/df-info"
   },

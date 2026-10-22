@@ -123,6 +123,24 @@
     {
       "aliases": [],
       "codeblock": "SET VARIABLE",
+      "display_name": "Get Book Author",
+      "id": "GetBookAuthor"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Book Generation",
+      "id": "GetBookGen"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Get Book Title",
+      "id": "GetBookTitle"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
       "display_name": "Get Item Break Sound",
       "id": "GetBreakSound"
     },
@@ -295,8 +313,32 @@
     {
       "aliases": [],
       "codeblock": "SET VARIABLE",
+      "display_name": "Set Book Author",
+      "id": "SetBookAuthor"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Book Generation",
+      "id": "SetBookGen"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Book Signed",
+      "id": "SetBookSigned"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
       "display_name": "Set Book Text",
       "id": "SetBookText"
+    },
+    {
+      "aliases": [],
+      "codeblock": "SET VARIABLE",
+      "display_name": "Set Book Title",
+      "id": "SetBookTitle"
     },
     {
       "aliases": [],
@@ -452,11 +494,11 @@
     }
   ],
   "provenance": {
-    "branch": "8.13",
-    "commit": "6200915ba2ba333d3968b806e342c5f537eaec82",
+    "branch": "8.14",
+    "commit": "a45bcf68360edf4004bbd24e907e5ec3629c6edb",
     "dump": "actiondump/actiondump_minimessage.json",
-    "dump_sha256": "2de504d7a0bbc4465886d1c433e567d10c87a1e4851f641c1e4b592a526dd924",
-    "patch": "8.13",
+    "dump_sha256": "0a598c11ce48f6ad2f4c7bacd231ee13b08bf5bcf6cbcb0bd84dd4cad94a8b5c",
+    "patch": "8.14",
     "patch_source": "versions.patch",
     "repository": "https://github.com/NineOfGaming/df-info"
   },

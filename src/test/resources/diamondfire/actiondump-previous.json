@@ -45,6 +45,826 @@
           },
           {
             "description": [
+              "Item"
+            ],
+            "notes": [],
+            "optional": true,
+            "plural": false,
+            "type": "ITEM"
+          },
+          {
+            "description": [
+              "Modifier Amount"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "NUMBER"
+          }
+        ],
+        "deprecatedNote": [],
+        "description": [
+          "Adds an attribute modifier to an",
+          "item, which is active in a certain",
+          "equipment slot."
+        ],
+        "material": "DIAMOND",
+        "name": "<!italic><gold>Add Item Attribute",
+        "returnValues": [],
+        "worksWith": []
+      },
+      "name": " AddItemAttribute ",
+      "tags": [
+        {
+          "defaultOption": "Air drag modifier",
+          "name": "Attribute",
+          "options": [
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "WIND_CHARGE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Air drag modifier"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>30.0<!italic><gray>"
+                ],
+                "material": "IRON_CHESTPLATE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Armor"
+            },
+            {
+              "aliases": [
+                "Armor Toughness"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>20.0<!italic><gray>"
+                ],
+                "material": "NETHERITE_CHESTPLATE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Armor toughness"
+            },
+            {
+              "aliases": [
+                "Attack Damage"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>2.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "IRON_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Attack damage"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>5.0<!italic><gray>"
+                ],
+                "material": "WOODEN_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Attack knockback"
+            },
+            {
+              "aliases": [
+                "Attack Speed"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>4.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "GOLDEN_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Attack speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SLIME_BALL",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Bounciness"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "BLAZE_POWDER",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Burning time"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>4.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>32.0<!italic><gray>"
+                ],
+                "material": "ENDER_EYE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Camera distance"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "TNT",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Explosion knockback resistance"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>100.0<!italic><gray>"
+                ],
+                "material": "HAY_BLOCK",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Fall damage multiplier"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.4<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "ELYTRA",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Flying speed"
+            },
+            {
+              "aliases": [
+                "Follow Range"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>32.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "COMPASS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Follow range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "ICE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Friction modifier"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.08<!italic><gray>",
+                  "Range: <!italic><red>-1.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "FEATHER",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Gravity"
+            },
+            {
+              "aliases": [
+                "Horse jump strength"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.42<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>32.0<!italic><gray>"
+                ],
+                "material": "RABBIT_FOOT",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Jump strength"
+            },
+            {
+              "aliases": [
+                "Knockback Resistance"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SHIELD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Knockback resistance"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>-1024.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "TURTLE_SCUTE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Luck"
+            },
+            {
+              "aliases": [
+                "Maximum absorption"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "HONEY_BOTTLE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Maximum absorption health"
+            },
+            {
+              "aliases": [
+                "Maximum Health"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>20.0<!italic><gray>",
+                  "Range: <!italic><red>1.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "GOLDEN_APPLE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Maximum health"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SOUL_SAND",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Movement efficiency"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>64.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>512.0<!italic><gray>"
+                ],
+                "material": "NAME_TAG",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Name tag distance"
+            },
+            {
+              "aliases": [
+                "Movement Speed",
+                "Movement speed"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.2<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "IRON_BOOTS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Walking speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "TURTLE_HELMET",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Oxygen bonus"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>3.0<!italic><gray>",
+                  "Range: <!italic><red>-1024.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "LEATHER_BOOTS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Safe fall distance"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0625<!italic><gray>-<!italic><red>16.0<!italic><gray>"
+                ],
+                "material": "ARMOR_STAND",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Scale"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.6<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>10.0<!italic><gray>"
+                ],
+                "material": "OAK_SLAB",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Step height"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "HEART_OF_THE_SEA",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Water movement efficiency"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>10.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "COMPASS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Tempt range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "DIAMOND_PICKAXE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Block break speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>4.5<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>64.0<!italic><gray>"
+                ],
+                "material": "GOLDEN_PICKAXE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Block interaction range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>3.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>64.0<!italic><gray>"
+                ],
+                "material": "GOLDEN_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Entity interaction range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "NETHERITE_PICKAXE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Mining efficiency"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.3<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SCULK_SENSOR",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Sneaking speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.2<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>20.0<!italic><gray>"
+                ],
+                "material": "PRISMARINE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Submerged mining speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "DIAMOND_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Sweeping damage ratio"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "ROTTEN_FLESH",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Zombie spawn reinforcements"
+            }
+          ]
+        },
+        {
+          "defaultOption": "Add number",
+          "name": "Operation",
+          "options": [
+            {
+              "aliases": [
+                "Add Number"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Increases the attribute value",
+                  "by the given amount.",
+                  "",
+                  "Equation: mod + (amount)"
+                ],
+                "material": "LIGHT_BLUE_DYE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Add number"
+            },
+            {
+              "aliases": [
+                "Add Percentage",
+                "Add Percentage to Base"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Increases the base attribute value",
+                  "by the given percentage.",
+                  "",
+                  "Equation: base * (100% + amount)"
+                ],
+                "material": "ORANGE_DYE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Add percentage to base"
+            },
+            {
+              "aliases": [
+                "Multiply Modifier by Percentage",
+                "Multiply Percentage"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Increases the attribute value",
+                  "by the given percentage",
+                  "",
+                  "Equation: mod * (100% + amount)"
+                ],
+                "material": "MAGENTA_DYE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Multiply modifier by percentage"
+            }
+          ]
+        },
+        {
+          "defaultOption": "Main hand",
+          "name": "Active Equipment Slot",
+          "options": [
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "FIREWORK_STAR",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Any"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "IRON_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Main hand"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "SHIELD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Off hand"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "RABBIT_FOOT",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Either hand"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "CHAINMAIL_HELMET",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Head"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "CHAINMAIL_CHESTPLATE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Chest"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "CHAINMAIL_LEGGINGS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Legs"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "CHAINMAIL_BOOTS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Feet"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "IRON_HORSE_ARMOR",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Body"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "SADDLE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Saddle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "aliases": [],
+      "codeblockName": "SET VARIABLE",
+      "icon": {
+        "additionalInfo": [],
+        "arguments": [
+          {
+            "description": [
+              "Variable to set"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "VARIABLE"
+          },
+          {
+            "description": [
               "Book"
             ],
             "notes": [],
@@ -105,6 +925,759 @@
       },
       "name": " GetBookText ",
       "tags": []
+    },
+    {
+      "aliases": [],
+      "codeblockName": "SET VARIABLE",
+      "icon": {
+        "additionalInfo": [],
+        "arguments": [
+          {
+            "description": [
+              "Variable to set"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "VARIABLE"
+          },
+          {
+            "description": [
+              "Item"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "ITEM"
+          }
+        ],
+        "deprecatedNote": [],
+        "description": [
+          "Get an attribute's",
+          "multiplier for a specific slot."
+        ],
+        "material": "DIAMOND",
+        "name": "<!italic><red>Get Item Attribute",
+        "returnValues": [
+          {
+            "description": [
+              "Multiplier of the",
+              "specified item attribute"
+            ],
+            "type": "NUMBER"
+          }
+        ],
+        "worksWith": []
+      },
+      "name": " GetItemAttribute ",
+      "tags": [
+        {
+          "defaultOption": "Air drag modifier",
+          "name": "Attribute",
+          "options": [
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "WIND_CHARGE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Air drag modifier"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>30.0<!italic><gray>"
+                ],
+                "material": "IRON_CHESTPLATE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Armor"
+            },
+            {
+              "aliases": [
+                "Armor Toughness"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>20.0<!italic><gray>"
+                ],
+                "material": "NETHERITE_CHESTPLATE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Armor toughness"
+            },
+            {
+              "aliases": [
+                "Attack Damage"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>2.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "IRON_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Attack damage"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>5.0<!italic><gray>"
+                ],
+                "material": "WOODEN_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Attack knockback"
+            },
+            {
+              "aliases": [
+                "Attack Speed"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>4.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "GOLDEN_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Attack speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SLIME_BALL",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Bounciness"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "BLAZE_POWDER",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Burning time"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>4.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>32.0<!italic><gray>"
+                ],
+                "material": "ENDER_EYE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Camera distance"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "TNT",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Explosion knockback resistance"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>100.0<!italic><gray>"
+                ],
+                "material": "HAY_BLOCK",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Fall damage multiplier"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.4<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "ELYTRA",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Flying speed"
+            },
+            {
+              "aliases": [
+                "Follow Range"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>32.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "COMPASS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Follow range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "ICE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Friction modifier"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.08<!italic><gray>",
+                  "Range: <!italic><red>-1.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "FEATHER",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Gravity"
+            },
+            {
+              "aliases": [
+                "Horse jump strength"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.42<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>32.0<!italic><gray>"
+                ],
+                "material": "RABBIT_FOOT",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Jump strength"
+            },
+            {
+              "aliases": [
+                "Knockback Resistance"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SHIELD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Knockback resistance"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>-1024.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "TURTLE_SCUTE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Luck"
+            },
+            {
+              "aliases": [
+                "Maximum absorption"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "HONEY_BOTTLE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Maximum absorption health"
+            },
+            {
+              "aliases": [
+                "Maximum Health"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>20.0<!italic><gray>",
+                  "Range: <!italic><red>1.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "GOLDEN_APPLE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Maximum health"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SOUL_SAND",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Movement efficiency"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>64.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>512.0<!italic><gray>"
+                ],
+                "material": "NAME_TAG",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Name tag distance"
+            },
+            {
+              "aliases": [
+                "Movement Speed",
+                "Movement speed"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.2<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "IRON_BOOTS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Walking speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "TURTLE_HELMET",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Oxygen bonus"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>3.0<!italic><gray>",
+                  "Range: <!italic><red>-1024.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "LEATHER_BOOTS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Safe fall distance"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0625<!italic><gray>-<!italic><red>16.0<!italic><gray>"
+                ],
+                "material": "ARMOR_STAND",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Scale"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.6<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>10.0<!italic><gray>"
+                ],
+                "material": "OAK_SLAB",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Step height"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "HEART_OF_THE_SEA",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Water movement efficiency"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>10.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "COMPASS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Tempt range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "DIAMOND_PICKAXE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Block break speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>4.5<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>64.0<!italic><gray>"
+                ],
+                "material": "GOLDEN_PICKAXE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Block interaction range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>3.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>64.0<!italic><gray>"
+                ],
+                "material": "GOLDEN_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Entity interaction range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "NETHERITE_PICKAXE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Mining efficiency"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.3<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SCULK_SENSOR",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Sneaking speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.2<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>20.0<!italic><gray>"
+                ],
+                "material": "PRISMARINE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Submerged mining speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "DIAMOND_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Sweeping damage ratio"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "ROTTEN_FLESH",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Zombie spawn reinforcements"
+            }
+          ]
+        },
+        {
+          "defaultOption": "Any",
+          "name": "Active Equipment Slot",
+          "options": [
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "FIREWORK_STAR",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Any"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "IRON_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Main hand"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "SHIELD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Off hand"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "RABBIT_FOOT",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Either hand"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "CHAINMAIL_HELMET",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Head"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "CHAINMAIL_CHESTPLATE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Chest"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "CHAINMAIL_LEGGINGS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Legs"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "CHAINMAIL_BOOTS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Feet"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "IRON_HORSE_ARMOR",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Body"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "SADDLE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Saddle"
+            }
+          ]
+        }
+      ]
     },
     {
       "aliases": [],
@@ -245,6 +1818,775 @@
       },
       "name": " GetItemName ",
       "tags": []
+    },
+    {
+      "aliases": [],
+      "codeblockName": "SET VARIABLE",
+      "icon": {
+        "additionalInfo": [],
+        "arguments": [
+          {
+            "description": [
+              "Variable to set"
+            ],
+            "notes": [],
+            "optional": false,
+            "plural": false,
+            "type": "VARIABLE"
+          },
+          {
+            "description": [
+              "Item"
+            ],
+            "notes": [],
+            "optional": true,
+            "plural": false,
+            "type": "ITEM"
+          }
+        ],
+        "deprecatedNote": [],
+        "description": [
+          "Removes all attributes from an",
+          "item with the given attribute type and slot."
+        ],
+        "material": "EMERALD",
+        "name": "<!italic><gold>Remove Item Attributes",
+        "returnValues": [],
+        "worksWith": []
+      },
+      "name": " RemoveItemAttrs ",
+      "tags": [
+        {
+          "defaultOption": "All",
+          "name": "Slot",
+          "options": [
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "NETHER_STAR",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "All"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "FIREWORK_STAR",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Any"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "IRON_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Main hand"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "SHIELD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Off hand"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "RABBIT_FOOT",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Either hand"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "CHAINMAIL_HELMET",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Head"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "CHAINMAIL_CHESTPLATE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Chest"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "CHAINMAIL_LEGGINGS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Legs"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "CHAINMAIL_BOOTS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Feet"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "IRON_HORSE_ARMOR",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Body"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "SADDLE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Saddle"
+            }
+          ]
+        },
+        {
+          "defaultOption": "All",
+          "name": "Attribute",
+          "options": [
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [],
+                "material": "NETHER_STAR",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "All"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "WIND_CHARGE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Air drag modifier"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>30.0<!italic><gray>"
+                ],
+                "material": "IRON_CHESTPLATE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Armor"
+            },
+            {
+              "aliases": [
+                "Armor Toughness"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>20.0<!italic><gray>"
+                ],
+                "material": "NETHERITE_CHESTPLATE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Armor toughness"
+            },
+            {
+              "aliases": [
+                "Attack Damage"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>2.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "IRON_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Attack damage"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>5.0<!italic><gray>"
+                ],
+                "material": "WOODEN_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Attack knockback"
+            },
+            {
+              "aliases": [
+                "Attack Speed"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>4.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "GOLDEN_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Attack speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SLIME_BALL",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Bounciness"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "BLAZE_POWDER",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Burning time"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>4.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>32.0<!italic><gray>"
+                ],
+                "material": "ENDER_EYE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Camera distance"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "TNT",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Explosion knockback resistance"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>100.0<!italic><gray>"
+                ],
+                "material": "HAY_BLOCK",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Fall damage multiplier"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.4<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "ELYTRA",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Flying speed"
+            },
+            {
+              "aliases": [
+                "Follow Range"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>32.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "COMPASS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Follow range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "ICE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Friction modifier"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.08<!italic><gray>",
+                  "Range: <!italic><red>-1.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "FEATHER",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Gravity"
+            },
+            {
+              "aliases": [
+                "Horse jump strength"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.42<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>32.0<!italic><gray>"
+                ],
+                "material": "RABBIT_FOOT",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Jump strength"
+            },
+            {
+              "aliases": [
+                "Knockback Resistance"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SHIELD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Knockback resistance"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>-1024.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "TURTLE_SCUTE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Luck"
+            },
+            {
+              "aliases": [
+                "Maximum absorption"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "HONEY_BOTTLE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Maximum absorption health"
+            },
+            {
+              "aliases": [
+                "Maximum Health"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>20.0<!italic><gray>",
+                  "Range: <!italic><red>1.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "GOLDEN_APPLE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Maximum health"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SOUL_SAND",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Movement efficiency"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>64.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>512.0<!italic><gray>"
+                ],
+                "material": "NAME_TAG",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Name tag distance"
+            },
+            {
+              "aliases": [
+                "Movement Speed",
+                "Movement speed"
+              ],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.2<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "IRON_BOOTS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Walking speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "TURTLE_HELMET",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Oxygen bonus"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>3.0<!italic><gray>",
+                  "Range: <!italic><red>-1024.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "LEATHER_BOOTS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Safe fall distance"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0625<!italic><gray>-<!italic><red>16.0<!italic><gray>"
+                ],
+                "material": "ARMOR_STAND",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Scale"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.6<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>10.0<!italic><gray>"
+                ],
+                "material": "OAK_SLAB",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Step height"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "HEART_OF_THE_SEA",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Water movement efficiency"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>10.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "COMPASS",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Tempt range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "DIAMOND_PICKAXE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Block break speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>4.5<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>64.0<!italic><gray>"
+                ],
+                "material": "GOLDEN_PICKAXE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Block interaction range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>3.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>64.0<!italic><gray>"
+                ],
+                "material": "GOLDEN_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Entity interaction range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1024.0<!italic><gray>"
+                ],
+                "material": "NETHERITE_PICKAXE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Mining efficiency"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.3<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SCULK_SENSOR",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Sneaking speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.2<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>20.0<!italic><gray>"
+                ],
+                "material": "PRISMARINE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Submerged mining speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "DIAMOND_SWORD",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Sweeping damage ratio"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "ROTTEN_FLESH",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Zombie spawn reinforcements"
+            }
+          ]
+        }
+      ]
     },
     {
       "aliases": [],
@@ -991,9 +3333,24 @@
       "name": "AddItemAttribute",
       "tags": [
         {
-          "defaultOption": "Armor",
+          "defaultOption": "Air drag modifier",
           "name": "Attribute",
           "options": [
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "WIND_CHARGE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Air drag modifier"
+            },
             {
               "aliases": [],
               "icon": {
@@ -1074,6 +3431,21 @@
                 "worksWith": []
               },
               "name": "Attack speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SLIME_BALL",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Bounciness"
             },
             {
               "aliases": [],
@@ -1166,6 +3538,21 @@
                 "worksWith": []
               },
               "name": "Follow range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "ICE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Friction modifier"
             },
             {
               "aliases": [],
@@ -1279,6 +3666,21 @@
                 "worksWith": []
               },
               "name": "Movement efficiency"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>64.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>512.0<!italic><gray>"
+                ],
+                "material": "NAME_TAG",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Name tag distance"
             },
             {
               "aliases": [
@@ -2609,9 +5011,24 @@
       "name": "GetItemAttribute",
       "tags": [
         {
-          "defaultOption": "Armor",
+          "defaultOption": "Air drag modifier",
           "name": "Attribute",
           "options": [
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "WIND_CHARGE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Air drag modifier"
+            },
             {
               "aliases": [],
               "icon": {
@@ -2692,6 +5109,21 @@
                 "worksWith": []
               },
               "name": "Attack speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SLIME_BALL",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Bounciness"
             },
             {
               "aliases": [],
@@ -2784,6 +5216,21 @@
                 "worksWith": []
               },
               "name": "Follow range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "ICE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Friction modifier"
             },
             {
               "aliases": [],
@@ -2897,6 +5344,21 @@
                 "worksWith": []
               },
               "name": "Movement efficiency"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>64.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>512.0<!italic><gray>"
+                ],
+                "material": "NAME_TAG",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Name tag distance"
             },
             {
               "aliases": [
@@ -4642,6 +7104,21 @@
                 "additionalInfo": [],
                 "deprecatedNote": [],
                 "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "WIND_CHARGE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Air drag modifier"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
                   "Base: <!italic><red>0.0<!italic><gray>",
                   "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>30.0<!italic><gray>"
                 ],
@@ -4716,6 +7193,21 @@
                 "worksWith": []
               },
               "name": "Attack speed"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>0.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>1.0<!italic><gray>"
+                ],
+                "material": "SLIME_BALL",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Bounciness"
             },
             {
               "aliases": [],
@@ -4808,6 +7300,21 @@
                 "worksWith": []
               },
               "name": "Follow range"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>1.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>2048.0<!italic><gray>"
+                ],
+                "material": "ICE",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Friction modifier"
             },
             {
               "aliases": [],
@@ -4921,6 +7428,21 @@
                 "worksWith": []
               },
               "name": "Movement efficiency"
+            },
+            {
+              "aliases": [],
+              "icon": {
+                "additionalInfo": [],
+                "deprecatedNote": [],
+                "description": [
+                  "Base: <!italic><red>64.0<!italic><gray>",
+                  "Range: <!italic><red>0.0<!italic><gray>-<!italic><red>512.0<!italic><gray>"
+                ],
+                "material": "NAME_TAG",
+                "name": "",
+                "worksWith": []
+              },
+              "name": "Name tag distance"
             },
             {
               "aliases": [
@@ -8333,11 +10855,11 @@
   ],
   "provenance": {
     "branch": null,
-    "commit": "2bab3e59bcaa3d06f2d357c3de9b3c3cec91373d",
+    "commit": "6200915ba2ba333d3968b806e342c5f537eaec82",
     "dump": "actiondump/actiondump_minimessage.json",
-    "dump_sha256": "3eb7d80f6007221df1153b2e2e5d80d0aacc62fb724320901d4ed33f98af902b",
-    "patch": null,
-    "patch_source": "absent in historical export; unknown",
+    "dump_sha256": "2de504d7a0bbc4465886d1c433e567d10c87a1e4851f641c1e4b592a526dd924",
+    "patch": "8.13",
+    "patch_source": "versions.patch",
     "repository": "https://github.com/NineOfGaming/df-info"
   },
   "schema_version": 1

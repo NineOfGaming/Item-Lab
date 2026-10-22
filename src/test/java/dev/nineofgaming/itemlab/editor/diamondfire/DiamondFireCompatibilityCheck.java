@@ -62,7 +62,13 @@ public final class DiamondFireCompatibilityCheck {
         JsonObject previous = readFixture("actiondump-previous.json");
         Map<String, JsonObject> currentActions = actions(current);
         require(actions(previous).containsKey("SET VARIABLE/SetItemGlowing"), "Prior fixture lost the glow action");
-        require(previous.getAsJsonObject("provenance").get("patch").isJsonNull(), "Do not invent a patch for the historical export");
+        JsonObject priorProvenance = previous.getAsJsonObject("provenance");
+        JsonElement priorPatch = priorProvenance.get("patch");
+        require(priorPatch.isJsonNull()
+                ? priorProvenance.get("patch_source").getAsString().equals("absent in historical export; unknown")
+                : !priorPatch.getAsString().isBlank()
+                    && priorProvenance.get("patch_source").getAsString().equals("versions.patch"),
+            "Historical patch metadata must preserve its declared version or explicit absence");
         verifyRuntimeActions(current, currentActions);
         JsonObject evidence = readFixture("component-evidence.json");
         verifyEvidence(evidence, currentActions);
