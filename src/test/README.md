@@ -29,6 +29,10 @@ It creates an isolated world under `.gradle/client-game-test-26.3`, opens and
 reopens the editor, checks its color attachment and visible frame composition,
 and exercises every item-model preview mode plus the equipment preview. Captures
 of the actual completed frames are saved in that directory's `screenshots` folder.
+It also verifies native SDL text-input activation, ASCII/Unicode insertion,
+Ctrl+A and Backspace, and input handoff to and from vanilla chat. Fabric's test
+harness blocks physical SDL events, so test payloads go through the SDL backend
+directly while the real native activation state and widget contents are checked.
 
 For a targeted run, prefix one of these tasks with `:26.1:`, `:26.2:`, or `:26.3:`:
 

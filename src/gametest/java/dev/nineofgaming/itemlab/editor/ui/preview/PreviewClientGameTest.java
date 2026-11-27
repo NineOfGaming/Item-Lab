@@ -5,12 +5,23 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.nineofgaming.itemlab.ItemLab;
 import dev.nineofgaming.itemlab.editor.ItemEditor;
 import foundry.imgui.impl.ImGuiMCImpl;
+import foundry.imgui.impl.ImGuiWindowHandlerSDL3;
 import imgui.ImGui;
+import imgui.type.ImString;
+import org.lwjgl.sdl.SDLKeyboard;
+import org.lwjgl.sdl.SDL_Event;
+import org.lwjgl.sdl.SDLEvents;
+import org.lwjgl.sdl.SDLKeycode;
+import org.lwjgl.sdl.SDLScancode;
+import org.lwjgl.sdl.SDLVideo;
+import org.lwjgl.system.MemoryStack;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContext;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Screenshot;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -59,6 +70,49 @@ public final class PreviewClientGameTest implements FabricClientGameTest {
             Path opened = captureFrame(context, "itemlab-editor-open");
             assertInterfaceVisible(closed, opened);
 
+            context.runOnClient(client -> write(editor(), "focusItemId", true));
+            context.waitTicks(3);
+            context.runOnClient(client -> {
+                ImGuiMCImpl.handler.start();
+                try {
+                    boolean wantsTextInput = ImGui.getIO().getWantTextInput();
+                    boolean textInputActive = SDLKeyboard.SDL_TextInputActive(client.getWindow().handle());
+                    if (!wantsTextInput) throw new AssertionError("Item ID field did not gain keyboard focus");
+                    if (!textInputActive) throw new AssertionError("Focused ImGui field has no native SDL text input");
+                } finally {
+                    ImGuiMCImpl.handler.stop();
+                }
+            });
+
+            pressKey(context, SDLKeycode.SDLK_A, SDLScancode.SDL_SCANCODE_A, SDLKeycode.SDL_KMOD_CTRL);
+            typeText(context, "minecraft:diamond");
+            assertItemId(context, "minecraft:diamond");
+            typeText(context, "\u00e4\u6f22");
+            assertItemId(context, "minecraft:diamond\u00e4\u6f22");
+            pressKey(context, SDLKeycode.SDLK_BACKSPACE, SDLScancode.SDL_SCANCODE_BACKSPACE, 0);
+            assertItemId(context, "minecraft:diamond\u00e4");
+
+            // A vanilla field may claim input before ImGui releases its old
+            // focus. Closing the overlay must not disable the new owner's input.
+            context.setScreen(() -> new ChatScreen("", false));
+            context.waitTicks(3);
+            typeText(context, "chat\u00e4\u6f22");
+            context.runOnClient(client -> {
+                EditBox input = (EditBox) read(client.gui.screen(), "input");
+                if (!input.getValue().equals("chat\u00e4\u6f22")) {
+                    throw new AssertionError("Vanilla chat lost text input after closing the editor");
+                }
+            });
+            context.setScreen(() -> null);
+            context.waitTicks(3);
+            context.runOnClient(client -> {
+                if (SDLKeyboard.SDL_TextInputActive(client.getWindow().handle())) {
+                    throw new AssertionError("Native text input remained enabled after both editors closed");
+                }
+                editor().toggle(client);
+            });
+            context.waitTicks(3);
+
             for (ItemModelPreviewMode mode : ItemModelPreviewMode.values()) {
                 context.runOnClient(client -> {
                     selectTab("PRESENTATION");
@@ -87,6 +141,51 @@ public final class PreviewClientGameTest implements FabricClientGameTest {
             context.waitTicks(10);
             context.runOnClient(client -> editor().toggle(client));
         }
+    }
+
+    private static void assertItemId(ClientGameTestContext context, String expected) {
+        context.runOnClient(client -> {
+            String actual = ((ImString) read(editor(), "itemId")).get();
+            if (!expected.equals(actual)) throw new AssertionError("Text input mismatch: expected " + expected + ", got " + actual);
+        });
+    }
+
+    private static void pressKey(ClientGameTestContext context, int key, int scancode, int modifiers) {
+        for (boolean down : new boolean[]{true, false}) {
+            context.runOnClient(client -> {
+                try (MemoryStack stack = MemoryStack.stackPush()) {
+                    SDL_Event event = SDL_Event.calloc(stack);
+                    event.key().type(down ? SDLEvents.SDL_EVENT_KEY_DOWN : SDLEvents.SDL_EVENT_KEY_UP)
+                        .windowID(SDLVideo.SDL_GetWindowID(client.getWindow().handle()))
+                        .key(key).scancode(scancode).mod((short) (down ? modifiers : 0)).down(down);
+                    dispatchSdlInput(event);
+                }
+            });
+            context.waitTicks(2);
+        }
+    }
+
+    private static void typeText(ClientGameTestContext context, String text) {
+        context.runOnClient(client -> {
+            if (!SDLKeyboard.SDL_TextInputActive(client.getWindow().handle())) {
+                throw new AssertionError("SDL text input is disabled for the focused field");
+            }
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                SDL_Event event = SDL_Event.calloc(stack);
+                event.text().type(SDLEvents.SDL_EVENT_TEXT_INPUT)
+                    .windowID(SDLVideo.SDL_GetWindowID(client.getWindow().handle())).text(stack.UTF8(text));
+                dispatchSdlInput(event);
+                if (client.gui.screen() != null) client.keyboardHandler.textInput(client.getWindow().handle(), text);
+            }
+        });
+        context.waitTicks(3);
+    }
+
+    private static void dispatchSdlInput(SDL_Event event) {
+        // Fabric client game tests cancel real SDL event handlers to isolate
+        // input. Feed the same SDL payload into ImGui's native backend instead.
+        ImGuiWindowHandlerSDL3 backend = (ImGuiWindowHandlerSDL3) ImGuiMCImpl.handler.getWindowHandler();
+        if (!backend.processEvent(event)) throw new AssertionError("SDL backend rejected the test input event");
     }
 
     // Fabric's takeScreenshot rerenders GameRenderer alone, excluding ImGui's

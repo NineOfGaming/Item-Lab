@@ -11,6 +11,36 @@ index 18e9d65..9927b05 100644
          *///? } else if >=26.2 {
          /*return new TextureTarget("ImGui", width, height, depth, com.mojang.blaze3d.GpuFormat.RGBA8_UNORM);
           *///? } else if >=1.21.5 {
+diff --git a/common/src/main/java/foundry/imgui/impl/ImGuiWindowHandlerSDL3.java b/common/src/main/java/foundry/imgui/impl/ImGuiWindowHandlerSDL3.java
+index a84fb9e..d5fe1d3 100644
+--- a/common/src/main/java/foundry/imgui/impl/ImGuiWindowHandlerSDL3.java
++++ b/common/src/main/java/foundry/imgui/impl/ImGuiWindowHandlerSDL3.java
+@@ -193,6 +193,7 @@ public final class ImGuiWindowHandlerSDL3 implements ImGuiWindowHandler {
+     @Override
+     public void shutdown() {
+         final ImGuiIO io = ImGui.getIO();
++        Minecraft.getInstance().textInputManager().stopTextInput(this);
+ 
+         // TODO: not ported — multi-viewport shutdown.
+ 
+@@ -265,6 +266,17 @@ public final class ImGuiWindowHandlerSDL3 implements ImGuiWindowHandler {
+ 
+         this.updateMouseData(io);
+         this.updateMouseCursor(io);
++        // SDL3 does not emit text events until text input is enabled. Use
++        // Minecraft's owner-aware manager so releasing ImGui focus cannot
++        // disable text input claimed by chat or another vanilla widget.
++        final var textInput = Minecraft.getInstance().textInputManager();
++        if (io.getWantTextInput()) {
++            if (!SDLKeyboard.SDL_TextInputActive(this.data.window)) {
++                textInput.startTextInput(this);
++            }
++        } else {
++            textInput.stopTextInput(this);
++        }
+         // TODO: not ported — IME update (UpdateIme) requires platform IO callback wiring.
+         this.updateGamepads(io);
+     }
 diff --git a/common/src/main/java/foundry/imgui/impl/renderer/v1/ImGuiRenderImplRenderSystem.java b/common/src/main/java/foundry/imgui/impl/renderer/v1/ImGuiRenderImplRenderSystem.java
 index b702557..fb9d412 100644
 --- a/common/src/main/java/foundry/imgui/impl/renderer/v1/ImGuiRenderImplRenderSystem.java

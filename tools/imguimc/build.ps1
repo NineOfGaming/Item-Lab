@@ -5,7 +5,7 @@ $projectRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $sourceDirectory = Join-Path $projectRoot '.gradle/imguimc-upstream'
 $repositoryDirectory = Join-Path $projectRoot '.gradle/imguimc-maven'
 $commit = 'ee1b528a1390f4de1ed80da00b759b62c90d8ec7'
-$version = '2.0.5-itemlab.ee1b528.2'
+$version = '2.0.5-itemlab.ee1b528.3'
 $patchPath = Join-Path $PSScriptRoot '26.3.patch'
 
 function Invoke-Git {
@@ -24,8 +24,12 @@ if (!(Test-Path -LiteralPath $sourceDirectory)) {
     }
 }
 
-$expectedPatch = (Get-Content -LiteralPath $patchPath -Raw).Replace("`r`n", "`n").Trim()
-$currentPatch = ((Invoke-Git -C $sourceDirectory diff HEAD --no-ext-diff --binary) -join "`n").Trim()
+$expectedPatch = (Get-Content -LiteralPath $patchPath -Raw -Encoding UTF8).Replace("`r`n", "`n").Trim()
+# Let Git write UTF-8 directly; Windows PowerShell's native-output decoder can
+# otherwise corrupt non-ASCII source comments before the patch comparison.
+$currentPatchPath = Join-Path $projectRoot '.gradle/imguimc-working.patch'
+Invoke-Git -C $sourceDirectory diff HEAD --no-ext-diff --binary "--output=$currentPatchPath"
+$currentPatch = ([string](Get-Content -LiteralPath $currentPatchPath -Raw -Encoding UTF8)).Replace("`r`n", "`n").Trim()
 if (!$currentPatch) {
     Invoke-Git -C $sourceDirectory apply -- $patchPath
 } elseif ($currentPatch -ne $expectedPatch) {
