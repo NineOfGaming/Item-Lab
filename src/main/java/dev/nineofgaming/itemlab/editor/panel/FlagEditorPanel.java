@@ -39,16 +39,11 @@ import static dev.nineofgaming.itemlab.editor.ui.control.EditorInput.inputTextWi
 public final class FlagEditorPanel implements PendingStackEditor {
     private static final int MAX_ITEM_COUNT = 99;
     private boolean focusPendingToolbar;
-    private boolean focusMaxStackSize;
 
     @Override
     public void requestPendingFocus() {
-        focusPendingToolbar = false;
-        focusMaxStackSize = overrideMaxDamage.get() && overrideMaxStackSize.get() && maxStackSize.get() > 1;
-        focusTooltipVisibilityControl = false;
-        if (focusMaxStackSize) return;
-        if (tooltipDirty) focusTooltipVisibilityControl = true;
-        else focusPendingToolbar = true;
+        focusTooltipVisibilityControl = tooltipDirty;
+        focusPendingToolbar = !tooltipDirty;
     }
 
     private static final Set<String> VANILLA_TOOLTIP_COMPONENT_IDS = Set.of(
@@ -241,8 +236,7 @@ public final class FlagEditorPanel implements PendingStackEditor {
                 DataComponents.MAX_DAMAGE,
                 DataComponents.DAMAGE,
                 DataComponents.REPAIR_COST
-            ),
-            focusMaxStackSize
+            )
         )) return;
 
         nonTooltipDirty |= ImGui.checkbox(tr("flags.override_stack_size"), overrideMaxStackSize);
@@ -250,10 +244,6 @@ public final class FlagEditorPanel implements PendingStackEditor {
         ImGui.beginDisabled(!overrideMaxStackSize.get());
         ImGui.text(tr("flags.maximum_stack_size"));
         ImGui.setNextItemWidth(-1.0f);
-        if (focusMaxStackSize) {
-            ImGui.setKeyboardFocusHere();
-            focusMaxStackSize = false;
-        }
         if (ImGui.inputInt("##maximum_stack_size", maxStackSize, 1, 8)) {
             maxStackSize.set(Math.clamp(maxStackSize.get(), 1, MAX_ITEM_COUNT));
             nonTooltipDirty = true;
@@ -271,17 +261,13 @@ public final class FlagEditorPanel implements PendingStackEditor {
         }
         ImGui.endDisabled();
 
-        int effectiveMaxDamage = overrideMaxDamage.get() ? maxDamage.get() : Math.max(0, host.draft().getMaxDamage());
-        ImGui.beginDisabled(effectiveMaxDamage == 0);
         ImGui.text(tr("flags.current_damage"));
         host.drawDiamondFireComponentHint(DataComponents.DAMAGE);
         ImGui.setNextItemWidth(-1.0f);
         if (ImGui.inputInt("##current_damage", damage, 1, 10)) {
-            damage.set(Math.clamp(damage.get(), 0, Math.max(0, effectiveMaxDamage)));
+            damage.set(Math.max(0, damage.get()));
             nonTooltipDirty = true;
         }
-        ImGui.endDisabled();
-
         ImGui.text(tr("flags.repair_cost"));
         host.drawDiamondFireComponentHint(DataComponents.REPAIR_COST);
         ImGui.setNextItemWidth(-1.0f);
@@ -486,12 +472,11 @@ public final class FlagEditorPanel implements PendingStackEditor {
 
     public void sync(ItemStack draft) {
         focusPendingToolbar = false;
-        focusMaxStackSize = false;
         overrideMaxStackSize.set(draft.hasNonDefault(DataComponents.MAX_STACK_SIZE));
         maxStackSize.set(Math.max(1, draft.getMaxStackSize()));
         overrideMaxDamage.set(draft.hasNonDefault(DataComponents.MAX_DAMAGE));
         maxDamage.set(Math.max(1, draft.getMaxDamage()));
-        damage.set(Math.max(0, draft.getDamageValue()));
+        damage.set(draft.getOrDefault(DataComponents.DAMAGE, 0));
         repairCost.set(Math.max(0, draft.getOrDefault(DataComponents.REPAIR_COST, 0)));
         unbreakable.set(draft.has(DataComponents.UNBREAKABLE));
         glider.set(draft.has(DataComponents.GLIDER));
@@ -514,7 +499,7 @@ public final class FlagEditorPanel implements PendingStackEditor {
             overrideMaxDamage.set(draft.hasNonDefault(DataComponents.MAX_DAMAGE));
             maxDamage.set(Math.max(1, draft.getMaxDamage()));
         } else if (type == DataComponents.DAMAGE) {
-            damage.set(Math.max(0, draft.getDamageValue()));
+            damage.set(draft.getOrDefault(DataComponents.DAMAGE, 0));
         } else if (type == DataComponents.REPAIR_COST) {
             repairCost.set(Math.max(0, draft.getOrDefault(DataComponents.REPAIR_COST, 0)));
         } else if (type == DataComponents.UNBREAKABLE) {
@@ -593,12 +578,6 @@ public final class FlagEditorPanel implements PendingStackEditor {
         }
         if (overrideMaxDamage.get()) {
             edited.set(DataComponents.MAX_DAMAGE, Math.max(1, maxDamage.get()));
-            if (edited.getMaxStackSize() > 1) {
-                if (overrideMaxStackSize.get()) {
-                    throw new IllegalArgumentException(tr("flags.validation.damageable_stack_size"));
-                }
-                edited.set(DataComponents.MAX_STACK_SIZE, 1);
-            }
         } else {
             ItemStackCodecs.resetComponentToPrototype(edited, DataComponents.MAX_DAMAGE);
         }
@@ -620,8 +599,9 @@ public final class FlagEditorPanel implements PendingStackEditor {
         }
         if (repairCost.get() == 0) edited.remove(DataComponents.REPAIR_COST);
         else edited.set(DataComponents.REPAIR_COST, Math.max(0, repairCost.get()));
-        if (edited.getMaxDamage() > 0) edited.setDamageValue(Math.clamp(damage.get(), 0, edited.getMaxDamage()));
-        else edited.remove(DataComponents.DAMAGE);
+        if (edited.has(DataComponents.DAMAGE) || edited.has(DataComponents.MAX_DAMAGE) || damage.get() > 0) {
+            edited.set(DataComponents.DAMAGE, Math.max(0, damage.get()));
+        }
 
         applyTooltipDisplay(edited);
 

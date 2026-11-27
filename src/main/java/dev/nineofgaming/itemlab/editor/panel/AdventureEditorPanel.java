@@ -89,19 +89,9 @@ public final class AdventureEditorPanel extends ComponentEditorPanel {
                 if (row.statePresent.get()) {
                     for (int index = 0; index < row.states.size(); index++) {
                         StateRow state = row.states.get(index);
-                        String field = null;
-                        if (!stateKeyProblem(row, index).isBlank()) field = "name";
-                        else if (state.mode.get() == 0) {
-                            if (!stateValueProblem(row, state.name.get(), state.exact.get(), true).isBlank())
-                                field = "exact";
-                        } else if (!stateValueProblem(row, state.name.get(), state.minimum.get(), false).isBlank()
-                            || (state.minimum.get().trim().isEmpty() && state.maximum.get().trim().isEmpty()))
-                            field = "minimum";
-                        else if (!stateValueProblem(row, state.name.get(), state.maximum.get(), false).isBlank())
-                            field = "maximum";
-                        if (field != null) {
+                        if (!stateKeyProblem(row, index).isBlank()) {
                             row.focusStateRowId = state.id;
-                            requestPredicateField(section, row, "state/" + state.id + "/" + field);
+                            requestPredicateField(section, row, "state/" + state.id + "/name");
                             return;
                         }
                     }
@@ -559,14 +549,13 @@ public final class AdventureEditorPanel extends ComponentEditorPanel {
 
         if (row.mode.get() == 0) {
             ImGui.text(tr("adventure.state.value"));
-            String valueProblem = stateValueProblem(predicate, row.name.get(), row.exact.get(), true);
             applyPendingFieldFocus(section.key, path + "exact");
             if (host.inputIdentifierWithSuggestions(
                 "state_exact_value",
                 new FieldHints(tr("field_purpose.block_state_value"), "north"),
                 row.exact,
                 stateValueSuggestions(predicate, row.name.get()),
-                valueProblem
+                ""
             )) dirty = true;
         } else if (ImGui.beginTable(
             "state_range_values",
@@ -583,8 +572,11 @@ public final class AdventureEditorPanel extends ComponentEditorPanel {
                         new FieldHints(tr("field_purpose.minimum_value"), "0"),
                         row.minimum,
                         values,
-                        stateValueProblem(predicate, row.name.get(), row.minimum.get(), false)
-                    )) dirty = true;
+                        ""
+                    )) {
+                        row.emptyMinimumPresent = false;
+                        dirty = true;
+                    }
                 },
                 () -> {
                     applyPendingFieldFocus(section.key, path + "maximum");
@@ -593,14 +585,14 @@ public final class AdventureEditorPanel extends ComponentEditorPanel {
                         new FieldHints(tr("field_purpose.maximum_value"), "15"),
                         row.maximum,
                         values,
-                        stateValueProblem(predicate, row.name.get(), row.maximum.get(), false)
-                    )) dirty = true;
+                        ""
+                    )) {
+                        row.emptyMaximumPresent = false;
+                        dirty = true;
+                    }
                 }
             );
             ImGui.endTable();
-            if (row.minimum.get().trim().isEmpty() && row.maximum.get().trim().isEmpty()) {
-                ItemEditorTheme.drawFieldProblem(tr("adventure.state.range_required"));
-            }
         }
     }
 
@@ -753,27 +745,7 @@ public final class AdventureEditorPanel extends ComponentEditorPanel {
                 StateRow condition = row.states.get(index);
                 String keyProblem = stateKeyProblem(row, index);
                 if (!keyProblem.isBlank()) throw new IllegalArgumentException(keyProblem);
-                String exactProblem = condition.mode.get() == 0
-                    ? stateValueProblem(row, condition.name.get(), condition.exact.get(), true)
-                    : "";
-                if (!exactProblem.isBlank()) throw new IllegalArgumentException(exactProblem);
-                if (condition.mode.get() != 0) {
-                    String minimumProblem = stateValueProblem(
-                        row,
-                        condition.name.get(),
-                        condition.minimum.get(),
-                        false
-                    );
-                    String maximumProblem = stateValueProblem(
-                        row,
-                        condition.name.get(),
-                        condition.maximum.get(),
-                        false
-                    );
-                    if (!minimumProblem.isBlank()) throw new IllegalArgumentException(minimumProblem);
-                    if (!maximumProblem.isBlank()) throw new IllegalArgumentException(maximumProblem);
-                }
-                state.add(condition.name.get().trim(), condition.toJson());
+                state.add(condition.name.get(), condition.toJson());
             }
             result.add("state", state);
         }
@@ -827,7 +799,9 @@ public final class AdventureEditorPanel extends ComponentEditorPanel {
 
     private String blockSelectionProblem(JsonElement blocks) {
         List<String> values = identifierValues(blocks);
-        if (values.isEmpty()) return tr("adventure.blocks.required");
+        if (values.isEmpty() && !(blocks != null && blocks.isJsonArray() && blocks.getAsJsonArray().isEmpty())) {
+            return tr("adventure.blocks.required");
+        }
         if (values.stream().anyMatch(value -> value.startsWith("#")) && values.size() > 1) {
             return tr("collection.tag_is_collection");
         }
@@ -904,43 +878,12 @@ public final class AdventureEditorPanel extends ComponentEditorPanel {
 
     private static String stateKeyProblem(PredicateRow predicate, int index) {
         List<StateRow> rows = predicate.states;
-        String key = rows.get(index).name.get().trim();
+        String key = rows.get(index).name.get();
         if (key.isEmpty()) return tr("data.property.required");
         for (int cursor = 0; cursor < rows.size(); cursor++) {
-            if (cursor != index && rows.get(cursor).name.get().trim().equals(key)) {
+            if (cursor != index && rows.get(cursor).name.get().equals(key)) {
                 return tr("data.property.duplicate", key);
             }
-        }
-        List<Block> selected = selectedBlocks(predicate);
-        if (!selected.isEmpty() && selected.stream()
-            .noneMatch(block -> block.getStateDefinition().getProperty(key) != null)) {
-            return tr("adventure.state.unknown_property", key);
-        }
-        return "";
-    }
-
-    private static String stateValueProblem(
-        PredicateRow predicate,
-        String propertyName,
-        String source,
-        boolean required
-    ) {
-        String value = source.trim();
-        if (value.isEmpty()) return required ? tr("data.value.required") : "";
-        String key = propertyName.trim();
-        boolean foundProperty = false;
-        boolean foundValue = false;
-        for (Block block : selectedBlocks(predicate)) {
-            Property<?> property = block.getStateDefinition().getProperty(key);
-            if (property == null) continue;
-            foundProperty = true;
-            if (property.getValue(value).isPresent()) {
-                foundValue = true;
-                break;
-            }
-        }
-        if (foundProperty && !foundValue) {
-            return tr("adventure.state.invalid_value", value, key);
         }
         return "";
     }
@@ -1170,6 +1113,8 @@ public final class AdventureEditorPanel extends ComponentEditorPanel {
         private final ImString exact;
         private final ImString minimum;
         private final ImString maximum;
+        private boolean emptyMinimumPresent;
+        private boolean emptyMaximumPresent;
 
         private StateRow(String name, String exact) {
             this(name, 0, exact, "", "");
@@ -1190,31 +1135,29 @@ public final class AdventureEditorPanel extends ComponentEditorPanel {
         private static StateRow from(String name, JsonElement value) {
             if (value.isJsonObject()) {
                 JsonObject range = value.getAsJsonObject();
-                return new StateRow(
+                StateRow row = new StateRow(
                     name,
                     1,
                     "",
                     range.has("min") ? range.get("min").getAsString() : "",
                     range.has("max") ? range.get("max").getAsString() : ""
                 );
+                row.emptyMinimumPresent = range.has("min") && row.minimum.get().isEmpty();
+                row.emptyMaximumPresent = range.has("max") && row.maximum.get().isEmpty();
+                return row;
             }
             return new StateRow(name, value.getAsString());
         }
 
         private JsonElement toJson() {
             if (mode.get() == 0) {
-                String value = exact.get().trim();
-                if (value.isEmpty()) throw new IllegalArgumentException(tr("data.value.required"));
-                return new JsonPrimitive(value);
+                return new JsonPrimitive(exact.get());
             }
-            String min = minimum.get().trim();
-            String max = maximum.get().trim();
-            if (min.isEmpty() && max.isEmpty()) {
-                throw new IllegalArgumentException(tr("adventure.state.range_required"));
-            }
+            String min = minimum.get();
+            String max = maximum.get();
             JsonObject range = new JsonObject();
-            if (!min.isEmpty()) range.addProperty("min", min);
-            if (!max.isEmpty()) range.addProperty("max", max);
+            if (!min.isEmpty() || emptyMinimumPresent) range.addProperty("min", min);
+            if (!max.isEmpty() || emptyMaximumPresent) range.addProperty("max", max);
             return range;
         }
 
@@ -1227,7 +1170,10 @@ public final class AdventureEditorPanel extends ComponentEditorPanel {
         }
 
         private StateRow copy() {
-            return new StateRow(name.get(), mode.get(), exact.get(), minimum.get(), maximum.get());
+            StateRow row = new StateRow(name.get(), mode.get(), exact.get(), minimum.get(), maximum.get());
+            row.emptyMinimumPresent = emptyMinimumPresent;
+            row.emptyMaximumPresent = emptyMaximumPresent;
+            return row;
         }
     }
 }

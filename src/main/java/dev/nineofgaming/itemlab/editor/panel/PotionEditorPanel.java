@@ -489,10 +489,10 @@ public final class PotionEditorPanel extends ComponentEditorPanel {
                 ImGui.setNextItemWidth(-1.0f);
                 applyPendingFieldFocus("contents", path + "/duration");
                 if (ImGui.inputInt("##duration", duration, 20, 200)) {
-                    details.addProperty("duration", Math.max(-1, duration.get()));
+                    details.addProperty("duration", duration.get());
                     dirty = true;
                 }
-                EditorUi.textDisabledWrapped(durationSummary(Math.max(-1, duration.get())));
+                EditorUi.textDisabledWrapped(durationSummary(duration.get()));
 
                 fieldLabel(tr("potion.effect.strength"), tr("potion.effect.strength.help"));
                 ImInt strength = new ImInt(Math.clamp(integer(details, "amplifier", 0) + 1, 1, 256));

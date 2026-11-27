@@ -442,7 +442,7 @@ public final class DataEditorPanel {
                 PropertyRow row = propertyRows.get(index);
                 boolean debugStick = target == DataTarget.DEBUG_STICK_STATE;
                 String keyProblem = debugStick ? debugStickBlockProblem(index) : propertyKeyProblem(index);
-                String valueProblem = debugStick ? debugStickPropertyProblem(row) : blockStateValueProblem(row);
+                String valueProblem = debugStick ? debugStickPropertyProblem(row) : "";
                 if (!keyProblem.isBlank() || !valueProblem.isBlank()) {
                     focusPropertyRowId = row.id;
                     focusPropertyValue = keyProblem.isBlank();
@@ -461,10 +461,6 @@ public final class DataEditorPanel {
             }
             if (siblings == entries && (target == DataTarget.ENTITY_DATA || target == DataTarget.BLOCK_ENTITY_DATA)
                 && node.key.get().equals("id")) return requestNodeProblem(node, PendingNodeField.KEY);
-            if (parentType == NbtType.LIST && index > 0 && node.type != siblings.getFirst().type) {
-                // Type selection is locked for multi-element lists; row actions remain usable.
-                return requestNodeProblem(node, PendingNodeField.ACTION);
-            }
             if (node.type.container && requestInvalidNodeFocus(node.children, node.type)) {
                 focusAncestorIds.add(node.id);
                 return true;
@@ -639,7 +635,7 @@ public final class DataEditorPanel {
                     : blockStateValueSuggestions(row.key.get());
                 String valueProblem = debugStick
                     ? debugStickPropertyProblem(row)
-                    : blockStateValueProblem(row);
+                    : "";
                 if (focusPropertyRowId == row.id && focusPropertyValue) {
                     ImGui.setScrollFromPosY(ImGui.getCursorPosY(), 0.25f);
                     ImGui.setKeyboardFocusHere();
@@ -919,17 +915,11 @@ public final class DataEditorPanel {
 
         ImGui.tableNextColumn();
         ImInt selectedType = new ImInt(node.type.ordinal());
-        boolean listTypeLocked = parentType == NbtType.LIST && siblings.size() > 1;
-        ImGui.beginDisabled(listTypeLocked);
         ImGui.setNextItemWidth(-1.0f);
-        if (!listTypeLocked) applyNodeFocus(node, null);
+        applyNodeFocus(node, null);
         if (ImGui.combo("##type", selectedType, typeLabels())) {
             node.changeType(NbtType.values()[selectedType.get()]);
             dirty = true;
-        }
-        ImGui.endDisabled();
-        if (listTypeLocked && ImGui.isItemHovered()) {
-            EditorUi.setTooltip(tr("data.list_type_locked"));
         }
 
         ImGui.tableNextColumn();
@@ -1118,9 +1108,8 @@ public final class DataEditorPanel {
         for (int index = 0; index < propertyRows.size(); index++) {
             PropertyRow row = propertyRows.get(index);
             requireNoProblem(propertyKeyProblem(index));
-            requireNoProblem(blockStateValueProblem(row));
-            String key = row.key.get().trim();
-            String value = row.value.get().trim();
+            String key = row.key.get();
+            String value = row.value.get();
             properties.put(key, value);
         }
         return new BlockItemStateProperties(Map.copyOf(properties));
@@ -1154,7 +1143,7 @@ public final class DataEditorPanel {
         Set<String> keys = new HashSet<>();
         for (NbtNode entry : entries) {
             String key = entry.key.get();
-            if (key.isBlank()) throw new IllegalArgumentException(tr("validation.key_required"));
+            if (key.isEmpty()) throw new IllegalArgumentException(tr("validation.key_required"));
             if (!keys.add(key)) throw new IllegalArgumentException(tr("data.duplicate_key", key));
             root.put(key, buildTag(entry, key));
         }
@@ -1194,7 +1183,7 @@ public final class DataEditorPanel {
         Set<String> keys = new HashSet<>();
         for (NbtNode child : node.children) {
             String key = child.key.get();
-            if (key.isBlank()) throw new IllegalArgumentException(tr("validation.key_required"));
+            if (key.isEmpty()) throw new IllegalArgumentException(tr("validation.key_required"));
             if (!keys.add(key)) throw new IllegalArgumentException(tr("data.duplicate_key", key));
             compound.put(key, buildTag(child, path + "." + key));
         }
@@ -1203,15 +1192,9 @@ public final class DataEditorPanel {
 
     private static ListTag buildList(NbtNode node, String path) {
         ListTag list = new ListTag();
-        byte elementType = Tag.TAG_END;
         for (int index = 0; index < node.children.size(); index++) {
             Tag value = buildTag(node.children.get(index), path + "[" + index + "]");
-            if (elementType == Tag.TAG_END) elementType = value.getId();
-            if (value.getId() != elementType) {
-                throw new IllegalArgumentException(tr("data.mixed_list", path));
-            } else {
-                list.addTag(list.size(), value);
-            }
+            list.addTag(list.size(), value);
         }
         return list;
     }
@@ -1224,7 +1207,7 @@ public final class DataEditorPanel {
 
     private static String duplicateKeyProblem(List<NbtNode> siblings, int index) {
         String key = siblings.get(index).key.get();
-        if (key.isBlank()) return tr("validation.key_required");
+        if (key.isEmpty()) return tr("validation.key_required");
         for (int cursor = 0; cursor < siblings.size(); cursor++) {
             if (cursor != index && siblings.get(cursor).key.get().equals(key)) {
                 return tr("data.duplicate_key", key);
@@ -1507,10 +1490,10 @@ public final class DataEditorPanel {
     }
 
     private String propertyKeyProblem(int index) {
-        String key = propertyRows.get(index).key.get().trim();
+        String key = propertyRows.get(index).key.get();
         if (key.isEmpty()) return tr("data.property.required");
         for (int cursor = 0; cursor < propertyRows.size(); cursor++) {
-            if (cursor != index && propertyRows.get(cursor).key.get().trim().equals(key)) {
+            if (cursor != index && propertyRows.get(cursor).key.get().equals(key)) {
                 return tr("data.property.duplicate", key);
             }
         }
@@ -1534,15 +1517,6 @@ public final class DataEditorPanel {
         } catch (RuntimeException exception) {
             return EditorUi.readableMessage(exception);
         }
-    }
-
-    private String blockStateValueProblem(PropertyRow row) {
-        String value = row.value.get().trim();
-        if (value.isEmpty()) return tr("data.value.required");
-        Property<?> property = currentItemBlock().getStateDefinition().getProperty(row.key.get().trim());
-        return property != null && property.getValue(value).isEmpty()
-            ? tr("data.block_state.invalid_value", value, property.getName())
-            : "";
     }
 
     private static String debugStickPropertyProblem(PropertyRow row) {

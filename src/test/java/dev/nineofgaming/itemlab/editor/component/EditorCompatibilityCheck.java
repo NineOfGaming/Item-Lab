@@ -120,6 +120,7 @@ public final class EditorCompatibilityCheck {
         verifyContainerContentsModel(problems);
         verifyBundleContentsModel(problems);
         verifyOverstackedItemCounts(problems);
+        verifyDamageableStackSizes(problems);
         verifySnbtStackNumericRoundTrip(problems);
         verifyOpaqueFragmentNumericRoundTrips(problems);
         verifyExpandedDefaultDeletion(problems);
@@ -715,9 +716,12 @@ public final class EditorCompatibilityCheck {
         }
         try {
             disallowed.applyTo(owner);
-            problems.add("minecraft:bundle_contents draft allowed a disallowed entry to be saved");
-        } catch (IllegalArgumentException ignored) {
-            // Expected.
+            ItemStackCodecs.validateStack(owner);
+            if (!ItemStack.matches(disallowed.item(0), BundleContentsDraft.fromStack(owner).item(0))) {
+                problems.add("minecraft:bundle_contents changed a codec-valid shulker box entry");
+            }
+        } catch (RuntimeException exception) {
+            problems.add("minecraft:bundle_contents rejected a codec-valid shulker box: " + exception.getMessage());
         }
     }
 
@@ -810,6 +814,60 @@ public final class EditorCompatibilityCheck {
             problems.add("editor validation accepted an item count above the serialized range");
         } catch (IllegalArgumentException ignored) {
             // Expected.
+        }
+    }
+
+    private static void verifyDamageableStackSizes(List<String> problems) {
+        RegistryOps<Tag> ops = RegistryOps.create(NbtOps.INSTANCE, vanillaRegistries);
+        for (String id : List.of("minecraft:diamond_sword", "minecraft:stone")) {
+            for (int maxStackSize : List.of(2, 16, 99)) {
+                for (int count : List.of(1, 99)) {
+                    ItemStack stack = testStack(id, count);
+                    stack.set(DataComponents.MAX_STACK_SIZE, maxStackSize);
+                    if (stack.getMaxDamage() == 0) stack.set(DataComponents.MAX_DAMAGE, 100);
+                    stack.setDamageValue(7);
+
+                    ItemStack containerOwner = testStack("minecraft:chest", 1);
+                    ContainerContentsDraft container = new ContainerContentsDraft();
+                    container.setPresent(true);
+                    container.setItem(0, stack);
+                    container.applyTo(containerOwner);
+
+                    ItemStack bundleOwner = testStack("minecraft:bundle", 1);
+                    BundleContentsDraft bundle = new BundleContentsDraft();
+                    bundle.setPresent(true);
+                    bundle.addItem(stack);
+                    bundle.applyTo(bundleOwner);
+
+                    ItemStack chargedOwner = testStack("minecraft:crossbow", 1);
+                    chargedOwner.set(DataComponents.CHARGED_PROJECTILES,
+                        net.minecraft.world.item.component.ChargedProjectiles.ofNonEmpty(List.of(stack)));
+                    List<ItemStack> candidates = new ArrayList<>(List.of(stack, containerOwner, bundleOwner, chargedOwner));
+                    if (SulfurCubeContentDraft.supported()) {
+                        ItemStack sulfurOwner = testStack("minecraft:stone", 1);
+                        SulfurCubeContentDraft sulfur = new SulfurCubeContentDraft();
+                        sulfur.setPresent(true);
+                        sulfur.setStack(stack);
+                        sulfur.applyTo(sulfurOwner);
+                        candidates.add(sulfurOwner);
+                    }
+                    for (ItemStack candidate : candidates) {
+                        ItemStack before = candidate.copy();
+                        try {
+                            ItemStackCodecs.validateStack(candidate);
+                            Tag encoded = ItemStack.CODEC.encodeStart(ops, candidate).getOrThrow();
+                            ItemStack restored = ItemStack.CODEC.parse(ops, encoded).getOrThrow();
+                            if (!ItemStack.matches(before, candidate) || !ItemStack.matches(before, restored)) {
+                                problems.add("damageable stack validation/serialization changed " + id
+                                    + " count=" + count + " max_stack_size=" + maxStackSize);
+                            }
+                        } catch (RuntimeException exception) {
+                            problems.add("damageable stack rejected for " + id + " count=" + count
+                                + " max_stack_size=" + maxStackSize + ": " + exception.getMessage());
+                        }
+                    }
+                }
+            }
         }
     }
 

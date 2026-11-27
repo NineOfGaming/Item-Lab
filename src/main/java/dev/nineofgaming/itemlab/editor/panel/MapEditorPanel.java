@@ -210,7 +210,6 @@ public final class MapEditorPanel extends ComponentEditorPanel {
         ImGui.beginDisabled(!mapIdPresent);
         ImGui.setNextItemWidth(-1.0f);
         if (ImGui.inputInt("##map_id_value", mapId, 1, 10)) {
-            mapId.set(Math.max(0, mapId.get()));
             dirty = true;
         }
         ImGui.endDisabled();
@@ -418,7 +417,7 @@ public final class MapEditorPanel extends ComponentEditorPanel {
 
     private ItemStack buildEditedStack(Minecraft client) {
         ItemStack edited = host.draft().copy();
-        if (mapIdPresent) edited.set(DataComponents.MAP_ID, new MapId(Math.max(0, mapId.get())));
+        if (mapIdPresent) edited.set(DataComponents.MAP_ID, new MapId(mapId.get()));
         else edited.remove(DataComponents.MAP_ID);
 
         //? if <26.3 {

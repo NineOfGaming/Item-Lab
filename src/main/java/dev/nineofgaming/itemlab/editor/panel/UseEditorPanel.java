@@ -494,7 +494,7 @@ public final class UseEditorPanel extends ComponentEditorPanel {
                 ImGui.setNextItemWidth(-1.0f);
                 applyPendingFieldFocus("food", "saturation");
                 if (ImGui.inputDouble("##food_saturation", saturation, 0.1, 0.5, "%.2f")) {
-                    value.addProperty("saturation", Math.max(0.0, saturation.get()));
+                    value.addProperty("saturation", saturation.get());
                     dirty = true;
                 }
             }
@@ -683,10 +683,10 @@ public final class UseEditorPanel extends ComponentEditorPanel {
         ImGui.setNextItemWidth(-1.0f);
         applyPendingFieldFocus("stew_effects", "stew_effect/" + rowId + "/duration");
         if (ImGui.inputInt("##stew_duration", duration, 20, 200)) {
-            effect.addProperty("duration", Math.max(-1, duration.get()));
+            effect.addProperty("duration", duration.get());
             dirty = true;
         }
-        EditorUi.textDisabledWrapped(durationSummary(Math.max(-1, duration.get())));
+        EditorUi.textDisabledWrapped(durationSummary(duration.get()));
         ImGui.endTable();
     }
 
@@ -932,7 +932,7 @@ public final class UseEditorPanel extends ComponentEditorPanel {
                             ImGui.setNextItemWidth(-1.0f);
                             applyPendingFieldFocus(section, listId + "/" + rowId + "/duration");
                             if (ImGui.inputInt("##duration", duration)) {
-                                status.addProperty("duration", Math.max(0, duration.get()));
+                                status.addProperty("duration", duration.get());
                                 dirty = true;
                             }
                         },

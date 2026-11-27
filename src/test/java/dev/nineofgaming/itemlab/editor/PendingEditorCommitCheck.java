@@ -216,6 +216,7 @@ public final class PendingEditorCommitCheck {
             // Native-only fixtures start here; formatting fixtures temporarily install the real serializer.
             write(read(ItemLabConfig.get(), "text"), "removeDefaultItalics", false);
             write(read(ItemLabConfig.get(), "text"), "useWhiteDefaultLoreColor", false);
+            verifyCodecValidEditorValues();
             verifyDiamondFireContext();
             if (DiamondFireFeatures.available()) {
                 verifyDiamondFireLosslessKeys();
@@ -225,6 +226,7 @@ public final class PendingEditorCommitCheck {
             verifyDiscardInvalidPendingEdits();
             verifySaveAndRepeatedCommit();
             verifyGiveCopy();
+            verifyDamageableStackSizeCommits();
             verifyContainerCommits();
             verifyContainerActionFailures();
             verifyContainerOtherFailures();
@@ -348,7 +350,7 @@ public final class PendingEditorCommitCheck {
     @SuppressWarnings("unchecked")
     private static void verifyDiscardInvalidPendingEdits() throws Exception {
         try (TextBridge ignored = new TextBridge()) {
-            for (String problem : List.of("data", "name", "book", "music", "equipment", "appearance", "flags",
+            for (String problem : List.of("data", "name", "book", "music", "equipment", "appearance",
                 "generated", "fixed_variant", "registry_variant", "raw_only", "raw_conflict", "diamondfire",
                 "bad_item_id", "unknown_item_id", "air_item_id", "valid_item_id", "missing_snapshot")) {
                 for (String action : List.of("revertDraft", "resetDraftToDefaults")) {
@@ -388,8 +390,6 @@ public final class PendingEditorCommitCheck {
                                 ((CodecComponentState) read(panel, problem.equals("equipment") ? "equippable" : "itemModel"))
                                     .setValue(JsonParser.parseString(problem.equals("equipment") ? "{\"slot\":\"not a slot\"}" : "\"not an id\""));
                             }
-                            case "flags" ->
-                                ((ImBoolean) read(read(editor, "flagEditor"), "overrideMaxDamage")).set(true);
                             case "generated" -> {
                                 addComponentRepresentation(fixture, editor, problem);
                                 Object form = read(editor, "componentForm");
@@ -535,6 +535,118 @@ public final class PendingEditorCommitCheck {
             require(!editor.hasPendingNonRawEditorChanges(), "Give Copy left committed panels pending");
             require(((Deque<?>) read(read(editor, "history"), "undo")).size() == 1, "Give Copy did not combine history");
             require(((Deque<?>) read(editor, "editorUndo")).size() == 1, "Give Copy did not combine editor history");
+        }
+    }
+
+    private record CodecValidValue(String panel, String component, String components) {
+    }
+
+    private static void verifyCodecValidEditorValues() throws Exception {
+        List<CodecValidValue> cases = new ArrayList<>(List.of(
+            new CodecValidValue("dataEditor", "custom_data", "{'minecraft:custom_data':{' ':2,nested:{'  ':3}}}"),
+            new CodecValidValue("dataEditor", "custom_data", "{'minecraft:custom_data':{mixed:[1,'text',{n:2b},[3L],4f]}}"),
+            new CodecValidValue("dataEditor", "block_state", "{'minecraft:block_state':{' ':' ','facing':'up','opaque':'','spaced':' value '}}"),
+            new CodecValidValue("mapEditor", "map_id", "{'minecraft:map_id':-17}"),
+            new CodecValidValue("flagEditor", "damage", "{'minecraft:max_damage':100,'minecraft:damage':150}"),
+            new CodecValidValue("flagEditor", "damage", "{'minecraft:damage':7}"),
+            new CodecValidValue("containerEditor", "bundle_contents", "{'minecraft:bundle_contents':[{id:'minecraft:shulker_box'}]}"),
+            new CodecValidValue("adventureEditor", "can_break", "{'minecraft:can_break':{blocks:'minecraft:stone',state:{facing:'north'}}}"),
+            new CodecValidValue("adventureEditor", "can_break", "{'minecraft:can_break':{blocks:'minecraft:oak_stairs',state:{facing:'up'}}}"),
+            new CodecValidValue("adventureEditor", "can_break", "{'minecraft:can_break':{state:{property:'',' spaced ':' value '}}}"),
+            new CodecValidValue("adventureEditor", "can_break", "{'minecraft:can_break':{state:{facing:{}}}}"),
+            new CodecValidValue("adventureEditor", "can_break", "{'minecraft:can_break':{state:{facing:{min:'',max:' '}}}}"),
+            new CodecValidValue("adventureEditor", "can_break", "{'minecraft:can_break':{blocks:[]}}"),
+            new CodecValidValue("useEditor", "food", "{'minecraft:food':{nutrition:1,saturation:-2f}}"),
+            new CodecValidValue("potionEditor", "potion_contents", "{'minecraft:potion_contents':{custom_effects:[{id:'minecraft:speed',duration:-20}]}}"),
+            new CodecValidValue("useEditor", "consumable", "{'minecraft:consumable':{on_consume_effects:[{type:'minecraft:apply_effects',effects:[{id:'minecraft:speed',duration:-20}]}]}}"),
+            new CodecValidValue("combatEditor", "tool", "{'minecraft:tool':{rules:[],default_mining_speed:-2f}}")
+        ));
+        String overflowBundle = java.util.stream.Stream.of(2, 3, 5, 7, 11, 13, 17, 19, 23, 29)
+            .map(size -> "{id:'minecraft:stone',components:{'minecraft:max_stack_size':" + size + "}}")
+            .collect(java.util.stream.Collectors.joining(","));
+        cases.add(new CodecValidValue("containerEditor", "bundle_contents", "{'minecraft:bundle_contents':[" + overflowBundle + "]}"));
+        List<String> problems = new ArrayList<>();
+        for (CodecValidValue value : cases) {
+            try (Fixture fixture = new Fixture()) {
+                try {
+                    ItemStack opening = ItemStackCodecs.decodeStackSnbt(fixture.client,
+                        "{id:\"minecraft:stone\",components:" + value.components().replace('\'', '"') + "}");
+                    DataComponentType<?> type = BuiltInRegistries.DATA_COMPONENT_TYPE.getValue(Identifier.parse(value.component()));
+                    Object expected = opening.get(type);
+                    ItemStack nativeRoundTrip = ItemStackCodecs.decodeStackSnbt(fixture.client,
+                        ItemStackCodecs.encodeStackSnbt(fixture.client, opening));
+                    require(Objects.equals(expected, nativeRoundTrip.get(type)), "Codec-valid fixture did not round trip: " + value);
+                    ItemEditor editor = fixture.cleanEditor(opening);
+                    Object panel = read(editor, value.panel());
+                    if (panel instanceof DataEditorPanel data) data.selectComponent(type, editor.draft());
+                    ItemStack candidate = panel instanceof DataEditorPanel data ? data.pendingStack()
+                        : ((dev.nineofgaming.itemlab.editor.panel.PendingStackEditor) panel).pendingStack(fixture.client);
+                    ItemStackCodecs.validateStack(candidate);
+                    require(Objects.equals(expected, candidate.get(type)), "Editor changed codec-valid data: " + value);
+                    ItemStack restored = ItemStackCodecs.decodeStackSnbt(fixture.client,
+                        ItemStackCodecs.encodeStackSnbt(fixture.client, candidate));
+                    require(Objects.equals(expected, restored.get(type)), "Editor output did not round trip: " + value);
+                    editor.acceptSectionDraft(fixture.client, candidate);
+                    invoke(editor, "applyDraftToSlot", new Class<?>[]{Minecraft.class}, fixture.client);
+                    require((boolean) read(editor, "statusSuccess") && Objects.equals(expected, fixture.slots.get(0).get(type)),
+                        "Save Item changed or rejected codec-valid data: " + value);
+                    invoke(editor, "giveDraftCopy", new Class<?>[]{Minecraft.class}, fixture.client);
+                    require((boolean) read(editor, "statusSuccess") && Objects.equals(expected, fixture.slots.get(1).get(type)),
+                        "Give Copy changed or rejected codec-valid data: " + value);
+                } catch (Exception | AssertionError exception) {
+                    problems.add(value + ": " + exception);
+                }
+            }
+        }
+        require(problems.isEmpty(), "Codec-valid editor values were rejected or changed:\n" + String.join("\n", problems));
+    }
+
+    private static void verifyDamageableStackSizeCommits() throws Exception {
+        for (String scenario : List.of("native_durability", "custom_durability", "inherited_stack_size", "raw")) {
+            for (String action : List.of("applyDraftToSlot", "giveDraftCopy")) {
+                try (Fixture fixture = new Fixture()) {
+                    boolean nativeDurability = scenario.equals("native_durability") || scenario.equals("raw");
+                    ItemStack opening = new ItemStack(nativeDurability ? Items.FLINT_AND_STEEL : Items.STONE);
+                    if (scenario.equals("raw")) {
+                        opening.set(DataComponents.MAX_STACK_SIZE, 16);
+                        opening.setDamageValue(7);
+                    }
+                    ItemEditor editor = fixture.cleanEditor(opening);
+                    if (scenario.equals("raw")) {
+                        ((RawStackEditorPanel) read(editor, "rawStackEditor")).restorePendingSource(
+                            ItemStackCodecs.encodeStackSnbt(fixture.client, opening.copyWithCount(99)));
+                    } else {
+                        ((ImInt) read(editor, "count")).set(99);
+                        write(editor, "basicDirty", true);
+                        Object flags = read(editor, "flagEditor");
+                        ((ImBoolean) read(flags, "overrideMaxStackSize")).set(!scenario.equals("inherited_stack_size"));
+                        ((ImInt) read(flags, "maxStackSize")).set(16);
+                        ((ImBoolean) read(flags, "overrideMaxDamage")).set(!nativeDurability);
+                        ((ImInt) read(flags, "maxDamage")).set(100);
+                        ((ImInt) read(flags, "damage")).set(7);
+                        write(flags, "nonTooltipDirty", true);
+                    }
+
+                    invoke(editor, action, new Class<?>[]{Minecraft.class}, fixture.client);
+                    require((boolean) read(editor, "statusSuccess"),
+                        "Damageable stack " + scenario + "/" + action + " failed: " + read(editor, "status"));
+                    int destination = action.equals("giveDraftCopy") ? 1 : 0;
+                    ItemStack saved = fixture.slots.get(destination);
+                    require(saved != null && saved.getCount() == 99
+                            && saved.getMaxStackSize() == (scenario.equals("inherited_stack_size") ? 64 : 16)
+                            && saved.getMaxDamage() == (nativeDurability ? opening.getMaxDamage() : 100)
+                            && saved.getDamageValue() == 7,
+                        "Damageable stack save changed count, stack size or durability: " + scenario + "/" + action);
+                    require(fixture.writes.size() == 1 && fixture.writes.getFirst().slot() == 36 + destination
+                            && ItemStack.matches(saved, fixture.writes.getFirst().stack()),
+                        "Damageable stack save sent different inventory/network values");
+                    ItemStack restored = ItemStackCodecs.decodeStackSnbt(fixture.client,
+                        ItemStackCodecs.encodeStackSnbt(fixture.client, saved));
+                    require(ItemStack.matches(saved, restored), "Damageable stack failed the SNBT round trip");
+                    if (destination == 1) require(ItemStack.matches(opening, fixture.slots.get(0)),
+                        "Damageable stack Give Copy changed the original slot");
+                }
+            }
         }
     }
 
@@ -830,7 +942,6 @@ public final class PendingEditorCommitCheck {
         for (String target : List.of("contents", "bundleContents"))
             for (String field : List.of("count", "max_stack_size"))
                 cases.add(new ContainerProblem(target, field, "", target.equals("contents") ? "contents" : "bundle_contents", target.equals("contents") ? "slot/255" : "row/@2"));
-        cases.add(new ContainerProblem("bundleContents", "disallowed", "", "bundle_contents", "row/@2"));
         for (String invalid : List.of("\" \"", "\"not an item id\"", "\"itemlab:unknown_item\"", "\"#itemlab:combat_repairs\""))
             cases.add(new ContainerProblem("lock", "items/1", invalid, "lock", "items"));
         cases.add(new ContainerProblem("lock", "items", "[]", "lock", "items"));
@@ -2434,11 +2545,6 @@ public final class PendingEditorCommitCheck {
                 for (int index = 0; index < identifiers.size(); index++)
                     buffers.put("adventure/" + target + "/" + read(row, "id") + "/blocks/@identifier/" + index,
                         new ImString(" " + identifiers.get(index).getAsString() + " ", 512));
-                for (Object state : (List<?>) read(row, "states"))
-                    for (String field : List.of("name", "exact", "minimum", "maximum")) {
-                        ImString input = (ImString) read(state, field);
-                        if (!input.get().isEmpty()) input.set(" " + input.get() + " ");
-                    }
                 for (String prefix : List.of("nbt", "components", "componentPredicates")) {
                     ImString input = (ImString) read(row, prefix + "Source");
                     input.set("\n " + input.get() + " \n");
@@ -2599,8 +2705,8 @@ public final class PendingEditorCommitCheck {
     @SuppressWarnings("unchecked")
     private static void verifyAdventureActionFailures() throws Exception {
         for (String target : ADVENTURE_COMPONENTS)
-            for (String problem : List.of("block_blank", "block_malformed", "block_unknown", "tag_unknown", "mixed_tag", "blocks_empty",
-                "state_blank", "state_duplicate", "state_unknown", "exact_blank", "exact_invalid", "minimum", "maximum", "empty_range",
+            for (String problem : List.of("block_blank", "block_malformed", "block_unknown", "tag_unknown", "mixed_tag",
+                "state_blank", "state_duplicate",
                 "nbt_syntax", "components_syntax", "predicates_syntax", "components_native", "predicates_native", "empty_section", "codec_section"))
                 for (String action : List.of("applyDraftToSlot", "giveDraftCopy"))
                     try (Fixture fixture = new Fixture()) {
@@ -2658,7 +2764,8 @@ public final class PendingEditorCommitCheck {
                             String before = input.get();
                             String maximum = ((ImString) read(state, "maximum")).get();
                             input.set(switch (problem) {
-                                case "state_blank", "exact_blank" -> " ";
+                                case "state_blank" -> "";
+                                case "exact_blank" -> " ";
                                 case "state_duplicate" -> "half";
                                 case "state_unknown" -> "not_a_property";
                                 case "empty_range" -> "";
@@ -3803,7 +3910,8 @@ public final class PendingEditorCommitCheck {
                             values.get("trim").getAsJsonObject().add("pattern", inlineTrimValue(fixture, false));
                         }
                         case "inline_provided" -> values.put("provides_trim_material", inlineTrimValue(fixture, true));
-                        case "map_zero_id", "map_negative_id" -> values.put("map_id", JsonParser.parseString("0"));
+                        case "map_zero_id" -> values.put("map_id", JsonParser.parseString("0"));
+                        case "map_negative_id" -> values.put("map_id", JsonParser.parseString("-7"));
                         case "map_max_id" -> values.put("map_id", JsonParser.parseString("2147483647"));
                         case "map_black" -> values.put("map_color", JsonParser.parseString("0"));
                         case "map_white" -> values.put("map_color", JsonParser.parseString("16777215"));
@@ -4682,7 +4790,7 @@ public final class PendingEditorCommitCheck {
         List<Object> properties = (List<Object>) read(data, "propertyRows");
         properties.clear();
         if (!empty && target.equals("block_state")) {
-            properties.add(dataProperty(" facing ", " west "));
+            properties.add(dataProperty("facing", "west"));
             properties.add(dataProperty("half", "top"));
             properties.add(dataProperty("opaque_property", "keep"));
         } else if (!empty && target.equals("debug_stick_state")) {
@@ -4760,11 +4868,11 @@ public final class PendingEditorCommitCheck {
     private static List<String> dataProblems(String target, String mode) {
         List<String> problems = new ArrayList<>();
         if (mode.equals("properties")) {
-            problems.addAll(target.equals("block_state") ? List.of("blank_key", "duplicate", "blank_value", "bad_value")
+            problems.addAll(target.equals("block_state") ? List.of("blank_key", "duplicate")
                 : List.of("blank_key", "block_id", "unknown_block", "duplicate", "blank_value", "bad_value"));
         } else {
             problems.addAll(mode.equals("snbt") ? List.of("malformed", "non_compound")
-                : List.of("number", "blank_key", "duplicate", "nested_number", "mixed_list"));
+                : List.of("number", "blank_key", "duplicate", "nested_number"));
             if (typedDataTarget(target))
                 problems.addAll(List.of("reserved_id", "metadata_blank", "metadata_id", "metadata_unknown"));
         }
@@ -4808,7 +4916,7 @@ public final class PendingEditorCommitCheck {
                                     ((ImString) read(focused, "key")).set(target.equals("block_state") ? "facing" : "minecraft:oak_log");
                                     focused = rows.getFirst();
                                 } else if (focusedField.equals("KEY")) {
-                                    ((ImString) read(focused, "key")).set(problem.equals("blank_key") ? " " : problem.equals("block_id") ? "not a block id" : "itemlab:unknown_block");
+                                    ((ImString) read(focused, "key")).set(problem.equals("blank_key") ? "" : problem.equals("block_id") ? "not a block id" : "itemlab:unknown_block");
                                 } else
                                     ((ImString) read(focused, "value")).set(problem.equals("blank_value") ? " " : "not a value");
                             } else {
@@ -4820,7 +4928,7 @@ public final class PendingEditorCommitCheck {
                                 switch (problem) {
                                     case "number" -> ((ImString) read(focused, "value")).set("not an integer");
                                     case "blank_key", "reserved_id" ->
-                                        ((ImString) read(focused, "key")).set(problem.equals("blank_key") ? " " : "id");
+                                        ((ImString) read(focused, "key")).set(problem.equals("blank_key") ? "" : "id");
                                     case "duplicate" -> {
                                         ((ImString) read(focused, "key")).set("b");
                                         focused = dataNode(data, "b");
@@ -4832,22 +4940,6 @@ public final class PendingEditorCommitCheck {
                                         originalKey = ((ImString) read(changed, "key")).get();
                                         originalValue = ((ImString) read(changed, "value")).get();
                                         ((ImString) read(focused, "value")).set("not an integer");
-                                    }
-                                    case "mixed_list" -> {
-                                        nested = dataNode(data, "nested");
-                                        Object list = dataNode(nested, "list");
-                                        focused = ((List<?>) read(list, "children")).get(1);
-                                        changed = focused;
-                                        originalKey = ((ImString) read(changed, "key")).get();
-                                        originalValue = ((ImString) read(changed, "value")).get();
-                                        originalType = read(changed, "type");
-                                        originalChildren = List.copyOf((List<?>) read(changed, "children"));
-                                        Object intType = java.util.Arrays.stream(read(focused, "type").getClass().getEnumConstants())
-                                            .filter(value -> value.toString().equals("INT")).findFirst().orElseThrow();
-                                        write(focused, "type", intType);
-                                        ((List<?>) read(focused, "children")).clear();
-                                        ((ImString) read(focused, "value")).set("2");
-                                        focusedField = "ACTION";
                                     }
                                     default -> throw new AssertionError(problem);
                                 }
@@ -6794,7 +6886,7 @@ public final class PendingEditorCommitCheck {
 
     @SuppressWarnings("unchecked")
     private static void verifyAdventureFailures() throws Exception {
-        for (String problem : List.of("blocks", "property", "exact", "minimum", "maximum", "empty_range",
+        for (String problem : List.of("blocks",
             "nbt", "components", "predicates", "native_components", "native_predicates", "empty_section", "codec_section")) {
             for (String action : List.of("applyDraftToSlot", "giveDraftCopy")) {
                 try (Fixture fixture = new Fixture()) {
@@ -7328,7 +7420,7 @@ public final class PendingEditorCommitCheck {
     private static void verifyContainerFailuresAndIsolation() throws Exception {
         String lockJson = "{\"items\":[\"minecraft:tripwire_hook\",\"minecraft:stone\"],\"count\":{\"min\":-2,\"max\":-1},\"components\":{},\"predicates\":{}}";
         String typedSource = "{\"minecraft:custom_data\":{b:1b,l:2L,f:3.5f,d:4.5d}}";
-        List<String> failures = List.of("contents_id", "bundle_id", "disallowed_bundle", "contents_count", "bundle_count",
+        List<String> failures = List.of("contents_id", "bundle_id", "contents_count", "bundle_count",
             "lock_items", "lock_unknown_item", "lock_empty_items", "lock_tag_list", "lock_count", "lock_min", "lock_max", "lock_range",
             "components_syntax", "predicates_syntax", "components_codec", "predicates_codec", "lock_shape", "loot_table", "loot_seed", "loot_seed_overflow", "loot_shape");
         for (String failure : failures) {
@@ -7385,11 +7477,6 @@ public final class PendingEditorCommitCheck {
                             invoke(panel, "bundleItemIdChanged", new Class<?>[0]);
                             section = "bundle_contents";
                             control = "item_id";
-                        }
-                        case "disallowed_bundle" -> {
-                            bundle.setItem(1, new ItemStack(Items.SHULKER_BOX));
-                            section = "bundle_contents";
-                            control = "row/102";
                         }
                         case "contents_count" -> {
                             contents.setItem(200, stored.copyWithCount(100));

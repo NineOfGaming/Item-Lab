@@ -185,10 +185,12 @@ public final class ItemStackCodecs {
     }
 
     /**
-     * Validates editor output without applying vanilla's inventory-capacity rule.
+     * Validates editor output without applying vanilla's inventory-capacity and
+     * damageable/stackable compatibility rules.
      * Minecraft's persistent codec permits counts through 99 even when an item's
      * max_stack_size is lower; strict validation rejects those otherwise valid
-     * overstacked values. Component invariants are checked on count-normalized
+     * overstacked values and damageable items with a stack size above one.
+     * Component invariants are checked on normalized
      * probes, recursively for container, bundle, charged-projectile, and sulfur cube contents.
      */
     public static void validateStack(ItemStack stack) {
@@ -208,6 +210,11 @@ public final class ItemStackCodecs {
         ItemStack componentProbe = stack.copyWithCount(
             Math.clamp(stack.getMaxStackSize(), 1, count)
         );
+        // The persistent codec preserves this combination. Relax it only on the
+        // validation probe so the saved item's durability and stack size stay intact.
+        if (componentProbe.has(DataComponents.MAX_DAMAGE) && componentProbe.getMaxStackSize() > 1) {
+            componentProbe.remove(DataComponents.MAX_DAMAGE);
+        }
 
         ItemContainerContents container = stack.get(DataComponents.CONTAINER);
         if (container != null) {
@@ -219,7 +226,8 @@ public final class ItemStackCodecs {
         if (bundle != null) {
             componentProbe.remove(DataComponents.BUNDLE_CONTENTS);
             bundle.items().forEach(template -> validateStack(stackFromTemplate(template)));
-            bundle.weight().getOrThrow();
+            // Weight calculation can overflow for codec-valid contents. It is a UI
+            // diagnostic, not a condition for preserving the stored item list.
         }
 
         ChargedProjectiles chargedProjectiles = stack.get(DataComponents.CHARGED_PROJECTILES);

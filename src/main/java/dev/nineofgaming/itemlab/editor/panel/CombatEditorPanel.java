@@ -1186,7 +1186,7 @@ public final class CombatEditorPanel extends ComponentEditorPanel {
                 ImGui.setNextItemWidth(-1.0f);
                 applyPendingFieldFocus("tool", "default_mining_speed");
                 if (ImGui.inputDouble("##default_mining_speed", speed, 0.1, 1.0, "%.2f")) {
-                    value.addProperty("default_mining_speed", Math.max(0.0, speed.get()));
+                    value.addProperty("default_mining_speed", speed.get());
                     dirty = true;
                 }
             }

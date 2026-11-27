@@ -79,6 +79,7 @@ public final class BundleContentsDraft {
         items.add(to, moved);
     }
 
+    /** First entry excluded by normal bundle insertion; persistent data may still contain it. */
     public int firstDisallowedItem() {
         for (int index = 0; index < items.size(); index++) {
             if (!BundleContents.canItemBeInBundle(items.get(index))) return index;
@@ -94,10 +95,6 @@ public final class BundleContentsDraft {
         if (!present) {
             owner.remove(DataComponents.BUNDLE_CONTENTS);
             return;
-        }
-        int disallowed = firstDisallowedItem();
-        if (disallowed >= 0) {
-            throw new IllegalArgumentException("Bundle entry " + (disallowed + 1) + " cannot be stored in a bundle");
         }
         owner.set(DataComponents.BUNDLE_CONTENTS, immutableContents());
     }

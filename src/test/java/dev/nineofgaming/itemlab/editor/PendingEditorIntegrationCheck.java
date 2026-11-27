@@ -188,8 +188,11 @@ public final class PendingEditorIntegrationCheck {
                 ((ImString) read(editor, "itemId")).set("invalid item identifier");
                 write(editor, "basicDirty", true);
             } else if (position == 1) {
-                ((ImBoolean) read(flags, "overrideMaxDamage")).set(true);
-                ((ImInt) read(flags, "maxDamage")).set(10);
+                Object equipment = read(editor, "equipmentEditor");
+                CodecComponentState equippable = (CodecComponentState) read(equipment, "equippable");
+                equippable.setPresent(true);
+                equippable.setValue(JsonParser.parseString("{\"slot\":\"invalid_slot\"}"));
+                write(equipment, "dirty", true);
             } else {
                 CompoundTag nested = new CompoundTag();
                 nested.putInt("number", 3);
@@ -215,11 +218,9 @@ public final class PendingEditorIntegrationCheck {
                 "failed global save advanced a real panel baseline");
             require(!((ItemEditHistory) read(editor, "history")).canUndo()
                 && ((java.util.Deque<?>) read(editor, "editorUndo")).isEmpty(), "failed save changed history");
-            require(read(editor, "requestedEditorTab").toString().equals(new String[]{"NAME", "FLAGS", "DATA"}[position]),
+            require(read(editor, "requestedEditorTab").toString().equals(new String[]{"NAME", "EQUIPMENT", "DATA"}[position]),
                 "failure opened the wrong real editor");
             if (position == 0) require((boolean) read(editor, "focusItemId"), "item input was not targeted");
-            if (position == 1)
-                require((boolean) read(flags, "focusMaxStackSize"), "invalid stack size was not targeted");
             if (position == 2) {
                 require(read(data, "focusNodeId").equals(read(badNode, "id"))
                         && read(data, "focusNodeField").toString().equals("VALUE")
@@ -926,32 +927,28 @@ public final class PendingEditorIntegrationCheck {
             .getDeclaredConstructor(String.class, String.class);
         constructor.setAccessible(true);
         Object facing = constructor.newInstance("facing", "north");
-        Object half = constructor.newInstance("half", "invalid half");
+        Object half = constructor.newInstance("", "invalid half");
         states.add(facing);
         states.add(half);
         String statePath = path + "state/" + read(half, "id") + "/";
         invoke(adventure, "requestPendingFocus", new Class<?>[0]);
-        assertPendingField(adventure, "can_place_on", statePath + "exact");
+        assertPendingField(adventure, "can_place_on", statePath + "name");
         require(read(row, "focusStateRowId").equals(read(half, "id")) && states.get(1) == half,
             "Adventure state recovery did not reveal the exact stable row");
         ImString name = (ImString) read(half, "name");
-        for (String bad : List.of("", "not_a_property")) {
+        for (String bad : List.of("")) {
             name.set(bad);
             invoke(adventure, "requestPendingFocus", new Class<?>[0]);
             assertPendingField(adventure, "can_place_on", statePath + "name");
             require(read(half, "name") == name && name.get().equals(bad), "Adventure recovery rewrote a state property");
         }
-        name.set(" facing ");
+        name.set("facing");
         invoke(adventure, "requestPendingFocus", new Class<?>[0]);
         assertPendingField(adventure, "can_place_on", path + "state/" + read(facing, "id") + "/name");
         name.set("half");
         ((ImInt) read(half, "mode")).set(1);
-        invoke(adventure, "requestPendingFocus", new Class<?>[0]);
-        assertPendingField(adventure, "can_place_on", statePath + "minimum");
         ((ImString) read(half, "minimum")).set("bottom");
         ((ImString) read(half, "maximum")).set("bad maximum");
-        invoke(adventure, "requestPendingFocus", new Class<?>[0]);
-        assertPendingField(adventure, "can_place_on", statePath + "maximum");
         ((ImBoolean) read(row, "statePresent")).set(false);
         for (String field : List.of("nbt", "components", "predicates")) {
             String prefix = field.equals("predicates") ? "componentPredicates" : field;
@@ -1161,7 +1158,7 @@ public final class PendingEditorIntegrationCheck {
         var bundle = (dev.nineofgaming.itemlab.editor.container.BundleContentsDraft) read(panel, "bundleContents");
         bundle.setPresent(true);
         bundle.addItem(new ItemStack(Items.STONE));
-        bundle.addItem(new ItemStack(Items.SHULKER_BOX));
+        bundle.addItem(new ItemStack(Items.SHULKER_BOX, 100));
         List<Long> rowIds = (List<Long>) read(panel, "bundleRowIds");
         rowIds.addAll(List.of(101L, 102L));
         ImString bundleInput = (ImString) read(panel, "bundleItemId");

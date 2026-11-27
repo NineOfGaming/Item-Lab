@@ -132,12 +132,6 @@ public final class ContainerEditorPanel extends ComponentEditorPanel {
                 requestPendingField("bundle_contents", "item_id");
                 return;
             }
-            int disallowed = hasSelectedBundleItem() && !bundleItemProblem().isBlank()
-                ? selectedBundleItem : bundleContents.firstDisallowedItem();
-            if (disallowed >= 0) {
-                requestBundleRecovery(disallowed);
-                return;
-            }
         }
         Minecraft client = Minecraft.getInstance();
         ItemStack probe = host.draft().copy();
@@ -686,7 +680,7 @@ public final class ContainerEditorPanel extends ComponentEditorPanel {
             );
             ImGui.progressBar(Math.clamp(fraction, 0.0f, 1.0f), -1.0f, 0.0f, label);
         } catch (RuntimeException exception) {
-            ItemEditorTheme.drawFieldProblem(tr(
+            EditorUi.textDisabledWrapped(tr(
                 "bundle.contents.weight_error",
                 EditorUi.readableMessage(exception)
             ));
@@ -694,7 +688,7 @@ public final class ContainerEditorPanel extends ComponentEditorPanel {
 
         int disallowed = bundleContents.firstDisallowedItem();
         if (disallowed >= 0) {
-            ItemEditorTheme.drawFieldProblem(tr("bundle.contents.disallowed", disallowed + 1));
+            EditorUi.textDisabledWrapped(tr("bundle.contents.disallowed", disallowed + 1));
         }
     }
 
@@ -2059,12 +2053,6 @@ public final class ContainerEditorPanel extends ComponentEditorPanel {
             if (!BuiltInRegistries.ITEM.containsKey(id)) return tr("validation.identifier_unknown");
             if (BuiltInRegistries.ITEM.getValue(id) == Items.AIR) return tr("error.empty_item");
         }
-        if (hasSelectedBundleItem()
-            && !net.minecraft.world.item.component.BundleContents.canItemBeInBundle(
-            bundleContents.item(selectedBundleItem)
-        )) {
-            return tr("bundle.contents.item_disallowed");
-        }
         return "";
     }
 
@@ -2332,10 +2320,6 @@ public final class ContainerEditorPanel extends ComponentEditorPanel {
         if (bundleContents.present()) {
             String bundleItemProblem = bundleItemProblem();
             if (!bundleItemProblem.isBlank()) throw new IllegalArgumentException(bundleItemProblem);
-            int disallowedBundleItem = bundleContents.firstDisallowedItem();
-            if (disallowedBundleItem >= 0) {
-                throw new IllegalArgumentException(tr("bundle.contents.disallowed", disallowedBundleItem + 1));
-            }
         }
         ItemStack edited = host.draft().copy();
         contents.applyTo(edited);
