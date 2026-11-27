@@ -1,12 +1,151 @@
 {
   "schema_version": 1,
-  "minecraft_version": "26.2",
+  "minecraft_version": "26.3",
   "source": "Minecraft vanilla registry-aware persistent codecs; defaults and reviewed nested/scalar probes",
   "components": [
     {
       "id": "minecraft:additional_trade_cost",
       "persistent": false,
       "cases": []
+    },
+    {
+      "id": "minecraft:attack_animation",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {
+            "type": "stab",
+            "duration": 13
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "type": "stab",
+              "duration": 13
+            }
+          }
+        },
+        {
+          "input": {
+            "type": "stab",
+            "duration": 15
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "type": "stab",
+              "duration": 15
+            }
+          }
+        },
+        {
+          "input": {
+            "type": "stab",
+            "duration": 17
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "type": "stab",
+              "duration": 17
+            }
+          }
+        },
+        {
+          "input": {
+            "type": "stab",
+            "duration": 19
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "type": "stab",
+              "duration": 19
+            }
+          }
+        },
+        {
+          "input": {
+            "type": "stab",
+            "duration": 21
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "type": "stab",
+              "duration": 21
+            }
+          }
+        },
+        {
+          "input": {
+            "type": "stab",
+            "duration": 23
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "type": "stab",
+              "duration": 23
+            }
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "accepted",
+            "encoded": {}
+          }
+        }
+      ]
     },
     {
       "id": "minecraft:attack_range",
@@ -2938,6 +3077,87 @@
       ]
     },
     {
+      "id": "minecraft:block_transformer",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "minecraft:axe",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:axe"
+          }
+        },
+        {
+          "input": "minecraft:hoe",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:hoe"
+          }
+        },
+        {
+          "input": "minecraft:shovel",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:shovel"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "rejected"
+          }
+        }
+      ]
+    },
+    {
       "id": "minecraft:blocks_attacks",
       "persistent": true,
       "cases": [
@@ -3108,6 +3328,79 @@
             "encoded": {
               "sound_id": "example:custom",
               "range": 16.0
+            }
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "rejected"
+          }
+        }
+      ]
+    },
+    {
+      "id": "minecraft:brewing_fuel",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {
+            "uses": "minecraft:brewing/uses_default",
+            "speed_multiplier": "minecraft:brewing/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "uses": "minecraft:brewing/uses_default",
+              "speed_multiplier": "minecraft:brewing/speed_default"
             }
           }
         },
@@ -3873,6 +4166,121 @@
       ]
     },
     {
+      "id": "minecraft:compostable",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {
+            "layers": "minecraft:compostable/always_add_one"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "layers": "minecraft:compostable/always_add_one"
+            }
+          }
+        },
+        {
+          "input": {
+            "layers": "minecraft:compostable/low"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "layers": "minecraft:compostable/low"
+            }
+          }
+        },
+        {
+          "input": {
+            "layers": "minecraft:compostable/low_medium"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "layers": "minecraft:compostable/low_medium"
+            }
+          }
+        },
+        {
+          "input": {
+            "layers": "minecraft:compostable/medium"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "layers": "minecraft:compostable/medium"
+            }
+          }
+        },
+        {
+          "input": {
+            "layers": "minecraft:compostable/medium_high"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "layers": "minecraft:compostable/medium_high"
+            }
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "rejected"
+          }
+        }
+      ]
+    },
+    {
       "id": "minecraft:consumable",
       "persistent": true,
       "cases": [
@@ -4536,6 +4944,300 @@
       ]
     },
     {
+      "id": "minecraft:cooking_fuel",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_bamboo",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_bamboo",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_blaze_rod",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_blaze_rod",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_boats",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_boats",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_coal",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_coal",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_coal_block",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_coal_block",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_dried_kelp_block",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_dried_kelp_block",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_dry_plants",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_dry_plants",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_hanging_signs",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_hanging_signs",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_lava_bucket",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_lava_bucket",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_roots",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_roots",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_wood_blocks",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_wood_blocks",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_wood_items_extra_small",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_wood_items_extra_small",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_wood_items_large",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_wood_items_large",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_wood_items_small",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_wood_items_small",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_wood_slabs",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_wood_slabs",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_wool",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_wool",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_wool_carpets",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_wool_carpets",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {
+            "burn_time": "minecraft:cooking/time_wool_slabs",
+            "speed_multiplier": "minecraft:cooking/speed_default"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "burn_time": "minecraft:cooking/time_wool_slabs",
+              "speed_multiplier": "minecraft:cooking/speed_default"
+            }
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "rejected"
+          }
+        }
+      ]
+    },
+    {
       "id": "minecraft:cow/sound_variant",
       "persistent": true,
       "cases": [
@@ -4659,6 +5361,178 @@
       "id": "minecraft:creative_slot_lock",
       "persistent": false,
       "cases": []
+    },
+    {
+      "id": "minecraft:cushion/color",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "black",
+          "result": {
+            "status": "accepted",
+            "encoded": "black"
+          }
+        },
+        {
+          "input": "blue",
+          "result": {
+            "status": "accepted",
+            "encoded": "blue"
+          }
+        },
+        {
+          "input": "brown",
+          "result": {
+            "status": "accepted",
+            "encoded": "brown"
+          }
+        },
+        {
+          "input": "cyan",
+          "result": {
+            "status": "accepted",
+            "encoded": "cyan"
+          }
+        },
+        {
+          "input": "gray",
+          "result": {
+            "status": "accepted",
+            "encoded": "gray"
+          }
+        },
+        {
+          "input": "green",
+          "result": {
+            "status": "accepted",
+            "encoded": "green"
+          }
+        },
+        {
+          "input": "light_blue",
+          "result": {
+            "status": "accepted",
+            "encoded": "light_blue"
+          }
+        },
+        {
+          "input": "light_gray",
+          "result": {
+            "status": "accepted",
+            "encoded": "light_gray"
+          }
+        },
+        {
+          "input": "lime",
+          "result": {
+            "status": "accepted",
+            "encoded": "lime"
+          }
+        },
+        {
+          "input": "magenta",
+          "result": {
+            "status": "accepted",
+            "encoded": "magenta"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "orange",
+          "result": {
+            "status": "accepted",
+            "encoded": "orange"
+          }
+        },
+        {
+          "input": "pink",
+          "result": {
+            "status": "accepted",
+            "encoded": "pink"
+          }
+        },
+        {
+          "input": "purple",
+          "result": {
+            "status": "accepted",
+            "encoded": "purple"
+          }
+        },
+        {
+          "input": "red",
+          "result": {
+            "status": "accepted",
+            "encoded": "red"
+          }
+        },
+        {
+          "input": "white",
+          "result": {
+            "status": "accepted",
+            "encoded": "white"
+          }
+        },
+        {
+          "input": "yellow",
+          "result": {
+            "status": "accepted",
+            "encoded": "yellow"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "rejected"
+          }
+        }
+      ]
     },
     {
       "id": "minecraft:custom_data",
@@ -9389,7 +10263,14 @@
             "durability_damage": 1
           },
           "result": {
-            "status": "rejected"
+            "status": "accepted",
+            "encoded": {
+              "sound_event": "minecraft:item.goat_horn.sound.0",
+              "use_duration": 0.0,
+              "range": 256.0,
+              "durability_damage": 1,
+              "description": "Inline"
+            }
           }
         },
         {
@@ -9408,6 +10289,7 @@
               "sound_event": "minecraft:item.goat_horn.sound.0",
               "use_duration": 7.0,
               "range": 256.0,
+              "durability_damage": 1,
               "description": "Inline"
             }
           }
@@ -9482,6 +10364,67 @@
       ]
     },
     {
+      "id": "minecraft:interact_animation",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "accepted",
+            "encoded": {}
+          }
+        }
+      ]
+    },
+    {
       "id": "minecraft:item_model",
       "persistent": true,
       "cases": [
@@ -9490,6 +10433,13 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:"
+          }
+        },
+        {
+          "input": "minecraft:abandoned_camp_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:abandoned_camp_map"
           }
         },
         {
@@ -10214,6 +11164,27 @@
           }
         },
         {
+          "input": "minecraft:black_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:black_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:black_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:black_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:black_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:black_cushion"
+          }
+        },
+        {
           "input": "minecraft:black_dye",
           "result": {
             "status": "accepted",
@@ -10267,6 +11238,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:black_wool"
+          }
+        },
+        {
+          "input": "minecraft:black_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:black_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:black_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:black_wool_stairs"
           }
         },
         {
@@ -10382,6 +11367,27 @@
           }
         },
         {
+          "input": "minecraft:blue_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:blue_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:blue_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:blue_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:blue_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:blue_cushion"
+          }
+        },
+        {
           "input": "minecraft:blue_dye",
           "result": {
             "status": "accepted",
@@ -10456,6 +11462,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:blue_wool"
+          }
+        },
+        {
+          "input": "minecraft:blue_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:blue_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:blue_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:blue_wool_stairs"
           }
         },
         {
@@ -10669,6 +11689,27 @@
           }
         },
         {
+          "input": "minecraft:brown_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:brown_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:brown_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:brown_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:brown_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:brown_cushion"
+          }
+        },
+        {
           "input": "minecraft:brown_dye",
           "result": {
             "status": "accepted",
@@ -10746,6 +11787,20 @@
           }
         },
         {
+          "input": "minecraft:brown_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:brown_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:brown_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:brown_wool_stairs"
+          }
+        },
+        {
           "input": "minecraft:brush",
           "result": {
             "status": "accepted",
@@ -10792,6 +11847,34 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:bundle"
+          }
+        },
+        {
+          "input": "minecraft:buried_ancient_city_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:buried_ancient_city_map"
+          }
+        },
+        {
+          "input": "minecraft:buried_mineshaft_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:buried_mineshaft_map"
+          }
+        },
+        {
+          "input": "minecraft:buried_treasure_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:buried_treasure_map"
+          }
+        },
+        {
+          "input": "minecraft:buried_trial_chambers_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:buried_trial_chambers_map"
           }
         },
         {
@@ -12069,6 +13152,27 @@
           }
         },
         {
+          "input": "minecraft:cyan_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:cyan_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:cyan_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:cyan_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:cyan_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:cyan_cushion"
+          }
+        },
+        {
           "input": "minecraft:cyan_dye",
           "result": {
             "status": "accepted",
@@ -12122,6 +13226,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:cyan_wool"
+          }
+        },
+        {
+          "input": "minecraft:cyan_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:cyan_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:cyan_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:cyan_wool_stairs"
           }
         },
         {
@@ -12542,6 +13660,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:deepslate_tiles"
+          }
+        },
+        {
+          "input": "minecraft:desert_pyramid_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:desert_pyramid_map"
+          }
+        },
+        {
+          "input": "minecraft:desert_village_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:desert_village_map"
           }
         },
         {
@@ -13651,6 +14783,27 @@
           }
         },
         {
+          "input": "minecraft:gray_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:gray_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:gray_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:gray_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:gray_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:gray_cushion"
+          }
+        },
+        {
           "input": "minecraft:gray_dye",
           "result": {
             "status": "accepted",
@@ -13707,6 +14860,20 @@
           }
         },
         {
+          "input": "minecraft:gray_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:gray_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:gray_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:gray_wool_stairs"
+          }
+        },
+        {
           "input": "minecraft:green_banner",
           "result": {
             "status": "accepted",
@@ -13753,6 +14920,27 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:green_concrete_powder"
+          }
+        },
+        {
+          "input": "minecraft:green_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:green_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:green_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:green_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:green_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:green_cushion"
           }
         },
         {
@@ -13809,6 +14997,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:green_wool"
+          }
+        },
+        {
+          "input": "minecraft:green_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:green_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:green_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:green_wool_stairs"
           }
         },
         {
@@ -14316,6 +15518,13 @@
           }
         },
         {
+          "input": "minecraft:jungle_pyramid_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:jungle_pyramid_map"
+          }
+        },
+        {
           "input": "minecraft:jungle_sapling",
           "result": {
             "status": "accepted",
@@ -14561,6 +15770,27 @@
           }
         },
         {
+          "input": "minecraft:light_blue_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:light_blue_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:light_blue_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:light_blue_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:light_blue_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:light_blue_cushion"
+          }
+        },
+        {
           "input": "minecraft:light_blue_dye",
           "result": {
             "status": "accepted",
@@ -14617,6 +15847,20 @@
           }
         },
         {
+          "input": "minecraft:light_blue_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:light_blue_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:light_blue_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:light_blue_wool_stairs"
+          }
+        },
+        {
           "input": "minecraft:light_gray_banner",
           "result": {
             "status": "accepted",
@@ -14663,6 +15907,27 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:light_gray_concrete_powder"
+          }
+        },
+        {
+          "input": "minecraft:light_gray_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:light_gray_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:light_gray_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:light_gray_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:light_gray_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:light_gray_cushion"
           }
         },
         {
@@ -14719,6 +15984,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:light_gray_wool"
+          }
+        },
+        {
+          "input": "minecraft:light_gray_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:light_gray_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:light_gray_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:light_gray_wool_stairs"
           }
         },
         {
@@ -14806,6 +16085,27 @@
           }
         },
         {
+          "input": "minecraft:lime_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:lime_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:lime_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:lime_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:lime_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:lime_cushion"
+          }
+        },
+        {
           "input": "minecraft:lime_dye",
           "result": {
             "status": "accepted",
@@ -14859,6 +16159,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:lime_wool"
+          }
+        },
+        {
+          "input": "minecraft:lime_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:lime_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:lime_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:lime_wool_stairs"
           }
         },
         {
@@ -14946,6 +16260,27 @@
           }
         },
         {
+          "input": "minecraft:magenta_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:magenta_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:magenta_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:magenta_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:magenta_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:magenta_cushion"
+          }
+        },
+        {
           "input": "minecraft:magenta_dye",
           "result": {
             "status": "accepted",
@@ -14999,6 +16334,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:magenta_wool"
+          }
+        },
+        {
+          "input": "minecraft:magenta_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:magenta_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:magenta_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:magenta_wool_stairs"
           }
         },
         {
@@ -15905,6 +17254,13 @@
           }
         },
         {
+          "input": "minecraft:ocean_monument_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:ocean_monument_map"
+          }
+        },
+        {
           "input": "minecraft:ocelot_spawn_egg",
           "result": {
             "status": "accepted",
@@ -15989,6 +17345,27 @@
           }
         },
         {
+          "input": "minecraft:orange_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:orange_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:orange_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:orange_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:orange_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:orange_cushion"
+          }
+        },
+        {
           "input": "minecraft:orange_dye",
           "result": {
             "status": "accepted",
@@ -16007,6 +17384,13 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:orange_harness"
+          }
+        },
+        {
+          "input": "minecraft:orange_poplar_leaves",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:orange_poplar_leaves"
           }
         },
         {
@@ -16049,6 +17433,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:orange_wool"
+          }
+        },
+        {
+          "input": "minecraft:orange_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:orange_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:orange_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:orange_wool_stairs"
           }
         },
         {
@@ -16486,6 +17884,27 @@
           }
         },
         {
+          "input": "minecraft:pink_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:pink_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:pink_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:pink_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:pink_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:pink_cushion"
+          }
+        },
+        {
           "input": "minecraft:pink_dye",
           "result": {
             "status": "accepted",
@@ -16556,6 +17975,20 @@
           }
         },
         {
+          "input": "minecraft:pink_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:pink_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:pink_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:pink_wool_stairs"
+          }
+        },
+        {
           "input": "minecraft:piston",
           "result": {
             "status": "accepted",
@@ -16574,6 +18007,13 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:pitcher_pod"
+          }
+        },
+        {
+          "input": "minecraft:plains_village_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:plains_village_map"
           }
         },
         {
@@ -16871,6 +18311,125 @@
           }
         },
         {
+          "input": "minecraft:poplar_boat",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_boat"
+          }
+        },
+        {
+          "input": "minecraft:poplar_button",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_button"
+          }
+        },
+        {
+          "input": "minecraft:poplar_chest_boat",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_chest_boat"
+          }
+        },
+        {
+          "input": "minecraft:poplar_door",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_door"
+          }
+        },
+        {
+          "input": "minecraft:poplar_fence",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_fence"
+          }
+        },
+        {
+          "input": "minecraft:poplar_fence_gate",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_fence_gate"
+          }
+        },
+        {
+          "input": "minecraft:poplar_hanging_sign",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_hanging_sign"
+          }
+        },
+        {
+          "input": "minecraft:poplar_log",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_log"
+          }
+        },
+        {
+          "input": "minecraft:poplar_planks",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_planks"
+          }
+        },
+        {
+          "input": "minecraft:poplar_pressure_plate",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_pressure_plate"
+          }
+        },
+        {
+          "input": "minecraft:poplar_sapling",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_sapling"
+          }
+        },
+        {
+          "input": "minecraft:poplar_shelf",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_shelf"
+          }
+        },
+        {
+          "input": "minecraft:poplar_sign",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_sign"
+          }
+        },
+        {
+          "input": "minecraft:poplar_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_slab"
+          }
+        },
+        {
+          "input": "minecraft:poplar_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_stairs"
+          }
+        },
+        {
+          "input": "minecraft:poplar_trapdoor",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_trapdoor"
+          }
+        },
+        {
+          "input": "minecraft:poplar_wood",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:poplar_wood"
+          }
+        },
+        {
           "input": "minecraft:popped_chorus_fruit",
           "result": {
             "status": "accepted",
@@ -17088,6 +18647,27 @@
           }
         },
         {
+          "input": "minecraft:purple_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:purple_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:purple_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:purple_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:purple_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:purple_cushion"
+          }
+        },
+        {
           "input": "minecraft:purple_dye",
           "result": {
             "status": "accepted",
@@ -17141,6 +18721,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:purple_wool"
+          }
+        },
+        {
+          "input": "minecraft:purple_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:purple_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:purple_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:purple_wool_stairs"
           }
         },
         {
@@ -17368,6 +18962,27 @@
           }
         },
         {
+          "input": "minecraft:red_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:red_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:red_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:red_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:red_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:red_cushion"
+          }
+        },
+        {
           "input": "minecraft:red_dye",
           "result": {
             "status": "accepted",
@@ -17431,6 +19046,13 @@
           }
         },
         {
+          "input": "minecraft:red_poplar_leaves",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:red_poplar_leaves"
+          }
+        },
+        {
           "input": "minecraft:red_sand",
           "result": {
             "status": "accepted",
@@ -17463,6 +19085,13 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:red_sandstone_wall"
+          }
+        },
+        {
+          "input": "minecraft:red_shrub",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:red_shrub"
           }
         },
         {
@@ -17505,6 +19134,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:red_wool"
+          }
+        },
+        {
+          "input": "minecraft:red_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:red_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:red_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:red_wool_stairs"
           }
         },
         {
@@ -17711,6 +19354,13 @@
           }
         },
         {
+          "input": "minecraft:savanna_village_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:savanna_village_map"
+          }
+        },
+        {
           "input": "minecraft:scaffolding",
           "result": {
             "status": "accepted",
@@ -17813,6 +19463,13 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:sheep_spawn_egg"
+          }
+        },
+        {
+          "input": "minecraft:shelf_mushroom",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:shelf_mushroom"
           }
         },
         {
@@ -18107,6 +19764,13 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:snowball"
+          }
+        },
+        {
+          "input": "minecraft:snowy_village_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:snowy_village_map"
           }
         },
         {
@@ -18467,6 +20131,13 @@
           }
         },
         {
+          "input": "minecraft:straw_bed",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:straw_bed"
+          }
+        },
+        {
           "input": "minecraft:stray_spawn_egg",
           "result": {
             "status": "accepted",
@@ -18618,6 +20289,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:stripped_pale_oak_wood"
+          }
+        },
+        {
+          "input": "minecraft:stripped_poplar_log",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:stripped_poplar_log"
+          }
+        },
+        {
+          "input": "minecraft:stripped_poplar_wood",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:stripped_poplar_wood"
           }
         },
         {
@@ -18782,6 +20467,13 @@
           }
         },
         {
+          "input": "minecraft:swamp_hut_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:swamp_hut_map"
+          }
+        },
+        {
           "input": "minecraft:sweet_berries",
           "result": {
             "status": "accepted",
@@ -18800,6 +20492,13 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:tadpole_spawn_egg"
+          }
+        },
+        {
+          "input": "minecraft:taiga_village_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:taiga_village_map"
           }
         },
         {
@@ -19150,6 +20849,13 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:warden_spawn_egg"
+          }
+        },
+        {
+          "input": "minecraft:warm_ocean_ruins_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:warm_ocean_ruins_map"
           }
         },
         {
@@ -19902,6 +21608,27 @@
           }
         },
         {
+          "input": "minecraft:white_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:white_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:white_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:white_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:white_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:white_cushion"
+          }
+        },
+        {
           "input": "minecraft:white_dye",
           "result": {
             "status": "accepted",
@@ -19962,6 +21689,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:white_wool"
+          }
+        },
+        {
+          "input": "minecraft:white_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:white_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:white_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:white_wool_stairs"
           }
         },
         {
@@ -20077,6 +21818,13 @@
           }
         },
         {
+          "input": "minecraft:woodland_mansion_map",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:woodland_mansion_map"
+          }
+        },
+        {
           "input": "minecraft:writable_book",
           "result": {
             "status": "accepted",
@@ -20140,6 +21888,27 @@
           }
         },
         {
+          "input": "minecraft:yellow_concrete_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:yellow_concrete_slab"
+          }
+        },
+        {
+          "input": "minecraft:yellow_concrete_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:yellow_concrete_stairs"
+          }
+        },
+        {
+          "input": "minecraft:yellow_cushion",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:yellow_cushion"
+          }
+        },
+        {
           "input": "minecraft:yellow_dye",
           "result": {
             "status": "accepted",
@@ -20158,6 +21927,13 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:yellow_harness"
+          }
+        },
+        {
+          "input": "minecraft:yellow_poplar_leaves",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:yellow_poplar_leaves"
           }
         },
         {
@@ -20193,6 +21969,20 @@
           "result": {
             "status": "accepted",
             "encoded": "minecraft:yellow_wool"
+          }
+        },
+        {
+          "input": "minecraft:yellow_wool_slab",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:yellow_wool_slab"
+          }
+        },
+        {
+          "input": "minecraft:yellow_wool_stairs",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:yellow_wool_stairs"
           }
         },
         {
@@ -21216,6 +23006,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.black_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.black_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.black_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.black_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.black_glazed_terracotta"
           },
           "result": {
@@ -21277,6 +23089,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.black_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.black_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.black_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.black_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.black_wool_stairs"
             }
           }
         },
@@ -21403,6 +23237,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.blue_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.blue_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.blue_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.blue_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.blue_glazed_terracotta"
           },
           "result": {
@@ -21486,6 +23342,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.blue_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.blue_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.blue_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.blue_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.blue_wool_stairs"
             }
           }
         },
@@ -21667,6 +23545,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.brown_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.brown_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.brown_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.brown_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.brown_glazed_terracotta"
           },
           "result": {
@@ -21750,6 +23650,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.brown_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.brown_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.brown_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.brown_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.brown_wool_stairs"
             }
           }
         },
@@ -23174,6 +25096,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.cyan_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.cyan_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.cyan_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.cyan_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.cyan_glazed_terracotta"
           },
           "result": {
@@ -23235,6 +25179,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.cyan_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.cyan_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.cyan_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.cyan_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.cyan_wool_stairs"
             }
           }
         },
@@ -24670,6 +26636,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.gray_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.gray_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.gray_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.gray_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.gray_glazed_terracotta"
           },
           "result": {
@@ -24731,6 +26719,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.gray_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.gray_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.gray_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.gray_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.gray_wool_stairs"
             }
           }
         },
@@ -24802,6 +26812,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.green_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.green_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.green_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.green_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.green_glazed_terracotta"
           },
           "result": {
@@ -24863,6 +26895,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.green_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.green_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.green_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.green_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.green_wool_stairs"
             }
           }
         },
@@ -25539,6 +27593,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.light_blue_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.light_blue_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.light_blue_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.light_blue_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.light_blue_glazed_terracotta"
           },
           "result": {
@@ -25600,6 +27676,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.light_blue_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.light_blue_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.light_blue_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.light_blue_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.light_blue_wool_stairs"
             }
           }
         },
@@ -25671,6 +27769,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.light_gray_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.light_gray_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.light_gray_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.light_gray_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.light_gray_glazed_terracotta"
           },
           "result": {
@@ -25732,6 +27852,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.light_gray_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.light_gray_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.light_gray_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.light_gray_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.light_gray_wool_stairs"
             }
           }
         },
@@ -25858,6 +28000,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.lime_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.lime_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.lime_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.lime_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.lime_glazed_terracotta"
           },
           "result": {
@@ -25919,6 +28083,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.lime_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.lime_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.lime_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.lime_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.lime_wool_stairs"
             }
           }
         },
@@ -26012,6 +28198,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.magenta_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.magenta_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.magenta_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.magenta_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.magenta_glazed_terracotta"
           },
           "result": {
@@ -26073,6 +28281,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.magenta_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.magenta_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.magenta_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.magenta_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.magenta_wool_stairs"
             }
           }
         },
@@ -26914,12 +29144,45 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.orange_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.orange_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.orange_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.orange_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.orange_glazed_terracotta"
           },
           "result": {
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.orange_glazed_terracotta"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.orange_poplar_leaves"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.orange_poplar_leaves"
             }
           }
         },
@@ -26986,6 +29249,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.orange_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.orange_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.orange_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.orange_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.orange_wool_stairs"
             }
           }
         },
@@ -27508,6 +29793,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.pink_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.pink_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.pink_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.pink_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.pink_glazed_terracotta"
           },
           "result": {
@@ -27591,6 +29898,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.pink_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.pink_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.pink_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.pink_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.pink_wool_stairs"
             }
           }
         },
@@ -28047,6 +30376,171 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.poplar_button"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_button"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_door"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_door"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_fence"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_fence"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_fence_gate"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_fence_gate"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_hanging_sign"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_hanging_sign"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_log"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_log"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_planks"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_planks"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_pressure_plate"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_pressure_plate"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_sapling"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_sapling"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_shelf"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_shelf"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_sign"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_sign"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_stairs"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_trapdoor"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_trapdoor"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.poplar_wood"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.poplar_wood"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.poppy"
           },
           "result": {
@@ -28234,6 +30728,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.purple_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.purple_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.purple_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.purple_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.purple_glazed_terracotta"
           },
           "result": {
@@ -28295,6 +30811,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.purple_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.purple_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.purple_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.purple_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.purple_wool_stairs"
             }
           }
         },
@@ -28509,6 +31047,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.red_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.red_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.red_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.red_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.red_glazed_terracotta"
           },
           "result": {
@@ -28586,6 +31146,17 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.red_poplar_leaves"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.red_poplar_leaves"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.red_sand"
           },
           "result": {
@@ -28636,6 +31207,17 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.red_sandstone_wall"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.red_shrub"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.red_shrub"
             }
           }
         },
@@ -28702,6 +31284,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.red_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.red_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.red_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.red_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.red_wool_stairs"
             }
           }
         },
@@ -29021,6 +31625,17 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.seagrass"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.shelf_mushroom"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.shelf_mushroom"
             }
           }
         },
@@ -29686,6 +32301,17 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.straw_bed"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.straw_bed"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.stripped_acacia_log"
           },
           "result": {
@@ -29890,6 +32516,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.stripped_pale_oak_wood"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.stripped_poplar_log"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.stripped_poplar_log"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.stripped_poplar_wood"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.stripped_poplar_wood"
             }
           }
         },
@@ -31534,6 +34182,28 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.white_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.white_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.white_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.white_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.white_glazed_terracotta"
           },
           "result": {
@@ -31606,6 +34276,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.white_wool"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.white_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.white_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.white_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.white_wool_stairs"
             }
           }
         },
@@ -31710,12 +34402,45 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.yellow_concrete_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.yellow_concrete_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.yellow_concrete_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.yellow_concrete_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.yellow_glazed_terracotta"
           },
           "result": {
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.yellow_glazed_terracotta"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.yellow_poplar_leaves"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.yellow_poplar_leaves"
             }
           }
         },
@@ -31776,12 +34501,45 @@
         },
         {
           "input": {
+            "translate": "block.minecraft.yellow_wool_slab"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.yellow_wool_slab"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "block.minecraft.yellow_wool_stairs"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "block.minecraft.yellow_wool_stairs"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "block.minecraft.zombie_head"
           },
           "result": {
             "status": "accepted",
             "encoded": {
               "translate": "block.minecraft.zombie_head"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.abandoned_camp_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.abandoned_camp_map"
             }
           }
         },
@@ -32073,6 +34831,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.black_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.black_cushion"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.black_dye"
           },
           "result": {
@@ -32145,6 +34914,17 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.blue_bundle"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.blue_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.blue_cushion"
             }
           }
         },
@@ -32337,6 +35117,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.brown_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.brown_cushion"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.brown_dye"
           },
           "result": {
@@ -32398,6 +35189,50 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.bundle"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.buried_ancient_city_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.buried_ancient_city_map"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.buried_mineshaft_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.buried_mineshaft_map"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.buried_treasure_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.buried_treasure_map"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.buried_trial_chambers_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.buried_trial_chambers_map"
             }
           }
         },
@@ -33030,6 +35865,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.cyan_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.cyan_cushion"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.cyan_dye"
           },
           "result": {
@@ -33091,6 +35937,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.debug_stick"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.desert_pyramid_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.desert_pyramid_map"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.desert_village_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.desert_village_map"
             }
           }
         },
@@ -34020,6 +36888,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.gray_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.gray_cushion"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.gray_dye"
           },
           "result": {
@@ -34048,6 +36927,17 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.green_bundle"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.green_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.green_cushion"
             }
           }
         },
@@ -34460,6 +37350,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.jungle_pyramid_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.jungle_pyramid_map"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.knowledge_book"
           },
           "result": {
@@ -34581,6 +37482,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.light_blue_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.light_blue_cushion"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.light_blue_dye"
           },
           "result": {
@@ -34614,6 +37526,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.light_gray_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.light_gray_cushion"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.light_gray_dye"
           },
           "result": {
@@ -34642,6 +37565,17 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.lime_bundle"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.lime_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.lime_cushion"
             }
           }
         },
@@ -34708,6 +37642,17 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.magenta_bundle"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.magenta_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.magenta_cushion"
             }
           }
         },
@@ -35406,6 +38351,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.ocean_monument_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.ocean_monument_map"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.ocelot_spawn_egg"
           },
           "result": {
@@ -35445,6 +38401,17 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.orange_bundle"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.orange_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.orange_cushion"
             }
           }
         },
@@ -35637,6 +38604,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.pink_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.pink_cushion"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.pink_dye"
           },
           "result": {
@@ -35670,6 +38648,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.plains_village_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.plains_village_map"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.plenty_pottery_sherd"
           },
           "result": {
@@ -35698,6 +38687,28 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.polar_bear_spawn_egg"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.poplar_boat"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.poplar_boat"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.poplar_chest_boat"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.poplar_chest_boat"
             }
           }
         },
@@ -35852,6 +38863,17 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.purple_bundle"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.purple_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.purple_cushion"
             }
           }
         },
@@ -36022,6 +39044,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.red_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.red_cushion"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.red_dye"
           },
           "result": {
@@ -36138,6 +39171,17 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.salmon_spawn_egg"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.savanna_village_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.savanna_village_map"
             }
           }
         },
@@ -36396,6 +39440,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.snowy_village_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.snowy_village_map"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.spectral_arrow"
           },
           "result": {
@@ -36649,6 +39704,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.swamp_hut_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.swamp_hut_map"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.sweet_berries"
           },
           "result": {
@@ -36677,6 +39743,17 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.tadpole_spawn_egg"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.taiga_village_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.taiga_village_map"
             }
           }
         },
@@ -36913,6 +39990,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.warm_ocean_ruins_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.warm_ocean_ruins_map"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.warped_fungus_on_a_stick"
           },
           "result": {
@@ -36974,6 +40062,17 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.white_bundle"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.white_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.white_cushion"
             }
           }
         },
@@ -37144,6 +40243,17 @@
         },
         {
           "input": {
+            "translate": "item.minecraft.woodland_mansion_map"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.woodland_mansion_map"
+            }
+          }
+        },
+        {
+          "input": {
             "translate": "item.minecraft.writable_book"
           },
           "result": {
@@ -37172,6 +40282,17 @@
             "status": "accepted",
             "encoded": {
               "translate": "item.minecraft.yellow_bundle"
+            }
+          }
+        },
+        {
+          "input": {
+            "translate": "item.minecraft.yellow_cushion"
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "translate": "item.minecraft.yellow_cushion"
             }
           }
         },
@@ -38144,76 +41265,6 @@
       ]
     },
     {
-      "id": "minecraft:map_color",
-      "persistent": true,
-      "cases": [
-        {
-          "input": "",
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": "minecraft:stone",
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": -1,
-          "result": {
-            "status": "accepted",
-            "encoded": -1
-          }
-        },
-        {
-          "input": 0,
-          "result": {
-            "status": "accepted",
-            "encoded": 0
-          }
-        },
-        {
-          "input": 1,
-          "result": {
-            "status": "accepted",
-            "encoded": 1
-          }
-        },
-        {
-          "input": 4603950,
-          "result": {
-            "status": "accepted",
-            "encoded": 4603950
-          }
-        },
-        {
-          "input": [],
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": false,
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": true,
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": {},
-          "result": {
-            "status": "rejected"
-          }
-        }
-      ]
-    },
-    {
       "id": "minecraft:map_decorations",
       "persistent": true,
       "cases": [
@@ -38834,6 +41885,124 @@
       ]
     },
     {
+      "id": "minecraft:mob_visibility",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {
+            "targeting_entity_types": "minecraft:creeper",
+            "visibility": 0.5
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "targeting_entity_types": "minecraft:creeper",
+              "visibility": 0.5
+            }
+          }
+        },
+        {
+          "input": {
+            "targeting_entity_types": "minecraft:skeleton",
+            "visibility": 0.5
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "targeting_entity_types": "minecraft:skeleton",
+              "visibility": 0.5
+            }
+          }
+        },
+        {
+          "input": {
+            "targeting_entity_types": "minecraft:zombie",
+            "visibility": 0.5
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "targeting_entity_types": "minecraft:zombie",
+              "visibility": 0.5
+            }
+          }
+        },
+        {
+          "input": {
+            "targeting_entity_types": [
+              "minecraft:piglin",
+              "minecraft:piglin_brute"
+            ],
+            "visibility": 0.5
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "targeting_entity_types": [
+                "minecraft:piglin",
+                "minecraft:piglin_brute"
+              ],
+              "visibility": 0.5
+            }
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "rejected"
+          }
+        }
+      ]
+    },
+    {
       "id": "minecraft:mooshroom/variant",
       "persistent": true,
       "cases": [
@@ -39399,42 +42568,13 @@
             "minecraft:brick"
           ],
           "result": {
-            "status": "accepted",
-            "encoded": [
-              "minecraft:brick",
-              "minecraft:archer_pottery_sherd",
-              "minecraft:prize_pottery_sherd",
-              "minecraft:brick"
-            ]
-          }
-        },
-        {
-          "input": [
-            "minecraft:brick",
-            "minecraft:brick",
-            "minecraft:brick",
-            "minecraft:brick"
-          ],
-          "result": {
-            "status": "accepted",
-            "encoded": [
-              "minecraft:brick",
-              "minecraft:brick",
-              "minecraft:brick",
-              "minecraft:brick"
-            ]
+            "status": "rejected"
           }
         },
         {
           "input": [],
           "result": {
-            "status": "accepted",
-            "encoded": [
-              "minecraft:brick",
-              "minecraft:brick",
-              "minecraft:brick",
-              "minecraft:brick"
-            ]
+            "status": "rejected"
           }
         },
         {
@@ -39462,13 +42602,56 @@
             }
           },
           "result": {
-            "status": "rejected"
+            "status": "accepted",
+            "encoded": {
+              "back": {
+                "id": "minecraft:brick",
+                "count": 2,
+                "components": {
+                  "minecraft:custom_name": "Nested"
+                }
+              }
+            }
+          }
+        },
+        {
+          "input": {
+            "back": {
+              "id": "minecraft:brick"
+            },
+            "left": {
+              "id": "minecraft:brick"
+            },
+            "right": {
+              "id": "minecraft:brick"
+            },
+            "front": {
+              "id": "minecraft:brick"
+            }
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "back": {
+                "id": "minecraft:brick"
+              },
+              "left": {
+                "id": "minecraft:brick"
+              },
+              "right": {
+                "id": "minecraft:brick"
+              },
+              "front": {
+                "id": "minecraft:brick"
+              }
+            }
           }
         },
         {
           "input": {},
           "result": {
-            "status": "rejected"
+            "status": "accepted",
+            "encoded": {}
           }
         }
       ]
@@ -39845,6 +43028,227 @@
           "result": {
             "status": "accepted",
             "encoded": []
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "rejected"
+          }
+        }
+      ]
+    },
+    {
+      "id": "minecraft:provides_pottery_pattern",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "minecraft:angler",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:angler"
+          }
+        },
+        {
+          "input": "minecraft:archer",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:archer"
+          }
+        },
+        {
+          "input": "minecraft:arms_up",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:arms_up"
+          }
+        },
+        {
+          "input": "minecraft:blade",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:blade"
+          }
+        },
+        {
+          "input": "minecraft:brewer",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:brewer"
+          }
+        },
+        {
+          "input": "minecraft:burn",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:burn"
+          }
+        },
+        {
+          "input": "minecraft:danger",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:danger"
+          }
+        },
+        {
+          "input": "minecraft:explorer",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:explorer"
+          }
+        },
+        {
+          "input": "minecraft:flow",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:flow"
+          }
+        },
+        {
+          "input": "minecraft:friend",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:friend"
+          }
+        },
+        {
+          "input": "minecraft:guster",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:guster"
+          }
+        },
+        {
+          "input": "minecraft:heart",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:heart"
+          }
+        },
+        {
+          "input": "minecraft:heartbreak",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:heartbreak"
+          }
+        },
+        {
+          "input": "minecraft:howl",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:howl"
+          }
+        },
+        {
+          "input": "minecraft:miner",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:miner"
+          }
+        },
+        {
+          "input": "minecraft:mourner",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:mourner"
+          }
+        },
+        {
+          "input": "minecraft:plenty",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:plenty"
+          }
+        },
+        {
+          "input": "minecraft:prize",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:prize"
+          }
+        },
+        {
+          "input": "minecraft:scrape",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:scrape"
+          }
+        },
+        {
+          "input": "minecraft:sheaf",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:sheaf"
+          }
+        },
+        {
+          "input": "minecraft:shelter",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:shelter"
+          }
+        },
+        {
+          "input": "minecraft:skull",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:skull"
+          }
+        },
+        {
+          "input": "minecraft:snort",
+          "result": {
+            "status": "accepted",
+            "encoded": "minecraft:snort"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
           }
         },
         {
@@ -40714,6 +44118,176 @@
       ]
     },
     {
+      "id": "minecraft:sign_text_back",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {
+            "messages": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "color": "black",
+            "has_glowing_text": false
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "messages": [
+                "",
+                "",
+                "",
+                ""
+              ],
+              "color": "black",
+              "has_glowing_text": false
+            }
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "rejected"
+          }
+        }
+      ]
+    },
+    {
+      "id": "minecraft:sign_text_front",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {
+            "messages": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "color": "black",
+            "has_glowing_text": false
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "messages": [
+                "",
+                "",
+                "",
+                ""
+              ],
+              "color": "black",
+              "has_glowing_text": false
+            }
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "rejected"
+          }
+        }
+      ]
+    },
+    {
       "id": "minecraft:stored_enchantments",
       "persistent": true,
       "cases": [
@@ -40948,145 +44522,6 @@
           "input": {},
           "result": {
             "status": "rejected"
-          }
-        }
-      ]
-    },
-    {
-      "id": "minecraft:swing_animation",
-      "persistent": true,
-      "cases": [
-        {
-          "input": "",
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": "minecraft:stone",
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": -1,
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": 0,
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": 1,
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": [],
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": false,
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": true,
-          "result": {
-            "status": "rejected"
-          }
-        },
-        {
-          "input": {
-            "type": "stab",
-            "duration": 13
-          },
-          "result": {
-            "status": "accepted",
-            "encoded": {
-              "type": "stab",
-              "duration": 13
-            }
-          }
-        },
-        {
-          "input": {
-            "type": "stab",
-            "duration": 15
-          },
-          "result": {
-            "status": "accepted",
-            "encoded": {
-              "type": "stab",
-              "duration": 15
-            }
-          }
-        },
-        {
-          "input": {
-            "type": "stab",
-            "duration": 17
-          },
-          "result": {
-            "status": "accepted",
-            "encoded": {
-              "type": "stab",
-              "duration": 17
-            }
-          }
-        },
-        {
-          "input": {
-            "type": "stab",
-            "duration": 19
-          },
-          "result": {
-            "status": "accepted",
-            "encoded": {
-              "type": "stab",
-              "duration": 19
-            }
-          }
-        },
-        {
-          "input": {
-            "type": "stab",
-            "duration": 21
-          },
-          "result": {
-            "status": "accepted",
-            "encoded": {
-              "type": "stab",
-              "duration": 21
-            }
-          }
-        },
-        {
-          "input": {
-            "type": "stab",
-            "duration": 23
-          },
-          "result": {
-            "status": "accepted",
-            "encoded": {
-              "type": "stab",
-              "duration": 23
-            }
-          }
-        },
-        {
-          "input": {},
-          "result": {
-            "status": "accepted",
-            "encoded": {}
           }
         }
       ]
@@ -42368,18 +45803,7 @@
             }
           },
           "result": {
-            "status": "accepted",
-            "encoded": {
-              "material": {
-                "asset_name": "probe",
-                "description": "Inline"
-              },
-              "pattern": {
-                "asset_id": "example:probe",
-                "description": "Inline",
-                "decal": false
-              }
-            }
+            "status": "rejected"
           }
         },
         {
@@ -42961,6 +46385,149 @@
           "input": {},
           "result": {
             "status": "rejected"
+          }
+        }
+      ]
+    },
+    {
+      "id": "minecraft:villager_food",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {
+            "nutrition": 1
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "nutrition": 1
+            }
+          }
+        },
+        {
+          "input": {
+            "nutrition": 4
+          },
+          "result": {
+            "status": "accepted",
+            "encoded": {
+              "nutrition": 4
+            }
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "rejected"
+          }
+        }
+      ]
+    },
+    {
+      "id": "minecraft:waxed",
+      "persistent": true,
+      "cases": [
+        {
+          "input": "",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": "minecraft:stone",
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": -1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 0,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": 1,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": [],
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": false,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": true,
+          "result": {
+            "status": "rejected"
+          }
+        },
+        {
+          "input": {},
+          "result": {
+            "status": "accepted",
+            "encoded": {}
           }
         }
       ]

@@ -8,6 +8,12 @@ import java.util.Set;
  * Reviewed coverage classification for every vanilla item component in supported targets.
  */
 public final class ComponentCoverage {
+    private static final Set<String> COMPONENTS_26_3 = Set.of(
+        "minecraft:block_transformer", "minecraft:brewing_fuel", "minecraft:compostable",
+        "minecraft:cooking_fuel", "minecraft:cushion/color", "minecraft:interact_animation",
+        "minecraft:mob_visibility", "minecraft:provides_pottery_pattern", "minecraft:sign_text_back",
+        "minecraft:sign_text_front", "minecraft:villager_food", "minecraft:waxed"
+    );
     private static final Set<String> REVIEWED_COMPONENTS = Set.of(
         "minecraft:additional_trade_cost",
         "minecraft:attack_range",
@@ -100,7 +106,7 @@ public final class ComponentCoverage {
         "minecraft:stored_enchantments",
         "minecraft:sulfur_cube_content",
         "minecraft:suspicious_stew_effects",
-        "minecraft:swing_animation",
+        "minecraft:attack_animation",
         "minecraft:tool",
         "minecraft:tooltip_display",
         "minecraft:tooltip_style",
@@ -141,6 +147,7 @@ public final class ComponentCoverage {
 
     public static Category classify(ComponentOption option, boolean topLevelDedicated) {
         String id = option.id();
+        if (COMPONENTS_26_3.contains(id)) return Category.GENERATED_STRUCTURED;
         if (!REVIEWED_COMPONENTS.contains(id)) return Category.UNCLASSIFIED;
         if (NETWORK_ONLY.contains(id)) return Category.NETWORK_ONLY;
         if (InlineComponentEditorRegistry.supports(id)) {

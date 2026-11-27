@@ -67,7 +67,11 @@ final class EditorRichTextRenderer {
     }
 
     private static void openUri(URI uri) {
-        net.minecraft.util.Util.getPlatform().openUri(uri);
+        //? if >=26.3 {
+        com.mojang.blaze3d.Blaze3D.openUri(uri);
+        //?} else {
+        /*net.minecraft.util.Util.getPlatform().openUri(uri);
+        *///?}
     }
 
     private static final class StyledSink implements FormattedCharSink {
@@ -150,7 +154,13 @@ final class EditorRichTextRenderer {
                         minecraft.gui.setScreen(new net.minecraft.client.gui.screens.ConfirmLinkScreen(confirm -> {
                             if (confirm) openUri(uri);
                             minecraft.gui.setScreen(oldScreen);
-                        }, uri.toString(), false));
+                        },
+                        //? if >=26.3 {
+                        uri,
+                        //?} else {
+                        /*uri.toString(),
+                        *///?}
+                        false));
                         //?} else {
                         /*final Screen oldScreen = minecraft.screen;
                         minecraft.setScreen(new net.minecraft.client.gui.screens.ConfirmLinkScreen(confirm -> {

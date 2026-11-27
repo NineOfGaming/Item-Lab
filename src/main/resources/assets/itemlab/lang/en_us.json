@@ -288,6 +288,8 @@
   "itemlab.music.use_duration.help": "How long the instrument is used before it can finish playing.",
   "itemlab.music.range": "Instrument range",
   "itemlab.music.range.help": "Maximum distance at which the instrument can be heard.",
+  "itemlab.music.durability_damage": "Durability damage",
+  "itemlab.music.durability_damage.help": "Durability consumed each time the instrument is played.",
   "itemlab.music.description": "Description",
   "itemlab.music.description.help": "Minecraft text-component JSON shown in the instrument tooltip.",
   "itemlab.music.description.format": "Format JSON",

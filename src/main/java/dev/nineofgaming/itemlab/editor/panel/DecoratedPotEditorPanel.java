@@ -8,7 +8,6 @@ import dev.nineofgaming.itemlab.editor.ui.control.FieldHints;
 import dev.nineofgaming.itemlab.editor.ui.EditorUi;
 import dev.nineofgaming.itemlab.editor.ui.preview.ItemModelPreviewMode;
 import imgui.ImGui;
-import imgui.flag.ImGuiTableFlags;
 import imgui.type.ImBoolean;
 import imgui.type.ImString;
 import net.minecraft.client.Minecraft;
@@ -28,6 +27,10 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+//? if >=26.3 {
+import java.util.Optional;
+import net.minecraft.world.item.ItemStackTemplate;
+//?}
 
 import static dev.nineofgaming.itemlab.editor.ui.EditorText.tr;
 
@@ -41,6 +44,9 @@ public final class DecoratedPotEditorPanel extends ComponentEditorPanel {
     private final AutocompleteInput autocomplete = new AutocompleteInput();
     private final ImBoolean decorationsPresent = new ImBoolean(false);
     private final EnumMap<PotSide, ImString> sideValues = new EnumMap<>(PotSide.class);
+    //? if >=26.3 {
+    private final EnumMap<PotSide, Optional<ItemStackTemplate>> originalSides = new EnumMap<>(PotSide.class);
+    //?}
     private List<IdSuggestion> sherdSuggestions = List.of();
     private boolean focusEnabledToggle;
     private PotSide requestedSideFocus;
@@ -83,10 +89,18 @@ public final class DecoratedPotEditorPanel extends ComponentEditorPanel {
         }
 
         List<IdSuggestion> suggestions = new ArrayList<>();
-        for (Holder<Item> holder : BuiltInRegistries.ITEM.getTagOrEmpty(ItemTags.DECORATED_POT_INGREDIENTS)) {
+        //? if >=26.3 {
+        for (Item item : BuiltInRegistries.ITEM) {
+            if (item != Items.BRICK && !item.getDefaultInstance().has(DataComponents.PROVIDES_POTTERY_PATTERN)) continue;
+            Identifier id = BuiltInRegistries.ITEM.getKey(item);
+            suggestions.add(itemSuggestions.getOrDefault(id.toString(), IdSuggestion.of(id.toString())));
+        }
+        //?} else {
+        /*for (Holder<Item> holder : BuiltInRegistries.ITEM.getTagOrEmpty(ItemTags.DECORATED_POT_INGREDIENTS)) {
             Identifier id = BuiltInRegistries.ITEM.getKey(holder.value());
             suggestions.add(itemSuggestions.getOrDefault(id.toString(), IdSuggestion.of(id.toString())));
         }
+        *///?}
         if (suggestions.isEmpty()) {
             suggestions = catalog.itemIds().stream()
                 .filter(suggestion -> suggestion.id().equals(BRICK_ID)
@@ -101,11 +115,22 @@ public final class DecoratedPotEditorPanel extends ComponentEditorPanel {
     public void sync(ItemStack stack) {
         PotDecorations installed = stack.get(DataComponents.POT_DECORATIONS);
         decorationsPresent.set(installed != null);
-        List<Item> sides = (installed == null ? PotDecorations.EMPTY : installed).ordered();
+        //? if >=26.3 {
+        PotDecorations value = installed == null ? PotDecorations.EMPTY : installed;
+        originalSides.put(PotSide.BACK, value.back());
+        originalSides.put(PotSide.LEFT, value.left());
+        originalSides.put(PotSide.RIGHT, value.right());
+        originalSides.put(PotSide.FRONT, value.front());
+        for (PotSide side : PotSide.values()) {
+            sideValues.get(side).set(originalSides.get(side).map(template -> itemId(template.item().value())).orElse(BRICK_ID));
+        }
+        //?} else {
+        /*List<Item> sides = (installed == null ? PotDecorations.EMPTY : installed).ordered();
         PotSide[] orderedSides = PotSide.values();
         for (int index = 0; index < orderedSides.length; index++) {
             sideValues.get(orderedSides[index]).set(itemId(sides.get(index)));
         }
+        *///?}
         dirty = false;
         resetEditorUi();
         focusEnabledToggle = false;
@@ -229,10 +254,17 @@ public final class DecoratedPotEditorPanel extends ComponentEditorPanel {
         ItemStack edited = host.draft().copy();
         if (decorationsPresent.get()) {
             edited.set(DataComponents.POT_DECORATIONS, new PotDecorations(
-                resolveItem(sideValues.get(PotSide.BACK)),
+                //? if >=26.3 {
+                resolveSide(PotSide.BACK),
+                resolveSide(PotSide.LEFT),
+                resolveSide(PotSide.RIGHT),
+                resolveSide(PotSide.FRONT)
+                //?} else {
+                /*resolveItem(sideValues.get(PotSide.BACK)),
                 resolveItem(sideValues.get(PotSide.LEFT)),
                 resolveItem(sideValues.get(PotSide.RIGHT)),
                 resolveItem(sideValues.get(PotSide.FRONT))
+                *///?}
             ));
         } else {
             edited.remove(DataComponents.POT_DECORATIONS);
@@ -255,6 +287,16 @@ public final class DecoratedPotEditorPanel extends ComponentEditorPanel {
     protected boolean hasPendingChanges() {
         return !ItemStack.matches(host.draft(), buildEditedStack());
     }
+
+    //? if >=26.3 {
+    private Optional<ItemStackTemplate> resolveSide(PotSide side) {
+        Item selected = resolveItem(sideValues.get(side));
+        Optional<ItemStackTemplate> original = originalSides.getOrDefault(side, Optional.empty());
+        Item originalItem = original.map(template -> template.item().value()).orElse(Items.BRICK);
+        if (selected == originalItem) return original;
+        return selected == Items.AIR ? Optional.empty() : Optional.of(new ItemStackTemplate(selected));
+    }
+    //?}
 
     private static Item resolveItem(ImString value) {
         Identifier id = Identifier.tryParse(value.get().trim());

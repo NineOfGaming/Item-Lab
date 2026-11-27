@@ -8,6 +8,16 @@ public final class EditorCheckSupport {
     private EditorCheckSupport() {
     }
 
+    public static net.minecraft.core.HolderLookup.Provider vanillaRegistries() {
+        //? if >=26.3 {
+        return net.minecraft.data.registries.VanillaRegistries.createReloadableLookup(
+            net.minecraft.data.registries.VanillaRegistries.createWorldLookup()
+        );
+        //?} else {
+        /*return net.minecraft.data.registries.VanillaRegistries.createLookup();
+        *///?}
+    }
+
     public static Object read(Object target, String name) throws ReflectiveOperationException {
         return field(target, name).get(target);
     }

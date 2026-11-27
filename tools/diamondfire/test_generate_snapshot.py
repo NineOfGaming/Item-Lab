@@ -23,19 +23,17 @@ class SnapshotTests(unittest.TestCase):
     def test_codec_policy_keeps_registry_values_out_of_format_warnings(self):
         policy = json.loads((generator.FIXTURES / "codec-format-policy.json").read_text(encoding="utf-8"))
         runtime = generator.runtime_formats(policy)
-        self.assertNotIn("26.1", runtime["client_versions"])
-        self.assertEqual(runtime["client_versions"]["26.2"], [])
-        self.assertEqual(runtime["client_versions"]["26.3"],
-                         ["minecraft:instrument", "minecraft:pot_decorations", "minecraft:trim"])
+        self.assertEqual(runtime["server_version"], "26.3")
+        self.assertEqual(runtime["client_versions"], {"26.3": []})
         self.assertNotIn("reason", generator.encode(runtime))
         for mutation in ("unreviewed", "duplicate", "wrong baseline", "wrong fixture"):
             bad = copy.deepcopy(policy)
             if mutation == "unreviewed":
-                bad["comparisons"][-1]["formats"] = []
+                bad["comparisons"][-1]["formats"] = ["minecraft:instrument"]
             elif mutation == "duplicate":
                 bad["comparisons"].append(copy.deepcopy(bad["comparisons"][0]))
             elif mutation == "wrong baseline":
-                bad["server_version"] = "26.3"
+                bad["server_version"] = "26.2"
             else:
                 bad["comparisons"][0]["fixture"] = "../outside.json"
             with self.subTest(mutation=mutation), self.assertRaises(ValueError):
@@ -44,7 +42,7 @@ class SnapshotTests(unittest.TestCase):
     def test_older_clients_cannot_reenter_df_compatibility_policy(self):
         policy = json.loads((generator.FIXTURES / "codec-format-policy.json").read_text(encoding="utf-8"))
         older = copy.deepcopy(policy["comparisons"][0])
-        older.update(client_version="26.1", fixture="codec-comparison-26.1.json")
+        older.update(client_version="26.2", fixture="codec-comparison-26.2.json")
         policy["comparisons"].append(older)
         with self.assertRaisesRegex(ValueError, "Older clients"):
             generator.runtime_formats(policy)

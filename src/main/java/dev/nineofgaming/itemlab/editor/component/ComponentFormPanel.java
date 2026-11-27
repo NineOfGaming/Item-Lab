@@ -1473,7 +1473,7 @@ public final class ComponentFormPanel {
         if (component.equals("minecraft:firework_explosion") && fieldName.equals("shape")) {
             return FIREWORK_SHAPES;
         }
-        if (component.equals("minecraft:swing_animation") && fieldName.equals("type")) {
+        if (component.equals("minecraft:attack_animation") && fieldName.equals("type")) {
             return SWING_ANIMATIONS;
         }
         if (fieldName.equals("color") || fieldName.endsWith("_color")) {

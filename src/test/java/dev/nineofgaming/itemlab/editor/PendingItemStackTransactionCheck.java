@@ -5,7 +5,6 @@ import dev.nineofgaming.itemlab.editor.state.ItemEditHistory;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.Bootstrap;
@@ -41,7 +40,7 @@ public final class PendingItemStackTransactionCheck {
     private static void bootstrap() {
         SharedConstants.tryDetectVersion();
         Bootstrap.bootStrap();
-        var registries = VanillaRegistries.createLookup();
+        var registries = dev.nineofgaming.itemlab.editor.EditorCheckSupport.vanillaRegistries();
         BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.build(registries)
             .forEach(net.minecraft.core.component.DataComponentInitializers.PendingComponents::apply);
     }

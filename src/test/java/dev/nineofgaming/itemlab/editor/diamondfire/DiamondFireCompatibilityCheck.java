@@ -7,7 +7,6 @@ import dev.nineofgaming.itemlab.editor.catalog.ComponentOption;
 import dev.nineofgaming.itemlab.editor.component.EditorVersionProfile;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.server.Bootstrap;
 
 import java.io.InputStream;
@@ -46,7 +45,7 @@ public final class DiamondFireCompatibilityCheck {
             return;
         }
         Bootstrap.bootStrap();
-        var registries = VanillaRegistries.createLookup();
+        var registries = dev.nineofgaming.itemlab.editor.EditorCheckSupport.vanillaRegistries();
         BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.build(registries)
             .forEach(net.minecraft.core.component.DataComponentInitializers.PendingComponents::apply);
         List<ComponentOption> components = new ArrayList<>();
@@ -80,11 +79,11 @@ public final class DiamondFireCompatibilityCheck {
     }
 
     private static void verifyAvailability() {
-        for (String older : List.of("1.21.11", "26.1", "26.1.9")) {
-            require(!DiamondFireFeatures.atLeast(older, "26.2"), "Older version enabled DF: " + older);
+        for (String older : List.of("1.21.11", "26.1", "26.1.9", "26.2", "26.2.9")) {
+            require(!DiamondFireFeatures.available(older), "Older version enabled DF: " + older);
         }
-        for (String supported : List.of("26.2", "26.2.0", "26.2.1", "26.3", "26.10", "37.4")) {
-            require(DiamondFireFeatures.atLeast(supported, "26.2"), "Supported version disabled DF: " + supported);
+        for (String supported : List.of("26.3", "26.3.0", "26.3.1", "26.10", "37.4")) {
+            require(DiamondFireFeatures.available(supported), "Supported version disabled DF: " + supported);
         }
         require(!DiamondFireFeatures.atLeast("26.2", "37.4")
                 && !DiamondFireFeatures.atLeast("37.3", "37.4")
@@ -113,22 +112,29 @@ public final class DiamondFireCompatibilityCheck {
         for (ComponentOption component : components) {
             runtimeIds.add(component.id());
             var server = DiamondFireCompatibilityData.SERVER_COMPONENTS.get(component.id());
-            require(server != null, "Supported client component missing from server snapshot: " + component.id());
+            if (server == null) {
+                require(!DiamondFireServerCompatibility.forComponent(component.id(), EditorVersionProfile.rootFields(component.type())).supported(),
+                    "Client-only component was reported as server-supported: " + component.id());
+                var support = DiamondFireComponentSupport.forComponent(component.id(), component.type());
+                require(support.badge().equals("DF?") && support.description().contains("Kept locally"),
+                    "Client-only component lost its cautious preservation hint: " + component.id());
+                continue;
+            }
             if (!DiamondFireServerCompatibility.forComponent(component.id(), EditorVersionProfile.rootFields(component.type())).versionSensitive()) {
                 require(!DiamondFireComponentSupport.forComponent(component.id(), component.type()).tooltip()
                         .contains(DiamondFireServerCompatibility.SERVER_VERSION),
                     "Client version alone must not add a component warning: " + component.id());
             }
-            if ("26.2".equals(EditorVersionProfile.targetVersion())) {
+            if (DiamondFireServerCompatibility.SERVER_VERSION.equals(EditorVersionProfile.targetVersion())) {
                 require(server.persistent() == (component.type().codec() != null), "Persistent codec drift: " + component.id());
                 require(Set.copyOf(server.discoveredCodecFields()).equals(Set.copyOf(EditorVersionProfile.rootFields(component.type()))),
                     "Discovered server codec-key drift: " + component.id());
                 require(!DiamondFireServerCompatibility.forComponent(component.id(), EditorVersionProfile.rootFields(component.type())).versionSensitive(),
-                    "Matching 26.2 codec incorrectly marked version sensitive: " + component.id());
+                    "Matching server codec incorrectly marked version sensitive: " + component.id());
             }
         }
-        if ("26.2".equals(EditorVersionProfile.targetVersion())) {
-            require(runtimeIds.equals(DiamondFireCompatibilityData.SERVER_COMPONENTS.keySet()), "Server snapshot is not the complete vanilla 26.2 registry");
+        if (DiamondFireServerCompatibility.SERVER_VERSION.equals(EditorVersionProfile.targetVersion())) {
+            require(runtimeIds.equals(DiamondFireCompatibilityData.SERVER_COMPONENTS.keySet()), "Server snapshot is not the complete vanilla server registry");
         }
         for (String id : List.of("minecraft:additional_trade_cost", "minecraft:dye", "minecraft:sulfur_cube_content",
             "minecraft:cat/sound_variant", "minecraft:chicken/sound_variant", "minecraft:cow/sound_variant", "minecraft:pig/sound_variant")) {
@@ -142,7 +148,7 @@ public final class DiamondFireCompatibilityCheck {
 
     private static void verifyCodecEvidence() throws Exception {
         JsonObject corpus = readFixture("codec-baseline.json");
-        require(corpus.get("schema_version").getAsInt() == 1 && corpus.get("minecraft_version").getAsString().equals("26.2"),
+        require(corpus.get("schema_version").getAsInt() == 1 && corpus.get("minecraft_version").getAsString().equals(DiamondFireServerCompatibility.SERVER_VERSION),
             "Codec corpus lost the independent server baseline");
         Set<String> ids = new HashSet<>();
         int cases = 0;
@@ -164,7 +170,7 @@ public final class DiamondFireCompatibilityCheck {
             String version = comparison.get("client_version").getAsString();
             require(versions.add(version), "Duplicate reviewed codec client version");
             JsonObject report = readFixture("codec-comparison-" + version + ".json");
-            require(report.get("server_version").getAsString().equals("26.2") && report.get("client_version").getAsString().equals(version)
+            require(report.get("server_version").getAsString().equals(DiamondFireServerCompatibility.SERVER_VERSION) && report.get("client_version").getAsString().equals(version)
                 && report.get("samples_compared").getAsInt() == cases, "Codec report baseline/count drift");
             Set<String> reviewed = new HashSet<>();
             Set<String> formats = new HashSet<>();
@@ -180,21 +186,17 @@ public final class DiamondFireCompatibilityCheck {
             for (String id : formats) {
                 require(DiamondFireServerCompatibility.forComponent(id, List.of(), version).versionSensitive(),
                     "Nested/scalar difference needs a warning even when discovered keys match: " + id);
-                require(DiamondFireComponentSupport.forComponent(id, true, List.of(), version).tooltip().contains("26.2"),
+                require(DiamondFireComponentSupport.forComponent(id, true, List.of(), version).tooltip().contains(DiamondFireServerCompatibility.SERVER_VERSION),
                     "Editor hints hide a reviewed nested/scalar difference: " + id);
             }
-            if ("26.3".equals(version)) {
-                require(report.getAsJsonArray("client_only").size() == 13, "Actual 26.3 registry evidence is missing");
-                for (var id : report.getAsJsonArray("client_only")) {
-                    var support = DiamondFireComponentSupport.forComponent(id.getAsString(), true, List.of());
-                    require(support.badge().equals("DF?") && support.description().contains("Kept locally"),
-                        "Actual future component lost cautious preservation: " + id);
-                }
+            if (DiamondFireServerCompatibility.SERVER_VERSION.equals(version)) {
+                require(report.getAsJsonArray("client_only").isEmpty() && report.getAsJsonArray("server_only").isEmpty()
+                    && report.getAsJsonArray("codec_differences").isEmpty(), "Matching server/client baseline must have no registry or codec differences");
             }
         }
         require(versions.equals(DiamondFireCompatibilityData.CLIENT_FORMATS.keySet()), "Runtime format profiles have no reviewed codec evidence");
         JsonObject invalid = DiamondFireCompatibilityData.read("component-formats.json").deepCopy();
-        invalid.addProperty("server_version", "26.3");
+        invalid.addProperty("server_version", "0.0");
         expectRejected(() -> DiamondFireCompatibilityData.parseFormats(invalid), "wrong format baseline");
     }
 
@@ -214,7 +216,8 @@ public final class DiamondFireCompatibilityCheck {
         require(future.level() == DiamondFireComponentSupport.Level.UNKNOWN && future.badge().equals("DF?")
             && future.description().contains("Kept locally"), "Unknown future data needs a preserved, cautious state");
         for (var entry : DiamondFireCompatibilityData.SERVER_COMPONENTS.entrySet()) {
-            var support = DiamondFireComponentSupport.forComponent(entry.getKey(), entry.getValue().persistent(), entry.getValue().discoveredCodecFields());
+            var support = DiamondFireComponentSupport.forComponent(entry.getKey(), entry.getValue().persistent(),
+                entry.getValue().discoveredCodecFields(), DiamondFireServerCompatibility.SERVER_VERSION);
             require(BADGES.contains(support.badge()), "Unknown support badge: " + support.badge());
             for (String line : support.description().split("\n")) {
                 require(line.length() <= 160, "Badge hint contains a research paragraph: " + entry.getKey());
@@ -235,7 +238,7 @@ public final class DiamondFireCompatibilityCheck {
     }
 
     private static void assertBadge(String id, boolean persistent, List<String> fields, DiamondFireComponentSupport.Level level, String badge) {
-        var support = DiamondFireComponentSupport.forComponent(id, persistent, fields);
+        var support = DiamondFireComponentSupport.forComponent(id, persistent, fields, DiamondFireServerCompatibility.SERVER_VERSION);
         require(support.level() == level && support.badge().equals(badge), "Wrong DiamondFire badge for " + id + ": " + support);
     }
 
@@ -384,8 +387,8 @@ public final class DiamondFireCompatibilityCheck {
         server.getAsJsonArray("components").add(server.getAsJsonArray("components").get(0).deepCopy());
         expectRejected(() -> DiamondFireCompatibilityData.parseServerRegistry(server), "duplicate component ID");
         JsonObject wrongBaseline = DiamondFireCompatibilityData.read("server-registry.json");
-        wrongBaseline.addProperty("minecraft_version", "26.3");
-        expectRejected(() -> DiamondFireCompatibilityData.parseServerRegistry(wrongBaseline), "client version substituted for server baseline");
+        wrongBaseline.addProperty("minecraft_version", "0.0");
+        expectRejected(() -> DiamondFireCompatibilityData.parseServerRegistry(wrongBaseline), "wrong server baseline");
         JsonObject duplicate = DiamondFireCompatibilityData.read("actiondump.json");
         duplicate.getAsJsonArray("actions").add(duplicate.getAsJsonArray("actions").get(0).deepCopy());
         expectRejected(() -> DiamondFireCompatibilityData.parseActions(duplicate), "duplicate action ID");

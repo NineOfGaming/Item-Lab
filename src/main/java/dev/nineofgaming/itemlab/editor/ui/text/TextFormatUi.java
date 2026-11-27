@@ -82,7 +82,11 @@ public final class TextFormatUi {
             ImGui.setTooltip(format.documentationUrl());
         }
         if (ImGui.isItemClicked(0)) {
-            Util.getPlatform().openUri(URI.create(format.documentationUrl()));
+            //? if >=26.3 {
+            com.mojang.blaze3d.Blaze3D.openUri(URI.create(format.documentationUrl()));
+            //?} else {
+            /*Util.getPlatform().openUri(URI.create(format.documentationUrl()));
+            *///?}
         }
     }
 

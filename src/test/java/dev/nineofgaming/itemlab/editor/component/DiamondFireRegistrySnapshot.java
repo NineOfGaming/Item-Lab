@@ -7,7 +7,6 @@ import dev.nineofgaming.itemlab.editor.diamondfire.DiamondFireFeatures;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.server.Bootstrap;
 
 import java.io.IOException;
@@ -30,7 +29,7 @@ public final class DiamondFireRegistrySnapshot {
                 + DiamondFireFeatures.serverVersion() + ", not " + version);
         }
         Bootstrap.bootStrap();
-        var registries = VanillaRegistries.createLookup();
+        var registries = dev.nineofgaming.itemlab.editor.EditorCheckSupport.vanillaRegistries();
         BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.build(registries)
             .forEach(net.minecraft.core.component.DataComponentInitializers.PendingComponents::apply);
         JsonObject snapshot = new JsonObject();

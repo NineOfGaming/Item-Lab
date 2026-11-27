@@ -81,7 +81,7 @@ final class ComponentSchemas {
             field("damage_multiplier", "Damage multiplier", "Multiplier applied to attack damage.", 1.0, false),
             field("sound", "Attack sound", "Sound played while attacking.", "minecraft:item.trident.throw", false),
             field("hit_sound", "Hit sound", "Sound played on contact.", "minecraft:item.trident.hit", false));
-        register("minecraft:swing_animation",
+        register("minecraft:attack_animation",
             field("type", "Animation", "Swing animation type.", "whack", true),
             field("duration", "Duration", "Animation duration in ticks.", 6, false));
         register("minecraft:potion_contents",

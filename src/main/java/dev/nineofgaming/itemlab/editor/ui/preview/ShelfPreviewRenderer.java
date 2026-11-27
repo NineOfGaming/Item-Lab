@@ -65,14 +65,14 @@ public final class ShelfPreviewRenderer extends PictureInPictureRenderer<ShelfPr
         SubmitNodeCollector collector
     ) {
         pose.translate(state.translation().x, state.translation().y, state.translation().z);
-        pose.mulPose(state.rotation());
+        pose.rotate(state.rotation());
         state.shelf().submit(pose, collector, FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0);
 
         if (state.item().isEmpty()) return;
         pose.pushPose();
         // This is the center-slot transform used by vanilla's ShelfRenderer.
         pose.translate(0.5f, 0.5f, 0.5f);
-        pose.mulPose(Axis.YP.rotationDegrees(-180.0f));
+        pose.rotateDegrees(Axis.YP, -180.0f);
         pose.translate(0.0f, 0.0f, -0.25f);
         pose.scale(0.25f, 0.25f, 0.25f);
         AABB bounds = state.item().getModelBoundingBox();

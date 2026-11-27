@@ -50,7 +50,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.ListTag;
@@ -91,7 +90,6 @@ import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import org.mockito.MockedStatic;
 
-import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -125,7 +123,7 @@ public final class PendingEditorCommitCheck {
     public static void main(String[] arguments) throws Exception {
         SharedConstants.tryDetectVersion();
         Bootstrap.bootStrap();
-        var registries = VanillaRegistries.createLookup();
+        var registries = dev.nineofgaming.itemlab.editor.EditorCheckSupport.vanillaRegistries();
         // Banner patterns are a dynamic registry; keep actual vanilla values in the isolated mock world.
         MappedRegistry<BannerPattern> bannerPatterns = new MappedRegistry<>(Registries.BANNER_PATTERN, Lifecycle.stable());
         registries.lookupOrThrow(Registries.BANNER_PATTERN).listElements()
@@ -1117,14 +1115,14 @@ public final class PendingEditorCommitCheck {
                 }
     }
 
-    private static final List<String> COMBAT_COMPONENTS = List.of("minimum_attack_charge", "damage_type", "swing_animation", "weapon", "piercing_weapon", "kinetic_weapon",
+    private static final List<String> COMBAT_COMPONENTS = List.of("minimum_attack_charge", "damage_type", "attack_animation", "weapon", "piercing_weapon", "kinetic_weapon",
         "charged_projectiles", "tool", "attack_range", "damage_resistant", "repairable", "blocks_attacks", "enchantable");
 
     private static CodecComponentState combatState(ItemEditor editor, String target) throws Exception {
         return (CodecComponentState) read(read(editor, "combatEditor"), switch (target) {
             case "minimum_attack_charge" -> "minimumCharge";
             case "damage_type" -> "damageType";
-            case "swing_animation" -> "swing";
+            case "attack_animation" -> "swing";
             case "piercing_weapon" -> "piercingWeapon";
             case "kinetic_weapon" -> "kineticWeapon";
             case "charged_projectiles" -> "chargedProjectiles";
@@ -1138,7 +1136,7 @@ public final class PendingEditorCommitCheck {
     private static String combatSection(String target) {
         return switch (target) {
             case "minimum_attack_charge" -> "minimum_charge";
-            case "swing_animation" -> "swing";
+            case "attack_animation" -> "swing";
             default -> target;
         };
     }
@@ -1147,7 +1145,7 @@ public final class PendingEditorCommitCheck {
         var values = new java.util.LinkedHashMap<String, JsonElement>();
         values.put("minimum_attack_charge", JsonParser.parseString(pending ? "0.75" : "0.1"));
         values.put("damage_type", JsonParser.parseString(pending ? "\"minecraft:player_attack\"" : "\"minecraft:in_fire\""));
-        values.put("swing_animation", JsonParser.parseString(pending ? "{\"type\":\"stab\",\"duration\":12}" : "{\"type\":\"whack\",\"duration\":3}"));
+        values.put("attack_animation", JsonParser.parseString(pending ? "{\"type\":\"stab\",\"duration\":12}" : "{\"type\":\"whack\",\"duration\":3}"));
         values.put("weapon", JsonParser.parseString(pending ? "{\"item_damage_per_attack\":2,\"disable_blocking_for_seconds\":1.5}" : "{\"item_damage_per_attack\":1}"));
         values.put("piercing_weapon", JsonParser.parseString(pending
             ? "{\"deals_knockback\":false,\"dismounts\":true,\"sound\":\"minecraft:entity.generic.eat\",\"hit_sound\":{\"sound_id\":\"itemlab:piercing_hit\",\"range\":-1}}"
@@ -1343,8 +1341,11 @@ public final class PendingEditorCommitCheck {
         for (String id : List.of("minecraft:player_attack", "minecraft:magic", "minecraft:fall"))
             cases.add(new CombatValueCase("damage_type", "\"" + id + "\""));
         for (String animation : List.of("none", "whack", "stab"))
-            cases.add(new CombatValueCase("swing_animation", "{\"type\":\"" + animation + "\",\"duration\":1}"));
-        cases.add(new CombatValueCase("swing_animation", "{}"));
+            cases.add(new CombatValueCase("attack_animation", "{\"type\":\"" + animation + "\",\"duration\":1}"));
+        cases.add(new CombatValueCase("attack_animation", "{}"));
+        //? if >=26.3 {
+        cases.add(new CombatValueCase("attack_animation", "{\"duration\":0}"));
+        //?}
         for (String value : List.of("{}", "{\"item_damage_per_attack\":0,\"disable_blocking_for_seconds\":0}", "{\"item_damage_per_attack\":2147483647,\"disable_blocking_for_seconds\":2.5}"))
             cases.add(new CombatValueCase("weapon", value));
         for (String target : List.of("piercing_weapon", "kinetic_weapon")) {
@@ -1451,8 +1452,8 @@ public final class PendingEditorCommitCheck {
             new CombatProblem("damage_type", "$", "\"not a damage id\"", "value"),
             new CombatProblem("damage_type", "$", "\"itemlab:unknown_damage\"", "value"),
             new CombatProblem("damage_type", "$", "{\"message_id\":\"itemlab.damage\",\"scaling\":\"never\",\"exhaustion\":-2,\"effects\":\"thorns\",\"death_message_type\":\"intentional_game_design\"}", "$enabled"),
-            new CombatProblem("swing_animation", "type", "\"unknown animation\"", "type"),
-            new CombatProblem("swing_animation", "duration", "0", "duration"),
+            new CombatProblem("attack_animation", "type", "\"unknown animation\"", "type"),
+            new CombatProblem("attack_animation", "duration", "-1", "duration"),
             new CombatProblem("weapon", "item_damage_per_attack", "-1", "item_damage_per_attack"),
             new CombatProblem("weapon", "disable_blocking_for_seconds", "-1", "disable_blocking_for_seconds"),
             new CombatProblem("tool", "default_mining_speed", "\"invalid speed\"", "default_mining_speed"),
@@ -1714,7 +1715,7 @@ public final class PendingEditorCommitCheck {
         var generatedValues = combatValues(false);
         generatedValues.put("minimum_attack_charge", JsonParser.parseString("0.4"));
         generatedValues.put("damage_type", JsonParser.parseString("\"minecraft:magic\""));
-        generatedValues.put("swing_animation", JsonParser.parseString("{\"type\":\"none\",\"duration\":4}"));
+        generatedValues.put("attack_animation", JsonParser.parseString("{\"type\":\"none\",\"duration\":4}"));
         generatedValues.put("weapon", JsonParser.parseString("{\"item_damage_per_attack\":4}"));
         generatedValues.put("piercing_weapon", JsonParser.parseString("{\"deals_knockback\":false,\"sound\":\"minecraft:entity.generic.drink\"}"));
         generatedValues.put("kinetic_weapon", JsonParser.parseString("{\"delay_ticks\":4}"));
@@ -3264,7 +3265,7 @@ public final class PendingEditorCommitCheck {
 
     private static void assertPresentationOutput(Fixture fixture, ItemStack saved, Map<String, JsonElement> values, Set<String> removed) {
         assertCombinedTextAndFlags(saved, Items.STONE);
-        require(saved.get(DataComponents.EQUIPPABLE).slot() == EquipmentSlot.HEAD && saved.get(DataComponents.MAP_COLOR).rgb() == 0x123456
+        require(saved.get(DataComponents.EQUIPPABLE).slot() == EquipmentSlot.HEAD && combinedMapMatches(saved)
             && saved.get(DataComponents.CUSTOM_DATA).copyTag().getInt("commit_check").orElse(-1) == 42, "Presentation lost other pending panels");
         ItemStack expected = new ItemStack(Items.STONE);
         for (String target : PRESENTATION_COMPONENTS) {
@@ -3603,7 +3604,29 @@ public final class PendingEditorCommitCheck {
     }
 
     private static final List<String> EQUIPMENT_MAP_POT = List.of("equippable", "trim", "provides_trim_material", "break_sound",
-        "map_id", "map_color", "map_decorations", "pot_decorations");
+        "map_id",
+        //? if <26.3 {
+        /*"map_color",
+        *///?}
+        "map_decorations", "pot_decorations");
+
+    private static JsonElement equipmentMapPotCodecValue(String target, JsonElement value) {
+        //? if >=26.3 {
+        if (target.equals("pot_decorations") && value.isJsonArray()) {
+            JsonObject result = new JsonObject();
+            List<String> sides = List.of("back", "left", "right", "front");
+            for (int index = 0; index < Math.min(4, value.getAsJsonArray().size()); index++) {
+                String item = value.getAsJsonArray().get(index).getAsString();
+                if (item.equals("minecraft:air")) continue;
+                JsonObject template = new JsonObject();
+                template.addProperty("id", item);
+                result.add(sides.get(index), template);
+            }
+            return result;
+        }
+        //?}
+        return value;
+    }
 
     private static String equipmentMapPotOwner(String target) {
         return target.startsWith("map_") ? "map" : target.equals("pot_decorations") ? "decoratedPot" : "equipment";
@@ -3640,7 +3663,9 @@ public final class PendingEditorCommitCheck {
             "provides_trim_material", "\"minecraft:iron\"", "break_sound", "\"minecraft:entity.item.break\"", "map_id", "7", "map_color", "8943462",
             "map_decorations", "{\"opening\":{\"type\":\"minecraft:player\",\"x\":1,\"z\":2,\"rotation\":3}}",
             "pot_decorations", "[\"minecraft:burn_pottery_sherd\",\"minecraft:burn_pottery_sherd\",\"minecraft:burn_pottery_sherd\",\"minecraft:burn_pottery_sherd\"]").entrySet()) {
-            ItemStackCodecs.decodeAndSetComponent(fixture.client, opening, dataType(entry.getKey()), JsonParser.parseString(entry.getValue()));
+            if (!EQUIPMENT_MAP_POT.contains(entry.getKey())) continue;
+            ItemStackCodecs.decodeAndSetComponent(fixture.client, opening, dataType(entry.getKey()),
+                equipmentMapPotCodecValue(entry.getKey(), JsonParser.parseString(entry.getValue())));
         }
         return opening;
     }
@@ -3729,7 +3754,7 @@ public final class PendingEditorCommitCheck {
         ItemStack expected = new ItemStack(Items.STONE);
         for (String target : EQUIPMENT_MAP_POT) {
             if (!removed.contains(target))
-                ItemStackCodecs.decodeAndSetComponent(fixture.client, expected, dataType(target), values.get(target));
+                ItemStackCodecs.decodeAndSetComponent(fixture.client, expected, dataType(target), equipmentMapPotCodecValue(target, values.get(target)));
             else expected.remove(dataType(target));
             require(Objects.equals(saved.get(dataType(target)), expected.get(dataType(target))), "Wrong Equipment/Map/Pot output: " + target);
         }
@@ -3745,6 +3770,9 @@ public final class PendingEditorCommitCheck {
     }
 
     private static void verifyEquipmentMapPotCommits() throws Exception {
+        //? if >=26.3 {
+        verifyPotTemplatePreservation();
+        //?}
         for (String representation : List.of("mainhand", "offhand", "feet", "legs", "chest", "head", "body", "saddle",
             "scalar_entities", "empty_entities", "tag_entities", "no_restriction", "inline_equip_sound", "inline_break_sound", "inline_shearing_sound",
             "inline_material", "inline_pattern", "inline_trims", "inline_provided", "map_zero_id", "map_max_id", "map_negative_id", "map_black", "map_white", "map_empty",
@@ -3824,6 +3852,39 @@ public final class PendingEditorCommitCheck {
             }
         }
     }
+
+    //? if >=26.3 {
+    private static void verifyPotTemplatePreservation() throws Exception {
+        for (String action : List.of("applyDraftToSlot", "giveDraftCopy")) {
+            try (Fixture fixture = new Fixture()) {
+                ItemStack opening = new ItemStack(Items.DECORATED_POT);
+                ItemStackCodecs.decodeAndSetComponent(fixture.client, opening, DataComponents.POT_DECORATIONS,
+                    JsonParser.parseString("{\"back\":{\"id\":\"minecraft:angler_pottery_sherd\",\"count\":3,"
+                        + "\"components\":{\"minecraft:custom_data\":{\"keep\":42}}},"
+                        + "\"left\":{\"id\":\"minecraft:brick\",\"count\":2,"
+                        + "\"components\":{\"minecraft:custom_name\":{\"text\":\"Retained side\"}}}}"));
+                ItemEditor editor = fixture.cleanEditor(opening);
+                var panel = (dev.nineofgaming.itemlab.editor.panel.DecoratedPotEditorPanel) read(editor, "decoratedPotEditor");
+                require(ItemStack.matches(opening, panel.pendingStack(fixture.client)) && !panel.isDirty(),
+                    "Opening a 26.3 pot normalized or lost its nested templates");
+                for (var side : ((Map<?, ImString>) read(panel, "sideValues")).entrySet()) {
+                    if (side.getKey().toString().equals("BACK")) side.getValue().set("minecraft:archer_pottery_sherd");
+                }
+                write(panel, "dirty", true);
+                ItemStack pending = panel.pendingStack(fixture.client);
+                var before = opening.get(DataComponents.POT_DECORATIONS);
+                var after = pending.get(DataComponents.POT_DECORATIONS);
+                require(after.back().orElseThrow().item().value() == Items.ARCHER_POTTERY_SHERD
+                    && after.left().equals(before.left()) && after.right().equals(before.right())
+                    && after.front().equals(before.front()), "Editing one pot side changed untouched templates or empty sides");
+                invoke(editor, action, new Class<?>[]{Minecraft.class}, fixture.client);
+                require((boolean) read(editor, "statusSuccess") && fixture.writes.size() == 1
+                    && ItemStack.matches(pending, fixture.slots.get(action.equals("giveDraftCopy") ? 1 : 0)),
+                    "Saving a 26.3 pot lost nested template data");
+            }
+        }
+    }
+    //?}
 
     private record EquipmentMapPotProblem(String target, String path, String invalid, String section, String field,
                                           String buffer) {
@@ -4027,7 +4088,7 @@ public final class PendingEditorCommitCheck {
     }
 
     private static JsonElement generatedEquipmentMapPotValue(String target) {
-        return JsonParser.parseString(switch (target) {
+        return equipmentMapPotCodecValue(target, JsonParser.parseString(switch (target) {
             case "equippable" -> "{\"slot\":\"body\"}";
             case "trim" -> "{\"material\":\"minecraft:diamond\",\"pattern\":\"minecraft:coast\"}";
             case "provides_trim_material" -> "\"minecraft:gold\"";
@@ -4039,7 +4100,7 @@ public final class PendingEditorCommitCheck {
             case "pot_decorations" ->
                 "[\"minecraft:diamond\",\"minecraft:brick\",\"minecraft:brick\",\"minecraft:brick\"]";
             default -> throw new AssertionError(target);
-        });
+        }));
     }
 
     private static void verifyEquipmentMapPotConflicts() throws Exception {
@@ -4108,6 +4169,9 @@ public final class PendingEditorCommitCheck {
         Map<String, JsonElement> values = new HashMap<>();
         values.put("instrument", JsonParser.parseString("{\"sound_event\":{\"sound_id\":\"itemlab:custom.sound\",\"range\":32.5},"
             + "\"use_duration\":3.25,\"range\":96.5,\"description\":{\"text\":\"Custom {instrument}\",\"bold\":true,\"color\":\"gold\"}}"));
+        //? if >=26.3 {
+        values.get("instrument").getAsJsonObject().addProperty("durability_damage", 3);
+        //?}
         values.put("jukebox_playable", JsonParser.parseString("\"minecraft:cat\""));
         // Unlike registered instruments/songs, these two identifier controls accept datapack/custom IDs.
         values.put("note_block_sound", JsonParser.parseString("\"itemlab:custom.note\""));
@@ -4203,13 +4267,21 @@ public final class PendingEditorCommitCheck {
     }
 
     private static void verifyMusicCompassProfileCommits() throws Exception {
-        for (String representation : List.of("registered", "custom_registered_sound", "custom_variable_sound", "custom_zero_sound", "custom_negative_sound", "custom_fixed_sound",
-            "no_target_tracked", "no_target_untracked", "vanilla_dimension", "custom_dimension", "name_profile", "uuid_profile", "empty_profile", "slim_profile")) {
+        var representations = new ArrayList<>(List.of("registered", "custom_registered_sound", "custom_variable_sound", "custom_zero_sound", "custom_negative_sound", "custom_fixed_sound",
+            "no_target_tracked", "no_target_untracked", "vanilla_dimension", "custom_dimension", "name_profile", "uuid_profile", "empty_profile", "slim_profile"));
+        //? if >=26.3 {
+        representations.addAll(List.of("zero_duration", "zero_durability_damage"));
+        //?}
+        for (String representation : representations) {
             for (String action : List.of("applyDraftToSlot", "giveDraftCopy")) {
                 try (Fixture fixture = new Fixture()) {
                     Map<String, JsonElement> values = groupedValues();
                     JsonObject instrument = values.get("instrument").getAsJsonObject();
                     switch (representation) {
+                        //? if >=26.3 {
+                        case "zero_duration" -> instrument.addProperty("use_duration", 0);
+                        case "zero_durability_damage" -> instrument.addProperty("durability_damage", 0);
+                        //?}
                         case "registered" ->
                             values.put("instrument", JsonParser.parseString("\"minecraft:sing_goat_horn\""));
                         case "custom_registered_sound" ->
@@ -4273,7 +4345,12 @@ public final class PendingEditorCommitCheck {
             new GroupedProblem("instrument", "$description", "{\"text\":{}}", "instrument", "description", ""),
             new GroupedProblem("instrument", "sound_event/sound_id", "\"not a sound id\"", "instrument", "sound", "music/custom_sound_id"),
             new GroupedProblem("instrument", "sound_event", "\"itemlab:missing_sound\"", "instrument", "sound", "music/registered_sound"),
-            new GroupedProblem("instrument", "use_duration", "0", "instrument", "use_duration", ""),
+            //? if <26.3 {
+            /*new GroupedProblem("instrument", "use_duration", "0", "instrument", "use_duration", ""),
+            *///?}
+            //? if >=26.3 {
+            new GroupedProblem("instrument", "durability_damage", "-1", "instrument", "durability_damage", ""),
+            //?}
             new GroupedProblem("instrument", "use_duration", "-1", "instrument", "use_duration", ""),
             new GroupedProblem("instrument", "range", "0", "instrument", "range", ""),
             new GroupedProblem("instrument", "range", "-1", "instrument", "range", ""),
@@ -5743,7 +5820,7 @@ public final class PendingEditorCommitCheck {
                 try (Fixture fixture = new Fixture()) {
                     ItemStack opening = new ItemStack(Items.STONE);
                     opening.set(DataComponents.CUSTOM_NAME, Component.literal("Opening name"));
-                    opening.set(DataComponents.MAP_COLOR, new net.minecraft.world.item.component.MapItemColor(0x987654));
+                    opening.set(DataComponents.MAP_ID, new net.minecraft.world.level.saveddata.maps.MapId(987654));
                     ItemEditor editor = fixture.cleanEditor(opening);
                     RawStackEditorPanel raw = (RawStackEditorPanel) read(editor, "rawStackEditor");
                     ItemStack replacement = rawReplacement();
@@ -5768,7 +5845,7 @@ public final class PendingEditorCommitCheck {
                     require(prepared.succeeded() && prepared.included().equals(List.of("raw")) && raw.pendingSource().equals(valid),
                         "Raw-only preflight included stale structured panels or changed its source");
                     ItemStack saved = verifyActionHistory(fixture, editor, action, "Raw " + problem);
-                    require(ItemStack.matches(replacement, saved) && saved.get(DataComponents.MAP_COLOR) == null,
+                    require(ItemStack.matches(replacement, saved) && saved.get(DataComponents.MAP_ID) == null,
                         "Raw replacement merged old components instead of replacing the whole stack");
                 }
             }
@@ -7037,7 +7114,7 @@ public final class PendingEditorCommitCheck {
             componentCase("damageType", "damage_type", "\"minecraft:player_attack\"", "", "\"bad damage id\"", "value"),
             componentCase("damageType", "damage_type", "\"minecraft:player_attack\"", "", "\"example:unknown_damage\"", "value"),
             componentCase("swing", "swing", "{\"type\":\"stab\",\"duration\":6}", "type", "\"unknown animation\"", "type"),
-            componentCase("swing", "swing", "{\"duration\":6}", "duration", "0", "duration"),
+            componentCase("swing", "swing", "{\"duration\":6}", "duration", "-1", "duration"),
             componentCase("weapon", "weapon", weapon, "item_damage_per_attack", "-1", "item_damage_per_attack"),
             componentCase("weapon", "weapon", weapon, "disable_blocking_for_seconds", "-1", "disable_blocking_for_seconds"),
             componentCase("piercingWeapon", "piercing_weapon", piercing, "deals_knockback", "\"bad flag\"", "deals_knockback"),
@@ -7963,13 +8040,21 @@ public final class PendingEditorCommitCheck {
     private static void assertCombinedPanels(ItemStack stack, Item expectedItem) {
         assertCombinedCore(stack, expectedItem);
         require(stack.get(DataComponents.EQUIPPABLE).slot() == EquipmentSlot.HEAD
-                && stack.get(DataComponents.MAP_COLOR).rgb() == 0x123456,
+                && combinedMapMatches(stack),
             "grouped Equipment/Map values are missing");
     }
 
     private static void assertCombinedCore(ItemStack stack, Item expectedItem) {
         assertCombinedTextAndFlags(stack, expectedItem);
         require(stack.get(DataComponents.ITEM_MODEL).toString().equals("minecraft:diamond"), "pending Appearance is missing");
+    }
+
+    private static boolean combinedMapMatches(ItemStack stack) {
+        //? if >=26.3 {
+        return stack.get(DataComponents.MAP_ID) != null && stack.get(DataComponents.MAP_ID).id() == 42;
+        //?} else {
+        /*return stack.get(DataComponents.MAP_COLOR) != null && stack.get(DataComponents.MAP_COLOR).rgb() == 0x123456;
+        *///?}
     }
 
     private static void assertCombinedTextAndFlags(ItemStack stack, Item expectedItem) {
@@ -8088,8 +8173,13 @@ public final class PendingEditorCommitCheck {
             model.setValue(JsonParser.parseString("\"minecraft:diamond\""));
             write(appearance, "dirty", true);
             Object map = read(editor, "mapEditor");
-            ((ImBoolean) read(map, "colorPresent")).set(true);
+            //? if >=26.3 {
+            write(map, "mapIdPresent", true);
+            ((ImInt) read(map, "mapId")).set(42);
+            //?} else {
+            /*((ImBoolean) read(map, "colorPresent")).set(true);
             write(map, "mapColor", 0x123456);
+            *///?}
             write(map, "dirty", true);
             CompoundTag tag = new CompoundTag();
             tag.putInt("commit_check", 42);

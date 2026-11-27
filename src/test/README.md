@@ -1,16 +1,36 @@
 # Regression checks
 
-Run the recurring checks for both supported Minecraft versions:
+Before the first 26.3 build, prepare its pinned ImGuiMC source dependency:
 
 ```powershell
-.\gradlew.bat :26.1:check :26.2:check
+powershell -ExecutionPolicy Bypass -File tools/imguimc/build.ps1
+```
+
+Run the recurring checks for all supported Minecraft versions:
+
+```powershell
+.\gradlew.bat :26.1:check :26.2:check :26.3:check
 ```
 
 `buildAll` also runs these checks before collecting the jars. The fixtures use
 headless `main` entry points rather than a JUnit runner; the normal Gradle `test`
 task does not discover them. Use `check` to run the suite.
 
-For a targeted run, prefix one of these tasks with `:26.1:` or `:26.2:`:
+Each verification JVM has its own temporary directory under the target's build
+folder, including native library extraction, so the version checks can run in parallel.
+
+The 26.3 renderer also has a client game test requiring a working graphics device:
+
+```powershell
+.\gradlew.bat :26.3:runClientGameTest
+```
+
+It creates an isolated world under `.gradle/client-game-test-26.3`, opens and
+reopens the editor, checks its color attachment and visible frame composition,
+and exercises every item-model preview mode plus the equipment preview. Captures
+of the actual completed frames are saved in that directory's `screenshots` folder.
+
+For a targeted run, prefix one of these tasks with `:26.1:`, `:26.2:`, or `:26.3:`:
 
 - `verifyEditorCompatibility`: component codecs, data models, generated forms,
   navigation, and JSON/SNBT syntax.
@@ -30,6 +50,9 @@ offline with:
 ```powershell
 python -m unittest discover -s tools/diamondfire -p 'test_*.py'
 ```
+
+See [the DiamondFire refresh workflow](../../tools/diamondfire/README.md) when
+updating the pinned action export or the server's Minecraft baseline.
 
 Keep behavior regressions and deterministic generator validation here. Historical
 research notes, exact label/wording assertions, pixel-size snapshots, and one-off

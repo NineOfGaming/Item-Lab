@@ -2,14 +2,14 @@
   "components": [
     {
       "actions": [
-        "SET VARIABLE/AddItemAttribute",
-        "SET VARIABLE/GetItemAttribute",
+        "SET VARIABLE/ AddItemAttribute ",
+        "SET VARIABLE/ GetItemAttribute ",
         "SET VARIABLE/RemoveItemAttrs",
         "SET VARIABLE/ClearItemAttrs"
       ],
       "badge": "DFP",
       "id": "minecraft:attribute_modifiers",
-      "limitation": "Codeblocks use attribute/slot menus and an aggregate getter, without custom modifier IDs or display settings."
+      "limitation": "Codeblocks use attribute/slot menus and an aggregate getter; modifier display settings have no dedicated input."
     },
     {
       "actions": [
@@ -174,14 +174,6 @@
     },
     {
       "actions": [
-        "SET VARIABLE/SetItemColor",
-        "SET VARIABLE/GetItemColor"
-      ],
-      "badge": "DF+",
-      "id": "minecraft:map_color"
-    },
-    {
-      "actions": [
         "SET VARIABLE/SetMapTexture"
       ],
       "badge": "DFP",
@@ -332,7 +324,7 @@
       "limitation": "Book actions expose pages, title, author, and generation, without filtered-text or resolved-state controls."
     }
   ],
-  "evidence_commit": "a45bcf68360edf4004bbd24e907e5ec3629c6edb",
+  "evidence_commit": "a4464be4df46b0e8fabc93e21da09e3ce0584e64",
   "policy_source": "src/test/resources/diamondfire/component-evidence.json",
   "schema_version": 2
 }

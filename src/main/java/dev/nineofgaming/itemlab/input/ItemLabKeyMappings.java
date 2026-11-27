@@ -20,7 +20,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
 
 /**
  * Registered controls, including the screen-aware inventory shortcut.
@@ -32,14 +31,22 @@ public final class ItemLabKeyMappings {
 
     private final KeyMapping editItem = KeyMappingHelper.registerKeyMapping(new KeyMapping(
         "key.itemlab.open_editor",
-        InputConstants.Type.KEYSYM,
-        GLFW.GLFW_KEY_I,
+        //? if >=26.3 {
+        InputConstants.Type.KEYBOARD,
+        //?} else {
+        /*InputConstants.Type.KEYSYM,
+        *///?}
+        InputConstants.KEY_I,
         CATEGORY
     ));
     private final KeyMapping newItem = KeyMappingHelper.registerKeyMapping(new KeyMapping(
         "key.itemlab.new_item",
-        InputConstants.Type.KEYSYM,
-        GLFW.GLFW_KEY_UNKNOWN,
+        //? if >=26.3 {
+        InputConstants.Type.KEYBOARD,
+        //?} else {
+        /*InputConstants.Type.KEYSYM,
+        *///?}
+        InputConstants.UNKNOWN.getValue(),
         CATEGORY
     ));
 

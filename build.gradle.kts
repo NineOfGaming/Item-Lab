@@ -1,7 +1,7 @@
 import java.util.Properties
 
 plugins {
-    id("net.fabricmc.fabric-loom") version "1.17-SNAPSHOT"
+    id("net.fabricmc.fabric-loom") version "1.19-SNAPSHOT"
     `maven-publish`
 }
 
@@ -37,6 +37,7 @@ val fabricLoaderVersion = project.property("deps.fabric_loader").toString()
 val fabricApiVersion = project.property("deps.fabric_api").toString()
 val adventureFabricVersion = project.property("deps.adventure_fabric").toString()
 val imguiMcVersion = project.property("deps.imguimc").toString()
+val mockitoVersion = project.property("deps.mockito").toString()
 
 version = "$modVersion+$targetMinecraftVersion"
 group = project.property("mod.group") as String
@@ -49,21 +50,29 @@ fabricApi {
     configureDataGeneration {
         client = true
     }
+    if (sc.current.parsed >= "26.3") {
+        configureTests {
+            createSourceSet = true
+            modId = "itemlab-client-tests"
+            enableGameTests = false
+            enableClientGameTests = true
+            clearRunDirectory = false
+        }
+    }
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
 
     exclusiveContent {
         forRepository {
             maven {
-                name = "Modrinth"
-                url = uri("https://api.modrinth.com/maven")
+                name = "Item Lab ImGuiMC source build"
+                url = rootProject.layout.projectDirectory.dir(".gradle/imguimc-maven").asFile.toURI()
             }
         }
         filter {
-            includeGroup("maven.modrinth")
+            includeModule("foundry.imguimc", "imguimc-fabric-26.3")
         }
     }
 
@@ -87,7 +96,8 @@ repositories {
             }
         }
         filter {
-            includeGroup("foundry.imguimc")
+            includeModule("foundry.imguimc", "imguimc-fabric-26.1")
+            includeModule("foundry.imguimc", "imguimc-fabric-26.2")
         }
     }
 }
@@ -99,17 +109,20 @@ dependencies {
 
     implementation(include("net.kyori:adventure-platform-fabric:$adventureFabricVersion")!!)
 
-    implementation("foundry.imguimc:imguimc-fabric-$targetMinecraftVersion:$imguiMcVersion")
+    val imguiDependency = "foundry.imguimc:imguimc-fabric-$targetMinecraftVersion:$imguiMcVersion"
+    implementation(if (sc.current.parsed >= "26.3") include(imguiDependency)!! else imguiDependency)
 
     runtimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.2")
 
-    testImplementation("org.mockito:mockito-core:5.24.0")
-    mockitoAgent("org.mockito:mockito-core:5.24.0") { isTransitive = false }
+    testImplementation("org.mockito:mockito-core:$mockitoVersion")
+    mockitoAgent("org.mockito:mockito-core:$mockitoVersion") { isTransitive = false }
 }
 
 loom {
     runs.configureEach {
-        runDirectory.set(rootProject.layout.projectDirectory.dir("run"))
+        runDirectory.set(rootProject.layout.projectDirectory.dir(
+            providers.gradleProperty("itemlab.runDirectory").orElse("run").get()
+        ))
     }
 
     runs.named("client") {
@@ -117,6 +130,13 @@ loom {
         appendProjectPathToDisplayName.set(false)
         generateRunConfig.set(true)
         preferGradleTask.set(true)
+    }
+    if (sc.current.parsed >= "26.3") {
+        runs.named("clientGameTest") {
+            runDirectory.set(rootProject.layout.projectDirectory.dir(".gradle/client-game-test-$targetMinecraftVersion"))
+            programArguments.addAll("--width", "1600", "--height", "1000")
+            jvmArguments.add("-Dfabric.client.gametest.testModResourcesPath=${rootProject.file("src/gametest/resources").absolutePath}")
+        }
     }
 }
 
@@ -179,7 +199,14 @@ fun registerVerificationCheck(
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("dev.nineofgaming.itemlab.$mainClassName")
     workingDir(layout.buildDirectory.dir("verification/$name"))
-    doFirst { workingDir.mkdirs() }
+    // ImGui extracts its DLL into java.io.tmpdir. Each test JVM needs its own
+    // directory so parallel version checks cannot replace a library in use.
+    val nativeTempDirectory = layout.buildDirectory.dir("verification-tmp/$name")
+    systemProperty("java.io.tmpdir", nativeTempDirectory.get().asFile.absolutePath)
+    doFirst {
+        workingDir.mkdirs()
+        nativeTempDirectory.get().asFile.mkdirs()
+    }
     configure()
 }
 

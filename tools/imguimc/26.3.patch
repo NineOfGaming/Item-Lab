@@ -1,0 +1,90 @@
+diff --git a/common/src/main/java/foundry/imgui/impl/ImGuiMCImpl.java b/common/src/main/java/foundry/imgui/impl/ImGuiMCImpl.java
+index 18e9d65..9927b05 100644
+--- a/common/src/main/java/foundry/imgui/impl/ImGuiMCImpl.java
++++ b/common/src/main/java/foundry/imgui/impl/ImGuiMCImpl.java
+@@ -74,7 +74,7 @@ public final class ImGuiMCImpl {
+ 
+     public static TextureTarget createRenderTarget(final int width, final int height, final boolean depth) {
+         //? if >=26.3 {
+-        /*return new TextureTarget("ImGui", width, height, depth ? com.mojang.blaze3d.GpuFormat.D32_FLOAT : null, com.mojang.blaze3d.GpuFormat.RGBA8_UNORM);
++        /*return new TextureTarget("ImGui", width, height, com.mojang.blaze3d.GpuFormat.RGBA8_UNORM, depth ? com.mojang.blaze3d.GpuFormat.D32_FLOAT : null);
+         *///? } else if >=26.2 {
+         /*return new TextureTarget("ImGui", width, height, depth, com.mojang.blaze3d.GpuFormat.RGBA8_UNORM);
+          *///? } else if >=1.21.5 {
+diff --git a/common/src/main/java/foundry/imgui/impl/renderer/v1/ImGuiRenderImplRenderSystem.java b/common/src/main/java/foundry/imgui/impl/renderer/v1/ImGuiRenderImplRenderSystem.java
+index b702557..fb9d412 100644
+--- a/common/src/main/java/foundry/imgui/impl/renderer/v1/ImGuiRenderImplRenderSystem.java
++++ b/common/src/main/java/foundry/imgui/impl/renderer/v1/ImGuiRenderImplRenderSystem.java
+@@ -251,6 +251,11 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
+     protected Data data = null;
+     private final Properties props = new Properties();
+ 
++    //? if >=26.3 {
++    /^private java.util.concurrent.CompletableFuture<com.mojang.renderpearl.api.pipeline.CompiledRenderPipeline.Pending> pipelineFuture;
++    private com.mojang.renderpearl.api.pipeline.CompiledRenderPipeline compiledPipeline;
++    ^///? }
++
+     protected Data newData() {
+         return new Data();
+     }
+@@ -308,7 +313,8 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
+ 
+         // Make sure this data is never allocated on another context
+         //? if >=26.3 {
+-        /^final var future = device.compilePipeline(PIPELINE, new com.mojang.renderpearl.api.pipeline.ShaderSource() {
++        /^if (this.pipelineFuture == null) {
++        this.pipelineFuture = device.compilePipeline(PIPELINE, new com.mojang.renderpearl.api.pipeline.ShaderSource() {
+             @Override
+             public @Nullable String getShader(@NotNull final ResourceLocation id, @NotNull final ShaderType type) {
+                 return SOURCES_MAP.get(id);
+@@ -323,12 +329,17 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
+             public void close() {
+             }
+         }, net.minecraft.util.Util.backgroundExecutor());
++        }
++        final var future = this.pipelineFuture;
+         if (!future.isDone()) {
+             data.clearVertexData(0);
+             return;
+         }
+ 
+-        final var pipeline = future.join().finishCompile();
++        if (this.compiledPipeline == null) {
++            this.compiledPipeline = future.join().finishCompile();
++        }
++        final var pipeline = this.compiledPipeline;
+         if (pipeline == null) {
+             throw new IllegalStateException("Failed to compile pipeline");
+         }
+@@ -525,6 +536,11 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
+         io.setBackendRendererName(null);
+         io.removeBackendFlags(ImGuiBackendFlags.RendererHasVtxOffset | ImGuiBackendFlags.RendererHasViewports);
+         this.data = null;
++        //? if >=26.3 {
++        /^if (this.compiledPipeline != null) this.compiledPipeline.close();
++        this.pipelineFuture = null;
++        this.compiledPipeline = null;
++        ^///? }
+     }
+ 
+     @Override
+@@ -703,4 +719,4 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
+         ImGui.destroyPlatformWindows();
+     }
+ }
+-*///?}
+\ No newline at end of file
++*///?}
+diff --git a/common/src/main/java/foundry/imgui/mixin/MinecraftMixin.java b/common/src/main/java/foundry/imgui/mixin/MinecraftMixin.java
+index f044a8c..ef4917d 100644
+--- a/common/src/main/java/foundry/imgui/mixin/MinecraftMixin.java
++++ b/common/src/main/java/foundry/imgui/mixin/MinecraftMixin.java
+@@ -27,7 +27,7 @@ public class MinecraftMixin {
+     }
+ 
+     //? if >=26.3 {
+-    /*@Inject(method = "renderFrame", at=@At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", args = "ldc=present"))
++    /*@Inject(method = "renderFrame", at=@At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args = "ldc=swapchainBlit"))
+     *///? } elif >=26.1 {
+     /*@Inject(method = "renderFrame", at=@At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args = "ldc=present"))
+      *///? } elif >=1.21.6 {

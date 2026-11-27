@@ -40,7 +40,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.DoubleTag;
@@ -81,7 +80,7 @@ public final class EditorCompatibilityCheck {
     public static void main(String[] arguments) {
         SharedConstants.tryDetectVersion();
         Bootstrap.bootStrap();
-        vanillaRegistries = VanillaRegistries.createLookup();
+        vanillaRegistries = dev.nineofgaming.itemlab.editor.EditorCheckSupport.vanillaRegistries();
         BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.build(vanillaRegistries)
             .forEach(net.minecraft.core.component.DataComponentInitializers.PendingComponents::apply);
 

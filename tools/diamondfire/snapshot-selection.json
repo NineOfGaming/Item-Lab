@@ -1,9 +1,9 @@
 {
   "repository": "https://github.com/NineOfGaming/df-info",
-  "branch": "8.14",
-  "commit": "a45bcf68360edf4004bbd24e907e5ec3629c6edb",
+  "branch": "9.0",
+  "commit": "a4464be4df46b0e8fabc93e21da09e3ce0584e64",
   "dump": "actiondump/actiondump_minimessage.json",
-  "previous_commit": "6200915ba2ba333d3968b806e342c5f537eaec82",
+  "previous_commit": "a45bcf68360edf4004bbd24e907e5ec3629c6edb",
   "display_names": [
     "Add Item Attribute", "Get Item Attribute", "Remove Item Attributes", "Clear Item Attributes",
     "Set Item Break Sound", "Get Item Break Sound", "Set Bundle Contents", "Get Bundle Contents",

@@ -15,7 +15,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -69,7 +68,7 @@ public final class PendingEditorIntegrationCheck {
     public static void main(String[] arguments) throws Exception {
         SharedConstants.tryDetectVersion();
         Bootstrap.bootStrap();
-        var registries = VanillaRegistries.createLookup();
+        var registries = dev.nineofgaming.itemlab.editor.EditorCheckSupport.vanillaRegistries();
         BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.build(registries)
             .forEach(net.minecraft.core.component.DataComponentInitializers.PendingComponents::apply);
         Minecraft client = mock(Minecraft.class);
@@ -113,6 +112,10 @@ public final class PendingEditorIntegrationCheck {
     private static RegistryAccess clientRegistries(HolderLookup.Provider registries) {
         List<Registry<?>> clientRegistries = new ArrayList<>(BuiltInRegistries.REGISTRY.stream().toList());
         registries.listRegistries().forEach(lookup -> {
+            //? if >=26.3 {
+            if (net.minecraft.resources.RegistryDataLoader.SYNCHRONIZED_REGISTRIES.stream()
+                .noneMatch(data -> data.key().equals(lookup.key()))) return;
+            //?}
             if (clientRegistries.stream().noneMatch(registry -> registry.key().equals(lookup.key()))) {
                 clientRegistries.add(copyRegistry(lookup));
             }

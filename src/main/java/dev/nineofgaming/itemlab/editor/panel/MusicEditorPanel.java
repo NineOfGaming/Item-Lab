@@ -21,6 +21,9 @@ import imgui.ImGui;
 import imgui.flag.ImGuiInputTextFlags;
 import imgui.type.ImBoolean;
 import imgui.type.ImDouble;
+//? if >=26.3 {
+import imgui.type.ImInt;
+//?}
 import imgui.type.ImString;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.component.DataComponentType;
@@ -105,11 +108,19 @@ public final class MusicEditorPanel extends ComponentEditorPanel {
                 // SoundEvent's optional range is a lenient native float, not a
                 // positive instrument field; it must not steal a later error's focus.
                 for (String key : new String[]{"use_duration", "range"}) {
-                    if (invalidNumber(customInstrumentValue, key, key.equals("range") ? 256.0 : 7.0, true)) {
+                    if (invalidNumber(customInstrumentValue, key, key.equals("range") ? 256.0 : 7.0, minimumInstrumentValue(key) > 0)) {
                         requestPendingField("instrument", key);
                         return;
                     }
                 }
+                //? if >=26.3 {
+                JsonElement damage = customInstrumentValue.get("durability_damage");
+                if (damage != null && net.minecraft.util.ExtraCodecs.NON_NEGATIVE_INT
+                    .parse(com.mojang.serialization.JsonOps.INSTANCE, damage).error().isPresent()) {
+                    requestPendingField("instrument", "durability_damage");
+                    return;
+                }
+                //?}
             } else if (!registeredIdentifierProblem(registeredInstrumentId.get(), knownInstrumentIds).isBlank()) {
                 requestPendingField("instrument", "instrument_id");
                 return;
@@ -344,20 +355,32 @@ public final class MusicEditorPanel extends ComponentEditorPanel {
                 }
             }
 
-            positiveDoubleField(
+            instrumentNumberField(
                 customInstrumentValue,
                 "use_duration",
                 tr("music.use_duration"),
                 tr("music.use_duration.help"),
                 7.0
             );
-            positiveDoubleField(
+            instrumentNumberField(
                 customInstrumentValue,
                 "range",
                 tr("music.range"),
                 tr("music.range.help"),
                 256.0
             );
+            //? if >=26.3 {
+            fieldLabel(tr("music.durability_damage"), tr("music.durability_damage.help"));
+            ImInt damage = new ImInt(dev.nineofgaming.itemlab.editor.component.JsonComponentValues.integer(
+                customInstrumentValue, "durability_damage", 0
+            ));
+            ImGui.setNextItemWidth(-1.0f);
+            applyPendingFieldFocus("instrument", "durability_damage");
+            if (ImGui.inputInt("##instrument_durability_damage", damage, 1, 10)) {
+                customInstrumentValue.addProperty("durability_damage", Math.max(0, damage.get()));
+                dirty = true;
+            }
+            //?}
             ImGui.endTable();
         }
 
@@ -447,7 +470,14 @@ public final class MusicEditorPanel extends ComponentEditorPanel {
         endSection();
     }
 
-    private void positiveDoubleField(
+    private static double minimumInstrumentValue(String key) {
+        //? if >=26.3 {
+        if (key.equals("use_duration")) return 0.0;
+        //?}
+        return 0.01;
+    }
+
+    private void instrumentNumberField(
         JsonObject owner,
         String key,
         String label,
@@ -459,7 +489,7 @@ public final class MusicEditorPanel extends ComponentEditorPanel {
         ImGui.setNextItemWidth(-1.0f);
         applyPendingFieldFocus("instrument", key);
         if (ImGui.inputDouble("##" + key, value, 0.1, 1.0, "%.2f")) {
-            owner.addProperty(key, Math.max(0.01, value.get()));
+            owner.addProperty(key, Math.max(minimumInstrumentValue(key), value.get()));
             dirty = true;
         }
     }

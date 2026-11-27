@@ -40,9 +40,11 @@ public final class EditorVersionProfile {
     }
 
     public static String targetVersion() {
-        //? if >=26.2 {
-        return "26.2";
-        //?} else {
+        //? if >=26.3 {
+        return "26.3";
+        //?} else if >=26.2 {
+        /*return "26.2";
+        *///?} else {
         /*return "26.1";
          *///?}
     }

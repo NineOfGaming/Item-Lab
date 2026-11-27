@@ -79,7 +79,7 @@ public final class CombatEditorPanel extends ComponentEditorPanel {
     private final CodecComponentState minimumCharge = new CodecComponentState(DataComponents.MINIMUM_ATTACK_CHARGE, "1.0");
     private final CodecComponentState damageType = new CodecComponentState(DataComponents.DAMAGE_TYPE, "\"minecraft:player_attack\"");
     private final CodecComponentState swing = new CodecComponentState(
-        DataComponents.SWING_ANIMATION,
+        DataComponents.ATTACK_ANIMATION,
         "{\"type\":\"whack\",\"duration\":6}"
     );
     private final CodecComponentState weapon = new CodecComponentState(
@@ -205,7 +205,11 @@ public final class CombatEditorPanel extends ComponentEditorPanel {
         switch (section) {
             case "swing":
                 if (invalidCodecField(value, "type", SwingAnimationType.CODEC)) return "type";
-                if (invalidCodecField(value, "duration", ExtraCodecs.POSITIVE_INT)) return "duration";
+                //? if >=26.3 {
+                if (invalidCodecField(value, "duration", ExtraCodecs.NON_NEGATIVE_INT)) return "duration";
+                //?} else {
+                /*if (invalidCodecField(value, "duration", ExtraCodecs.POSITIVE_INT)) return "duration";
+                *///?}
                 break;
             case "weapon":
                 if (invalidCodecField(value, "item_damage_per_attack", ExtraCodecs.NON_NEGATIVE_INT))
@@ -393,7 +397,7 @@ public final class CombatEditorPanel extends ComponentEditorPanel {
     public static boolean supports(DataComponentType<?> type) {
         return type == DataComponents.MINIMUM_ATTACK_CHARGE
             || type == DataComponents.DAMAGE_TYPE
-            || type == DataComponents.SWING_ANIMATION
+            || type == DataComponents.ATTACK_ANIMATION
             || type == DataComponents.WEAPON
             || type == DataComponents.PIERCING_WEAPON
             || type == DataComponents.KINETIC_WEAPON
@@ -440,7 +444,7 @@ public final class CombatEditorPanel extends ComponentEditorPanel {
     public void syncComponent(Minecraft client, DataComponentType<?> type, ItemStack draft) {
         if (type == DataComponents.MINIMUM_ATTACK_CHARGE) minimumCharge.sync(client, draft);
         else if (type == DataComponents.DAMAGE_TYPE) damageType.sync(client, draft);
-        else if (type == DataComponents.SWING_ANIMATION) swing.sync(client, draft);
+        else if (type == DataComponents.ATTACK_ANIMATION) swing.sync(client, draft);
         else if (type == DataComponents.WEAPON) weapon.sync(client, draft);
         else if (type == DataComponents.PIERCING_WEAPON) piercingWeapon.sync(client, draft);
         else if (type == DataComponents.KINETIC_WEAPON) kineticWeapon.sync(client, draft);
@@ -540,7 +544,7 @@ public final class CombatEditorPanel extends ComponentEditorPanel {
         if (drawToolbar(client, type)) return;
         if (type == DataComponents.MINIMUM_ATTACK_CHARGE
             || type == DataComponents.DAMAGE_TYPE
-            || type == DataComponents.SWING_ANIMATION) {
+            || type == DataComponents.ATTACK_ANIMATION) {
             drawAttackBehavior();
         } else if (type == DataComponents.WEAPON) drawWeapon();
         else if (type == DataComponents.PIERCING_WEAPON) drawPiercingWeapon(client);
@@ -604,7 +608,7 @@ public final class CombatEditorPanel extends ComponentEditorPanel {
             host.componentSectionStartsExpanded(
                 DataComponents.MINIMUM_ATTACK_CHARGE,
                 DataComponents.DAMAGE_TYPE,
-                DataComponents.SWING_ANIMATION
+                DataComponents.ATTACK_ANIMATION
             ),
             hasPendingSectionFocus("minimum_charge") || hasPendingSectionFocus("damage_type") || hasPendingSectionFocus("swing")
         )) return;

@@ -494,11 +494,11 @@
     }
   ],
   "provenance": {
-    "branch": "8.14",
-    "commit": "a45bcf68360edf4004bbd24e907e5ec3629c6edb",
+    "branch": "9.0",
+    "commit": "a4464be4df46b0e8fabc93e21da09e3ce0584e64",
     "dump": "actiondump/actiondump_minimessage.json",
-    "dump_sha256": "0a598c11ce48f6ad2f4c7bacd231ee13b08bf5bcf6cbcb0bd84dd4cad94a8b5c",
-    "patch": "8.14",
+    "dump_sha256": "fb482aba77b38fb8cd517ce7f9f63915f1451a1fbb56afd5285833b993c97c5c",
+    "patch": "9.0",
     "patch_source": "versions.patch",
     "repository": "https://github.com/NineOfGaming/df-info"
   },

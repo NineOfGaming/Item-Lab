@@ -7,10 +7,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
+import dev.nineofgaming.itemlab.editor.diamondfire.DiamondFireFeatures;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.Bootstrap;
 import net.minecraft.world.item.Items;
@@ -37,15 +37,16 @@ public final class DiamondFireCodecCheck {
         }
         SharedConstants.tryDetectVersion();
         Bootstrap.bootStrap();
-        var registries = VanillaRegistries.createLookup();
+        var registries = dev.nineofgaming.itemlab.editor.EditorCheckSupport.vanillaRegistries();
         BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.build(registries)
             .forEach(net.minecraft.core.component.DataComponentInitializers.PendingComponents::apply);
         var ops = registries.createSerializationContext(JsonOps.INSTANCE);
         String version = SharedConstants.getCurrentVersion().name();
+        String serverVersion = DiamondFireFeatures.serverVersion();
         Path baselinePath = Path.of(arguments[1]);
         JsonObject baseline;
         if ("capture".equals(arguments[0])) {
-            if (!"26.2".equals(version)) throw new AssertionError("Server baseline must be captured on 26.2");
+            if (!serverVersion.equals(version)) throw new AssertionError("Server baseline must be captured on " + serverVersion);
             JsonObject extraCases = JsonParser.parseString(Files.readString(Path.of(arguments[2]))).getAsJsonObject();
             baseline = new JsonObject();
             baseline.addProperty("schema_version", 1);
@@ -89,11 +90,11 @@ public final class DiamondFireCodecCheck {
             }
             baseline.add("components", components);
             write(baselinePath, baseline);
-            System.out.println("Captured complete 26.2 codec corpus in " + baselinePath);
+            System.out.println("Captured complete " + serverVersion + " codec corpus in " + baselinePath);
             return;
         }
         baseline = JsonParser.parseString(Files.readString(baselinePath)).getAsJsonObject();
-        if (baseline.get("schema_version").getAsInt() != 1 || !"26.2".equals(baseline.get("minecraft_version").getAsString())) {
+        if (baseline.get("schema_version").getAsInt() != 1 || !serverVersion.equals(baseline.get("minecraft_version").getAsString())) {
             throw new AssertionError("Invalid independent codec baseline");
         }
         Set<String> serverIds = new TreeSet<>();
@@ -132,7 +133,7 @@ public final class DiamondFireCodecCheck {
         serverOnly.removeAll(clientIds);
         JsonObject report = new JsonObject();
         report.addProperty("schema_version", 1);
-        report.addProperty("server_version", "26.2");
+        report.addProperty("server_version", serverVersion);
         report.addProperty("client_version", version);
         report.addProperty("samples_compared", sampleCount);
         report.add("client_only", strings(clientOnly));
@@ -146,10 +147,10 @@ public final class DiamondFireCodecCheck {
             if (!report.equals(expected))
                 throw new AssertionError("Codec comparison changed for " + version + "; regenerate and review its report");
         } else throw new IllegalArgumentException("Expected capture, report, or verify");
-        if ("26.2".equals(version) && (!differenceIds.isEmpty() || !clientOnly.isEmpty() || !serverOnly.isEmpty())) {
+        if (serverVersion.equals(version) && (!differenceIds.isEmpty() || !clientOnly.isEmpty() || !serverOnly.isEmpty())) {
             throw new AssertionError("Independent server baseline drift: " + differenceIds);
         }
-        System.out.println("Compared " + sampleCount + " codec inputs: client " + version + " vs DF 26.2; client-only="
+        System.out.println("Compared " + sampleCount + " codec inputs: client " + version + " vs DF " + serverVersion + "; client-only="
             + clientOnly + "; server-only=" + serverOnly + "; codec differences=" + report.get("codec_differences"));
     }
 

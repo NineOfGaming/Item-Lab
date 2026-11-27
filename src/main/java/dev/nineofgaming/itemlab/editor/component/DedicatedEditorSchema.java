@@ -37,7 +37,7 @@ public final class DedicatedEditorSchema {
         if (type == DataComponents.USE_REMAINDER) return Set.of("id", "count");
         if (type == DataComponents.USE_COOLDOWN) return Set.of("seconds", "cooldown_group");
         if (type == DataComponents.DEATH_PROTECTION) return Set.of("death_effects");
-        if (type == DataComponents.SWING_ANIMATION) return Set.of("type", "duration");
+        if (type == DataComponents.ATTACK_ANIMATION) return Set.of("type", "duration");
         if (type == DataComponents.WEAPON) {
             return Set.of("item_damage_per_attack", "disable_blocking_for_seconds");
         }
@@ -51,7 +51,11 @@ public final class DedicatedEditorSchema {
             );
         }
         if (type == DataComponents.INSTRUMENT) {
-            return Set.of("sound_event", "use_duration", "range", "description");
+            //? if >=26.3 {
+            return Set.of("sound_event", "use_duration", "range", "description", "durability_damage");
+            //?} else {
+            /*return Set.of("sound_event", "use_duration", "range", "description");
+            *///?}
         }
         if (type == DataComponents.TOOL) {
             return Set.of("rules", "default_mining_speed", "damage_per_block", "can_destroy_blocks_in_creative");

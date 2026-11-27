@@ -25,7 +25,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.MapDecorations;
-import net.minecraft.world.item.component.MapItemColor;
+//? if <26.3 {
+/*import net.minecraft.world.item.component.MapItemColor;
+*///?}
 import net.minecraft.world.level.saveddata.maps.MapDecorationType;
 import net.minecraft.world.level.saveddata.maps.MapId;
 
@@ -81,20 +83,28 @@ public final class MapEditorPanel extends ComponentEditorPanel {
             }
             requestPendingField("map_decorations", "$enabled");
         } else {
-            requestPendingField(mapIdPresent ? "map_id" : "map_color", "$enabled");
+            //? if >=26.3 {
+            requestPendingField("map_id", "$enabled");
+            //?} else {
+            /*requestPendingField(mapIdPresent ? "map_id" : "map_color", "$enabled");
+            *///?}
         }
     }
 
     public static boolean supports(DataComponentType<?> type) {
+        //? if <26.3 {
+        /*if (type == DataComponents.MAP_COLOR) return true;
+        *///?}
         return type == DataComponents.MAP_ID
-            || type == DataComponents.MAP_DECORATIONS
-            || type == DataComponents.MAP_COLOR;
+            || type == DataComponents.MAP_DECORATIONS;
     }
 
     public boolean isAvailable(ItemStack stack) {
+        //? if <26.3 {
+        /*if (stack.has(DataComponents.MAP_COLOR)) return true;
+        *///?}
         return stack.has(DataComponents.MAP_ID)
-            || stack.has(DataComponents.MAP_DECORATIONS)
-            || stack.has(DataComponents.MAP_COLOR);
+            || stack.has(DataComponents.MAP_DECORATIONS);
     }
 
     public void setCatalog(EditorCatalog catalog) {
@@ -106,9 +116,11 @@ public final class MapEditorPanel extends ComponentEditorPanel {
         mapIdPresent = id != null;
         mapId.set(id == null ? 0 : id.id());
 
-        MapItemColor color = stack.get(DataComponents.MAP_COLOR);
+        //? if <26.3 {
+        /*MapItemColor color = stack.get(DataComponents.MAP_COLOR);
         colorPresent.set(color != null);
         mapColor = (color == null ? MapItemColor.DEFAULT.rgb() : color.rgb()) & 0xFFFFFF;
+        *///?}
 
         decorations.clear();
         MapDecorations installedDecorations = stack.get(DataComponents.MAP_DECORATIONS);
@@ -176,7 +188,9 @@ public final class MapEditorPanel extends ComponentEditorPanel {
 
     private void drawFields(Minecraft client, DataComponentType<?> componentType) {
         if (componentType == null || componentType == DataComponents.MAP_ID) drawMapId();
-        if (componentType == null || componentType == DataComponents.MAP_COLOR) drawMapColor();
+        //? if <26.3 {
+        /*if (componentType == null || componentType == DataComponents.MAP_COLOR) drawMapColor();
+        *///?}
         if (componentType == null || componentType == DataComponents.MAP_DECORATIONS) drawDecorations(client);
     }
 
@@ -204,7 +218,8 @@ public final class MapEditorPanel extends ComponentEditorPanel {
         ImGui.spacing();
     }
 
-    private void drawMapColor() {
+    //? if <26.3 {
+    /*private void drawMapColor() {
         if (!host.beginComponentCard(
             "map_color",
             tr("map.color"),
@@ -223,6 +238,8 @@ public final class MapEditorPanel extends ComponentEditorPanel {
         EditorUi.endCard();
         ImGui.spacing();
     }
+
+    *///?}
 
     private void drawDecorations(Minecraft client) {
         if (!host.beginComponentCard(
@@ -404,11 +421,13 @@ public final class MapEditorPanel extends ComponentEditorPanel {
         if (mapIdPresent) edited.set(DataComponents.MAP_ID, new MapId(Math.max(0, mapId.get())));
         else edited.remove(DataComponents.MAP_ID);
 
-        if (colorPresent.get()) {
+        //? if <26.3 {
+        /*if (colorPresent.get()) {
             edited.set(DataComponents.MAP_COLOR, new MapItemColor(mapColor));
         } else {
             edited.remove(DataComponents.MAP_COLOR);
         }
+        *///?}
 
         if (decorationsPresent.get()) {
             Registry<MapDecorationType> registry = Objects.requireNonNull(client.level).registryAccess()

@@ -1,12 +1,20 @@
 {
   "schema_version": 2,
-  "minecraft_version": "26.2",
+  "minecraft_version": "26.3",
   "source": "Minecraft vanilla runtime: BuiltInRegistries.DATA_COMPONENT_TYPE",
   "components": [
     {
       "id": "minecraft:additional_trade_cost",
       "persistent": false,
       "discovered_codec_fields": []
+    },
+    {
+      "id": "minecraft:attack_animation",
+      "persistent": true,
+      "discovered_codec_fields": [
+        "duration",
+        "type"
+      ]
     },
     {
       "id": "minecraft:attack_range",
@@ -73,6 +81,11 @@
       "discovered_codec_fields": []
     },
     {
+      "id": "minecraft:block_transformer",
+      "persistent": true,
+      "discovered_codec_fields": []
+    },
+    {
       "id": "minecraft:blocks_attacks",
       "persistent": true,
       "discovered_codec_fields": [
@@ -91,6 +104,14 @@
       "discovered_codec_fields": [
         "range",
         "sound_id"
+      ]
+    },
+    {
+      "id": "minecraft:brewing_fuel",
+      "persistent": true,
+      "discovered_codec_fields": [
+        "speed_multiplier",
+        "uses"
       ]
     },
     {
@@ -164,6 +185,13 @@
       "discovered_codec_fields": []
     },
     {
+      "id": "minecraft:compostable",
+      "persistent": true,
+      "discovered_codec_fields": [
+        "layers"
+      ]
+    },
+    {
       "id": "minecraft:consumable",
       "persistent": true,
       "discovered_codec_fields": [
@@ -191,6 +219,14 @@
       ]
     },
     {
+      "id": "minecraft:cooking_fuel",
+      "persistent": true,
+      "discovered_codec_fields": [
+        "burn_time",
+        "speed_multiplier"
+      ]
+    },
+    {
       "id": "minecraft:cow/sound_variant",
       "persistent": true,
       "discovered_codec_fields": []
@@ -203,6 +239,11 @@
     {
       "id": "minecraft:creative_slot_lock",
       "persistent": false,
+      "discovered_codec_fields": []
+    },
+    {
+      "id": "minecraft:cushion/color",
+      "persistent": true,
       "discovered_codec_fields": []
     },
     {
@@ -356,6 +397,7 @@
       "persistent": true,
       "discovered_codec_fields": [
         "description",
+        "durability_damage",
         "range",
         "sound_event",
         "use_duration"
@@ -365,6 +407,14 @@
       "id": "minecraft:intangible_projectile",
       "persistent": true,
       "discovered_codec_fields": []
+    },
+    {
+      "id": "minecraft:interact_animation",
+      "persistent": true,
+      "discovered_codec_fields": [
+        "duration",
+        "type"
+      ]
     },
     {
       "id": "minecraft:item_model",
@@ -425,11 +475,6 @@
       "discovered_codec_fields": []
     },
     {
-      "id": "minecraft:map_color",
-      "persistent": true,
-      "discovered_codec_fields": []
-    },
-    {
       "id": "minecraft:map_decorations",
       "persistent": true,
       "discovered_codec_fields": [
@@ -463,6 +508,14 @@
       "id": "minecraft:minimum_attack_charge",
       "persistent": true,
       "discovered_codec_fields": []
+    },
+    {
+      "id": "minecraft:mob_visibility",
+      "persistent": true,
+      "discovered_codec_fields": [
+        "targeting_entity_types",
+        "visibility"
+      ]
     },
     {
       "id": "minecraft:mooshroom/variant",
@@ -512,7 +565,12 @@
     {
       "id": "minecraft:pot_decorations",
       "persistent": true,
-      "discovered_codec_fields": []
+      "discovered_codec_fields": [
+        "back",
+        "front",
+        "left",
+        "right"
+      ]
     },
     {
       "id": "minecraft:potion_contents",
@@ -548,12 +606,16 @@
       "discovered_codec_fields": []
     },
     {
+      "id": "minecraft:provides_pottery_pattern",
+      "persistent": true,
+      "discovered_codec_fields": []
+    },
+    {
       "id": "minecraft:provides_trim_material",
       "persistent": true,
       "discovered_codec_fields": [
-        "asset_name",
         "description",
-        "override_armor_assets"
+        "palette_id"
       ]
     },
     {
@@ -599,6 +661,26 @@
       "discovered_codec_fields": []
     },
     {
+      "id": "minecraft:sign_text_back",
+      "persistent": true,
+      "discovered_codec_fields": [
+        "color",
+        "filtered_messages",
+        "has_glowing_text",
+        "messages"
+      ]
+    },
+    {
+      "id": "minecraft:sign_text_front",
+      "persistent": true,
+      "discovered_codec_fields": [
+        "color",
+        "filtered_messages",
+        "has_glowing_text",
+        "messages"
+      ]
+    },
+    {
       "id": "minecraft:stored_enchantments",
       "persistent": true,
       "discovered_codec_fields": []
@@ -618,14 +700,6 @@
       "discovered_codec_fields": [
         "duration",
         "id"
-      ]
-    },
-    {
-      "id": "minecraft:swing_animation",
-      "persistent": true,
-      "discovered_codec_fields": [
-        "duration",
-        "type"
       ]
     },
     {
@@ -707,6 +781,18 @@
     },
     {
       "id": "minecraft:villager/variant",
+      "persistent": true,
+      "discovered_codec_fields": []
+    },
+    {
+      "id": "minecraft:villager_food",
+      "persistent": true,
+      "discovered_codec_fields": [
+        "nutrition"
+      ]
+    },
+    {
+      "id": "minecraft:waxed",
       "persistent": true,
       "discovered_codec_fields": []
     },

@@ -35,7 +35,8 @@ Items in ordinary container slots are edited directly where possible; items sele
 - Client-side only
 - Fabric
 - Requires [Fabric API](https://modrinth.com/mod/fabric-api)
-- Requires [ImGuiMC](https://modrinth.com/mod/imguimc)
+- Minecraft 26.1 and 26.2 require [ImGuiMC](https://modrinth.com/mod/imguimc).
+- The Minecraft 26.3 jar includes a pinned build of ImGuiMC's unpublished 26.3 port.
 
 ## Configuration
 

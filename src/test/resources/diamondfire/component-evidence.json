@@ -1,12 +1,16 @@
 {
   "schema_version": 1,
-  "scope": "Reviewed field relationships and uncertainty for the pinned 8.14 item-action mappings. DF+ means exposed fields; it does not promise arbitrary values or server retention. Unverified representations and item restrictions remain explicit.",
+  "scope": "Reviewed field relationships and uncertainty for the pinned 9.0 item-action mappings. DF+ means exposed fields; it does not promise arbitrary values or server retention. Unverified representations and item restrictions remain explicit.",
   "patch_review": {
-    "date": "2026-10-22",
-    "commit": "a45bcf68360edf4004bbd24e907e5ec3629c6edb",
-    "previous_commit": "6200915ba2ba333d3968b806e342c5f537eaec82",
-    "method": "Compared normalized item actions and reviewed all newly added actions against the 8.13 export. Existing field evidence still matches; book metadata setters/getters add title, author, and generation coverage.",
-    "signing": "SetBookSigned exposes a Sign toggle for book signedness, not a resolved-state or filtered-text input. It is retained in the action snapshot without treating it as coverage of those component fields."
+    "date": "2026-11-27",
+    "commit": "a4464be4df46b0e8fabc93e21da09e3ce0584e64",
+    "previous_commit": "a45bcf68360edf4004bbd24e907e5ec3629c6edb",
+    "method": "Compared the 8.14 export with the 9.0 export, including intervening 8.15 and 8.16 updates. The current Add Item Attribute action adds a custom namespaced modifier ID, with a random-ID alternative. Newly added dialog actions display items but do not edit item components.",
+    "signing": "SetBookSigned exposes a Sign toggle for book signedness, not a resolved-state or filtered-text input. It is retained in the action snapshot without treating it as coverage of those component fields.",
+    "server_baseline": "26.3",
+    "retired_components": [
+      "minecraft:map_color"
+    ]
   },
   "interface_review": {
     "date": "2026-10-09",
@@ -33,7 +37,6 @@
       {"path":"/icon/worksWith/0","expected":"Leather Armor","component":"minecraft:dyed_color","field":"$"},
       {"path":"/icon/worksWith/1","expected":"Potions","component":"minecraft:potion_contents","field":"custom_color"},
       {"path":"/icon/worksWith/2","expected":"Tipped Arrows","component":"minecraft:potion_contents","field":"custom_color"},
-      {"path":"/icon/worksWith/3","expected":"Filled Maps","component":"minecraft:map_color","field":"$"},
       {"path":"/icon/worksWith/4","expected":"Firework Stars","component":"minecraft:firework_explosion","field":"colors[]","uncertainty":"A single color operand does not establish arbitrary color arrays."}
     ]},
     {"action":"SetItemEffects","codeblock":"SET VARIABLE","members":[
@@ -65,7 +68,7 @@
     {
       "id": "minecraft:custom_model_data",
       "badge": "DF+",
-      "rationale": "All four 26.2 root fields are covered across numerical and string actions. Numeric tags explicitly identify floats, flags (0/1), and RGB colors. The legacy singular action does not establish complete coverage on its own.",
+      "rationale": "All four 26.3 root fields are covered across numerical and string actions. Numeric tags explicitly identify floats, flags (0/1), and RGB colors. The legacy singular action does not establish complete coverage on its own.",
       "fields": [
         {"path": "floats", "sources": [
           {"action": "SetModelDataNums", "codeblock": "SET VARIABLE", "operation": "write", "path": "/tags/0/options/0/name", "expected": "Floats"},
@@ -145,14 +148,14 @@
     },
     {
       "id": "minecraft:attribute_modifiers", "badge": "DFP",
-      "limitation": "Codeblocks use attribute/slot menus and an aggregate getter, without custom modifier IDs or display settings.",
-      "rationale": "The complete modifier setter takes an amount plus attribute, operation, and equipment-slot menus. It has no modifier-ID or display input; the getter returns a multiplier for the selected attribute/slot, not individual records. These are established action-interface boundaries. Retention of already-present custom records remains a separate unobserved question, not a reason to doubt normal attribute operations.",
+      "limitation": "Codeblocks use attribute/slot menus and an aggregate getter; modifier display settings have no dedicated input.",
+      "rationale": "The current modifier setter takes an amount, an optional custom namespaced modifier ID or random-ID alternative, and attribute/operation/equipment-slot menus. The getter returns an aggregate multiplier rather than individual modifier records. Modifier display structures have no dedicated input; passive retention of arbitrary records remains separate from action support.",
       "fields": [
-        {"path": "[].amount", "sources": [{"action":"AddItemAttribute","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"NUMBER"},{"action":"GetItemAttribute","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/returnValues/0/type","expected":"NUMBER","restriction":"Aggregate multiplier rather than individual modifier records."}]},
-        {"path": "[].type", "sources": [{"action":"AddItemAttribute","codeblock":"SET VARIABLE","operation":"write","path":"/tags/0/name","expected":"Attribute"},{"action":"RemoveItemAttrs","codeblock":"SET VARIABLE","operation":"clear","path":"/tags/1/name","expected":"Attribute"}]},
-        {"path": "[].operation", "sources": [{"action":"AddItemAttribute","codeblock":"SET VARIABLE","operation":"write","path":"/tags/1/name","expected":"Operation"}]},
-        {"path": "[].slot", "sources": [{"action":"AddItemAttribute","codeblock":"SET VARIABLE","operation":"write","path":"/tags/2/name","expected":"Active Equipment Slot"},{"action":"GetItemAttribute","codeblock":"SET VARIABLE","operation":"read","path":"/tags/1/name","expected":"Active Equipment Slot"},{"action":"RemoveItemAttrs","codeblock":"SET VARIABLE","operation":"clear","path":"/tags/0/name","expected":"Slot"}]},
-        {"path": "[].id", "sources": [], "uncertainty": "No custom-ID argument established by the modifier records; validate live before asserting non-support."},
+        {"path": "[].amount", "sources": [{"action":" AddItemAttribute ","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/2/type","expected":"NUMBER"},{"action":" GetItemAttribute ","codeblock":"SET VARIABLE","operation":"approximate","path":"/icon/returnValues/0/type","expected":"NUMBER","restriction":"Aggregate multiplier rather than individual modifier records."}]},
+        {"path": "[].type", "sources": [{"action":" AddItemAttribute ","codeblock":"SET VARIABLE","operation":"write","path":"/tags/0/name","expected":"Attribute"},{"action":"RemoveItemAttrs","codeblock":"SET VARIABLE","operation":"clear","path":"/tags/1/name","expected":"Attribute"}]},
+        {"path": "[].operation", "sources": [{"action":" AddItemAttribute ","codeblock":"SET VARIABLE","operation":"write","path":"/tags/1/name","expected":"Operation"}]},
+        {"path": "[].slot", "sources": [{"action":" AddItemAttribute ","codeblock":"SET VARIABLE","operation":"write","path":"/tags/2/name","expected":"Active Equipment Slot"},{"action":" GetItemAttribute ","codeblock":"SET VARIABLE","operation":"read","path":"/tags/1/name","expected":"Active Equipment Slot"},{"action":"RemoveItemAttrs","codeblock":"SET VARIABLE","operation":"clear","path":"/tags/0/name","expected":"Slot"}]},
+        {"path":"[].id","sources":[{"action":" AddItemAttribute ","codeblock":"SET VARIABLE","operation":"write","path":"/icon/arguments/3/description/0","expected":"Attribute modifier ID"}]},
         {"path": "[].display", "sources": [], "uncertainty": "Tooltip-display structures are not described by these actions."},
         {"path": "$", "sources": [{"action":"ClearItemAttrs","codeblock":"SET VARIABLE","operation":"clear","path":"/icon/arguments/1/type","expected":"ITEM"}]}
       ]
@@ -396,11 +399,6 @@
         {"path":"generation","sources":[{"action":"SetBookGen","codeblock":"SET VARIABLE","operation":"write","path":"/tags/0/name","expected":"Book Generation"},{"action":"GetBookGen","codeblock":"SET VARIABLE","operation":"read","path":"/icon/returnValues/0/description/0","expected":"Generation"}]},
         {"path":"resolved","sources":[],"uncertainty":"No resolved-state input established."}
       ]
-    },
-    {
-      "id":"minecraft:map_color", "badge":"DF+",
-      "rationale":"The grouped item-color actions expose the RGB color for Filled Maps. Image URL/map-ID editing is a separate operation.",
-      "fields":[{"path":"$","sources":[{"action":"SetItemColor","codeblock":"SET VARIABLE","operation":"write","path":"/icon/worksWith/3","expected":"Filled Maps"},{"action":"GetItemColor","codeblock":"SET VARIABLE","operation":"read","path":"/icon/worksWith/3","expected":"Filled Maps"}]}]
     },
     {
       "id":"minecraft:firework_explosion", "badge":"DFP",

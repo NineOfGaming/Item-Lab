@@ -598,6 +598,9 @@ public final class FireworkEditorPanel extends ComponentEditorPanel {
             0.0,
             client.particleEngine,
             List.copyOf(explosions)
+            //? if >=26.3 {
+            , true
+            //?}
         ));
     }
 

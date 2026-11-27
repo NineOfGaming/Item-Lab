@@ -102,7 +102,13 @@ public final class DirectItemPreviewRenderer extends PictureInPictureRenderer<Di
             configurePerspective(state, pose);
             Minecraft client = Minecraft.getInstance();
             if (client.player != null) {
-                client.getEntityRenderDispatcher().getItemInHandRenderer().renderItem(
+                //? if >=26.3 {
+                client.getItemModelResolver().updateForLiving(
+                    state.item(), state.stack(), state.displayContext(), client.player
+                );
+                state.item().submit(pose, collector, previewPackedLight(), OverlayTexture.NO_OVERLAY, 0);
+                //?} else {
+                /*client.getEntityRenderDispatcher().getItemInHandRenderer().renderItem(
                     client.player,
                     state.stack(),
                     state.displayContext(),
@@ -110,6 +116,7 @@ public final class DirectItemPreviewRenderer extends PictureInPictureRenderer<Di
                     collector,
                     previewPackedLight()
                 );
+                *///?}
             }
             return;
         }
@@ -118,7 +125,7 @@ public final class DirectItemPreviewRenderer extends PictureInPictureRenderer<Di
             state.viewportTranslation().y,
             state.viewportTranslation().z
         );
-        pose.mulPose(state.rotation());
+        pose.rotate(state.rotation());
         pose.translate(
             state.itemTranslation().x,
             state.itemTranslation().y,
